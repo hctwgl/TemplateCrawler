@@ -1,4 +1,6 @@
-package com.seveniu.template.def;
+package com.seveniu.entity.template.structure;
+
+import com.seveniu.entity.template.structure.field.Field;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.seveniu.entity.task;
 
-import com.seveniu.entity.BaseRepository;
 import com.seveniu.entity.EntityStatus;
+import com.seveniu.entity.BaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;

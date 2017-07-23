@@ -1,6 +1,6 @@
 package com.seveniu.service.task;
 
-import com.seveniu.entity.task.TaskInfo;
+import com.seveniu.entity.task.Task;
 import com.seveniu.util.Json;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class TaskQueue {
         }
     }
 
-    public void addTask(String key, TaskInfo taskInfo) {
+    public void addTask(String key, Task taskInfo) {
         try (Jedis jedis = this.pool.getResource()) {
             if (taskInfo.getPriority() > 0) {
                 jedis.lpush(key, Json.toJson(taskInfo));

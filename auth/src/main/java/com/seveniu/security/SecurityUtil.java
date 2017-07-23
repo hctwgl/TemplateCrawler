@@ -2,9 +2,9 @@ package com.seveniu.security;
 
 
 import com.seveniu.security.entity.AuthorityName;
+import com.seveniu.security.jwt.JwtUserFactory;
 import com.seveniu.security.entity.User;
 import com.seveniu.security.jwt.JwtUserDetails;
-import com.seveniu.security.jwt.JwtUserFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

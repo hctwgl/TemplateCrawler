@@ -3,7 +3,10 @@ package com.seveniu.entity.task;
 
 import com.seveniu.entity.BaseAuditableEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import java.util.Date;
 import java.util.List;
 
@@ -18,22 +21,22 @@ public class Task extends BaseAuditableEntity {
     private Long createUserId;
     @Enumerated(value = EnumType.STRING)
     private TaskRunStatus runStatus;
-    private int cycle;
-    private int cycleUnit;
 
-    @Transient
-    private TaskCondition condition;
-    private String conditionStr;
+    @Lob
+    private String startUrls;
+    private List<String> startUrlList;
 
+    private short threadNum = 1;
+    private boolean proxy = false;
+    private boolean javascript = false;
+    private int cycle = 0; // unit second, 0 run only once
+    private int priority = 1; // required
 
-    private Date createTime;
-    private Date updateTime;
     private Date nextRunTime;
     private Date lastStartTime;
     private Date lastDoneTime;
+    private String templateId; // required
 
-    @ElementCollection
-    private List<Long> assignUserIds;
 
     public String getName() {
         return name;
@@ -57,54 +60,6 @@ public class Task extends BaseAuditableEntity {
 
     public void setRunStatus(TaskRunStatus runStatus) {
         this.runStatus = runStatus;
-    }
-
-    public int getCycle() {
-        return cycle;
-    }
-
-    public void setCycle(int cycle) {
-        this.cycle = cycle;
-    }
-
-    public int getCycleUnit() {
-        return cycleUnit;
-    }
-
-    public void setCycleUnit(int cycleUnit) {
-        this.cycleUnit = cycleUnit;
-    }
-
-    public TaskCondition getCondition() {
-        return condition;
-    }
-
-    public void setCondition(TaskCondition condition) {
-        this.condition = condition;
-    }
-
-    public String getConditionStr() {
-        return conditionStr;
-    }
-
-    public void setConditionStr(String conditionStr) {
-        this.conditionStr = conditionStr;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 
     public Date getNextRunTime() {
@@ -131,20 +86,67 @@ public class Task extends BaseAuditableEntity {
         this.lastDoneTime = lastDoneTime;
     }
 
-//    public List<User> getAssignUsers() {
-//        return assignUsers;
-//    }
-//
-//    public void setAssignUsers(List<User> assignUsers) {
-//        this.assignUsers = assignUsers;
-//    }
-
-
-    public List<Long> getAssignUserIds() {
-        return assignUserIds;
+    public String getTemplateId() {
+        return templateId;
     }
 
-    public void setAssignUserIds(List<Long> assignUserIds) {
-        this.assignUserIds = assignUserIds;
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
+    }
+
+    public String getStartUrls() {
+        return startUrls;
+    }
+
+    public void setStartUrls(String startUrls) {
+        this.startUrls = startUrls;
+    }
+
+    public List<String> getStartUrlList() {
+        return startUrlList;
+    }
+
+    public void setStartUrlList(List<String> startUrlList) {
+        this.startUrlList = startUrlList;
+    }
+
+    public short getThreadNum() {
+        return threadNum;
+    }
+
+    public void setThreadNum(short threadNum) {
+        this.threadNum = threadNum;
+    }
+
+    public boolean isProxy() {
+        return proxy;
+    }
+
+    public void setProxy(boolean proxy) {
+        this.proxy = proxy;
+    }
+
+    public boolean isJavascript() {
+        return javascript;
+    }
+
+    public void setJavascript(boolean javascript) {
+        this.javascript = javascript;
+    }
+
+    public int getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(int cycle) {
+        this.cycle = cycle;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

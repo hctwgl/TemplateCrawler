@@ -1,4 +1,4 @@
-package com.seveniu.task;
+package com.seveniu.entity.task;
 
 
 import java.util.ArrayList;

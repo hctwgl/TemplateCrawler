@@ -12,6 +12,7 @@
         <module>domain</module>
         <module>auth</module>
         <module>common</module>
+        <module>crawler</module>
     </modules>
 
 

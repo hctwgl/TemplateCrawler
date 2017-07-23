@@ -1,8 +1,8 @@
 package com.seveniu.service;
 
 import com.seveniu.entity.task.CrawlerUserInfo;
-import com.seveniu.entity.task.TaskInfo;
-import com.seveniu.task.TaskStatistic;
+import com.seveniu.entity.task.Task;
+import com.seveniu.entity.task.TaskStatistic;
 
 import java.util.List;
 
@@ -17,6 +17,6 @@ public interface CrawlerServer {
 
     CrawlerUserInfo getResourceInfo(String uuid);
 
-    void addTask(String uuid, TaskInfo taskInfo);
+    void addTask(String uuid, Task taskInfo);
 
 }

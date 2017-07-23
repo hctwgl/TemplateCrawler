@@ -1,7 +1,6 @@
-package com.seveniu.template;
+package com.seveniu.entity.template.structure;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.seveniu.template.def.PageTemplate;
 import com.seveniu.util.Json;
 
 import java.util.List;
@@ -10,11 +9,10 @@ import java.util.List;
  * Created by seveniu on 5/12/16.
  * PagesTemplate
  */
-public class PagesTemplate {
+public class TemplateStructure {
     private List<PageTemplate> pageTemplates;
-    private String id;
 
-    private PagesTemplate() {
+    private TemplateStructure() {
     }
 
     public List<PageTemplate> getPageTemplates() {
@@ -26,29 +24,27 @@ public class PagesTemplate {
     }
 
     public PageTemplate getTemplate(int index) {
-        if(index < pageTemplates.size()) {
+        if (index < pageTemplates.size()) {
             return pageTemplates.get(index);
         }
         return null;
     }
 
-    public String getId() {
-        return id;
-    }
 
     public int pagesNum() {
         return pageTemplates.size();
     }
 
-    public static PagesTemplate fromJson(String id, String json) {
-        PagesTemplate pagesTemplate = new PagesTemplate();
-        List<PageTemplate> pageTemplates = Json.toObject(json, new TypeReference<List<PageTemplate>>() {
+    public static TemplateStructure fromJson(String json) {
+        TemplateStructure templateStructure = new TemplateStructure();
+        templateStructure.pageTemplates = Json.toObject(json, new TypeReference<List<PageTemplate>>() {
         });
-        pagesTemplate.id = id;
-        pagesTemplate.pageTemplates = pageTemplates;
-        return pagesTemplate;
+        return templateStructure;
     }
 
+    public String toJson() {
+        return Json.toJson(this.pageTemplates);
+    }
 //    public static PagesTemplate fromOldJson(String json) {
 //        List<Map<String, Object>> list = Json.toObject(json, new TypeReference<List<Map<String, Object>>>() {
 //        });

@@ -1,5 +1,6 @@
 package com.seveniu.entity;
 
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
@@ -13,7 +14,8 @@ import java.util.Date;
 public class BaseAuditableEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     protected EntityStatus status;
-    protected Date timeCreated = new Date();
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    protected Date timeCreated;
     protected Date timeUpdated;
     protected Date timeDeleted;
     protected Long createdBy;

@@ -2,11 +2,11 @@ package com.seveniu.security.api;
 
 import com.seveniu.security.entity.Authority;
 import com.seveniu.security.entity.AuthorityRepository;
-import com.seveniu.security.entity.User;
 import com.seveniu.security.entity.UserService;
 import com.seveniu.security.jwt.JwtTokenUtil;
-import com.seveniu.security.jwt.JwtUserDetails;
 import com.seveniu.security.jwt.JwtUserFactory;
+import com.seveniu.security.entity.User;
+import com.seveniu.security.jwt.JwtUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

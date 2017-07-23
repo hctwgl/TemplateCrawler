@@ -1,8 +1,8 @@
 package com.seveniu.security.config;
 
+import com.seveniu.security.jwt.JwtUserFactory;
 import com.seveniu.security.entity.User;
 import com.seveniu.security.entity.UserRepository;
-import com.seveniu.security.jwt.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

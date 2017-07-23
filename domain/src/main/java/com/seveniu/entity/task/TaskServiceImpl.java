@@ -4,8 +4,8 @@ package com.seveniu.entity.task;
 
 import com.seveniu.common.date.DateUtil;
 import com.seveniu.entity.EntityStatus;
-import com.seveniu.security.SecurityUtil;
 import com.seveniu.security.entity.UserService;
+import com.seveniu.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -200,7 +200,6 @@ public class TaskServiceImpl implements TaskService {
      */
     public Long insert(Integer uid, Task pojo) {
         int cycle = pojo.getCycle();
-        int cycleUnit = pojo.getCycleUnit();
         Date currentDate = new Date();
 
         //Get the instant of current date in terms of milliseconds
@@ -208,7 +207,7 @@ public class TaskServiceImpl implements TaskService {
         ZoneId currentZone = ZoneId.systemDefault();
 
         LocalDateTime localDateTime = LocalDateTime.ofInstant(now, currentZone);
-        LocalDateTime next = localDateTime.plusSeconds(cycle * cycleUnit);
+        LocalDateTime next = localDateTime.plusSeconds(cycle);
         pojo.setNextRunTime(DateUtil.asUtilDate(next));
 
         pojo.setCreateUserId(uid.longValue());
@@ -299,7 +298,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public void updateNextRuntimeAndRunStatus(Task task, TaskRunStatus status) {
-        Date date = new Date(System.currentTimeMillis() + (long) task.getCycle() * task.getCycleUnit() * 1000);
+        Date date = new Date(System.currentTimeMillis() + (long) task.getCycle() * 1000);
         task.setNextRunTime(date);
         task.setRunStatus(status);
         taskRepository.save(task);
