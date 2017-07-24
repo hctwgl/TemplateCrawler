@@ -4,9 +4,14 @@ import java.util.List;
 
 /**
  * Created by seveniu on 7/22/17.
+ * url 对应的 content
  * *
  */
 public class DataContent {
+    public DataContent(String url) {
+        this.url = url;
+    }
+
     private String url;
     private List<PageContent> pageContents;
     private List<DataContent> children;

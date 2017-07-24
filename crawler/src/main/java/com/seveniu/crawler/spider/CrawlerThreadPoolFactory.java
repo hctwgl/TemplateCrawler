@@ -1,5 +1,7 @@
 package com.seveniu.crawler.spider;
 
+import com.seveniu.entity.task.Task;
+
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -24,7 +26,7 @@ public class CrawlerThreadPoolFactory {
 //    }, )
 //    }
 
-    public static ThreadPoolExecutor getRunningSpiderThreadPool() {
+    public static ThreadPoolExecutor getTaskThreadPool() {
 
         return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
                 60L, TimeUnit.SECONDS,
@@ -40,5 +42,18 @@ public class CrawlerThreadPoolFactory {
                     }
                 }
         );
+    }
+
+    public static ThreadFactory getSpiderThreadFactory(Task task) {
+        return new ThreadFactory() {
+            AtomicInteger count = new AtomicInteger();
+
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r);
+                thread.setName("task-" + task.getId() + "-thread-" + count.getAndIncrement());
+                return thread;
+            }
+        };
     }
 }

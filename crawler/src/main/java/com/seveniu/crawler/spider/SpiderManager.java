@@ -13,5 +13,6 @@ public interface SpiderManager {
     RunningSpider runSpider(Task task);
 
     Collection<RunningSpider> getRunningSpiders();
+
     Collection<RunningSpider> getRunningSpidersByUserId(Long userId);
 }

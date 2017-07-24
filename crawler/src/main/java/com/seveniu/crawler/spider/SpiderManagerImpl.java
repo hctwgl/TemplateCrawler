@@ -27,7 +27,7 @@ public class SpiderManagerImpl implements SpiderManager {
 
     public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum) {
         this.semaphore = new Semaphore(sameTimeThreadMaxNum);
-        this.executor = CrawlerThreadPoolFactory.getRunningSpiderThreadPool();
+        this.executor = CrawlerThreadPoolFactory.getTaskThreadPool();
     }
 
     @Override
@@ -35,28 +35,24 @@ public class SpiderManagerImpl implements SpiderManager {
         if (!Objects.equals(SecurityUtil.getCurrentUserId(), task.getCreateUserId())) {
             throw new RuntimeException("user : " + SecurityUtil.getCurrentUserId() + " can't run task " + task.getId() + " because task create by : " + task.getCreateUserId());
         }
-        //TODO: 限制一个用户最多使用的线程数
+        //TODO: 限制一个用户最多使用的线程数, 临时固定为 50 个
 
 
-        //TODO: set pageProcesser
+        //TODO: set pageProcessor
         RunningSpider runningSpider = new RunningSpider(null, task);
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    log.info("cur available thread",semaphore.availablePermits());
-                    semaphore.acquire();
-                    runningSpider.run();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    semaphore.release();
-                }
+        executor.execute(() -> {
+            try {
+                log.info("cur available thread",semaphore.availablePermits());
+                semaphore.acquire();
+                runningSpider.run();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                semaphore.release();
             }
         });
 
-        //TODO:
         return runningSpider;
     }
 

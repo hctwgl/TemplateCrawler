@@ -2,13 +2,13 @@ package com.seveniu.entity.task;
 
 
 import com.seveniu.entity.BaseAuditableEntity;
+import com.seveniu.util.Json;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by dhlz on 12/31/16.
@@ -21,14 +21,6 @@ public class Task extends BaseAuditableEntity {
     private Long createUserId;
     @Enumerated(value = EnumType.STRING)
     private TaskRunStatus runStatus;
-
-    @Lob
-    private String startUrls;
-    private List<String> startUrlList;
-
-    private short threadNum = 1;
-    private boolean proxy = false;
-    private boolean javascript = false;
     private int cycle = 0; // unit second, 0 run only once
     private int priority = 1; // required
 
@@ -36,6 +28,14 @@ public class Task extends BaseAuditableEntity {
     private Date lastStartTime;
     private Date lastDoneTime;
     private String templateId; // required
+
+
+    @Lob
+    private String startUrls;
+    private String[] startUrlList;
+    private short threadNum = 1;
+    private boolean proxy = false;
+    private boolean javascript = false;
 
 
     public String getName() {
@@ -94,19 +94,27 @@ public class Task extends BaseAuditableEntity {
         this.templateId = templateId;
     }
 
+    /**
+     * 禁止主动调用，使用 getStartUrlList
+     * @return
+     */
     public String getStartUrls() {
-        return startUrls;
+        this.startUrls = Json.toJson(this.startUrlList);
+        return this.startUrls;
     }
 
     public void setStartUrls(String startUrls) {
         this.startUrls = startUrls;
     }
 
-    public List<String> getStartUrlList() {
-        return startUrlList;
+    public String[] getStartUrlList() {
+        if (startUrlList == null) {
+            return Json.toObject(this.startUrls, String[].class);
+        }
+        return this.startUrlList;
     }
 
-    public void setStartUrlList(List<String> startUrlList) {
+    public void setStartUrlList(String[] startUrlList) {
         this.startUrlList = startUrlList;
     }
 

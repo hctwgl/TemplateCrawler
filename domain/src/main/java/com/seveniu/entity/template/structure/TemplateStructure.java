@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class TemplateStructure {
     private List<PageTemplate> pageTemplates;
+    private int contentLayer = 1; // 0 表示起始 url 开始就是 内容层级， 1 表示从起始url 的下层url 开始是内容层级
 
     private TemplateStructure() {
     }
@@ -33,6 +34,14 @@ public class TemplateStructure {
 
     public int pagesNum() {
         return pageTemplates.size();
+    }
+
+    public int getContentLayer() {
+        return contentLayer;
+    }
+
+    public void setContentLayer(int contentLayer) {
+        this.contentLayer = contentLayer;
     }
 
     public static TemplateStructure fromJson(String json) {
