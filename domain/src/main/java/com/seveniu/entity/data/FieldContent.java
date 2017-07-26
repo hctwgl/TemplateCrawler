@@ -1,5 +1,6 @@
 package com.seveniu.entity.data;
 
+import com.seveniu.entity.template.structure.field.Field;
 import com.seveniu.entity.template.structure.field.FieldType;
 
 import java.util.List;
@@ -14,6 +15,21 @@ public class FieldContent {
     private FieldType fieldType;
     private List<Link> links;
     private List<String> contents;
+
+    public FieldContent() {
+    }
+
+    public FieldContent(Field field, List<String> content) {
+        this.name = field.getName();
+        this.label = field.getLabel();
+        this.fieldType = field.getType();
+        this.contents = content;
+    }
+
+    public FieldContent(Field field, List<String> content, List<Link> links) {
+        this(field, content);
+        this.setLinks(links);
+    }
 
     public String getName() {
         return name;

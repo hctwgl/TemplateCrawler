@@ -14,6 +14,11 @@ public class PageParseResult {
     private List<String> pageUrls; // 同级页面 url
     private PageContent pageContent; // 页面内容
 
+    public PageParseResult(String url) {
+        this.pageContent = new PageContent();
+        this.pageContent.setUrl(url);
+    }
+
     public List<String> getNextUrls() {
         if (nextUrls == null) {
             return Collections.emptyList();

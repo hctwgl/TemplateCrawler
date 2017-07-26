@@ -27,10 +27,11 @@ public class TemplatePageProcessor implements PageProcessor {
 
     @Override
     public void process(Page page) {
-
-        PageParseResult pageParseResult = TemplatePageParse.parse(templateStructure, page);
-
+        // 获取上下文
         RequestContext requestContext = getRequestContext(page);
+        // 解析页面
+        PageParseResult pageParseResult = TemplatePageParse.parse(templateStructure.getTemplate(requestContext.getCurTotalLayer()), page);
+
         boolean isInContentLayer = templateStructure.getContentLayer() >= requestContext.getCurTotalLayer();
         DataContent dataContentContext = requestContext.getDataContent();
         // 页面内容
@@ -45,7 +46,7 @@ public class TemplatePageProcessor implements PageProcessor {
         // 下一级 url
         List<String> urls = pageParseResult.getNextUrls();
         for (String url : urls) {
-            RequestContext nextRequestContext = RequestContext.createNextLayerRequestContext(requestContext, url);
+            RequestContext nextRequestContext = RequestContext.createNextLayerRequestContext(requestContext, isInContentLayer, url);
             if (isInContentLayer) {
                 DataContent nextDataContent = new DataContent(url);
                 dataContentContext.getChildren().add(nextDataContent);

@@ -1,7 +1,5 @@
 package com.seveniu.entity.template.structure.field;
 
-import com.seveniu.entity.template.structure.field.FieldType;
-
 import java.util.List;
 
 public class Field {

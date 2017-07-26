@@ -1,5 +1,6 @@
 package com.seveniu.entity.data;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,6 +20,9 @@ public class PageContent {
     }
 
     public List<FieldContent> getFieldContents() {
+        if (fieldContents == null) {
+            this.fieldContents = new LinkedList<>();
+        }
         return fieldContents;
     }
 
