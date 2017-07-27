@@ -2,16 +2,17 @@ package com.seveniu.entity.template;
 
 import com.seveniu.entity.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by dhlz on 1/1/17.
  * *
  */
-public abstract class DataServiceImpl<T extends Template> extends BaseServiceImpl<T, Long> implements TemplateService<T> {
-    private final TemplateRepository<T> templateRepository;
+public class TemplateServiceImpl extends BaseServiceImpl<Template, Long> implements TemplateService {
+    private final TemplateRepository templateRepository;
 
     @Autowired
-    public DataServiceImpl(TemplateRepository<T> dataRepository) {
+    public TemplateServiceImpl(TemplateRepository dataRepository) {
         super(dataRepository);
         this.templateRepository = dataRepository;
     }

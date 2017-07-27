@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
  * *
  */
 @Service
-public interface TemplateService<T extends Template> extends BaseService<T, Long> {
+public interface TemplateService extends BaseService<Template, Long> {
 
 
 }

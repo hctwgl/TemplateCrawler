@@ -20,13 +20,18 @@ public class Template extends BaseAuditableEntity {
     @Transient
     private TemplateStructure templateStructure;
 
+    /**
+     * 不能主动调用
+     *
+     * @return
+     */
     public String getStructure() {
+        this.structure = templateStructure.toJson();
         return structure;
     }
 
     public void setStructure(String structure) {
         this.structure = structure;
-        this.templateStructure = TemplateStructure.fromJson(this.structure);
     }
 
     public TemplateStructure getTemplateStructure() {
@@ -37,6 +42,6 @@ public class Template extends BaseAuditableEntity {
     }
 
     public void setTemplateStructure(TemplateStructure templateStructure) {
-        this.structure = templateStructure.toJson();
+        this.templateStructure = templateStructure;
     }
 }

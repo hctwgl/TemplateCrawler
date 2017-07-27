@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by dhlz on 1/1/17.
  * *
  */
-public abstract class DataServiceImpl extends BaseServiceImpl<Data, Long> implements DataService {
+public class DataServiceImpl extends BaseServiceImpl<Data, Long> implements DataService {
     private final DataRepository dataRepository;
 
     @Autowired

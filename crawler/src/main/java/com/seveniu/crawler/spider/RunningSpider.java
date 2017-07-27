@@ -1,5 +1,6 @@
 package com.seveniu.crawler.spider;
 
+import com.seveniu.crawler.spider.pageProcessor.TemplatePageProcessor;
 import com.seveniu.entity.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +40,7 @@ public class RunningSpider extends Spider {
     }
 
     private void init() {
-        this
-                .setUUID("spider-" + allCount.getAndIncrement() + "-task-" + this.task.getId() + "-" + this.timeCreated.getTime())
+        this.setUUID("spider-" + allCount.getAndIncrement() + "-task-" + this.task.getId() + "-" + this.timeCreated.getTime())
                 .thread(
                         Executors.newFixedThreadPool(task.getThreadNum(), CrawlerThreadPoolFactory.getSpiderThreadFactory(task)),
 

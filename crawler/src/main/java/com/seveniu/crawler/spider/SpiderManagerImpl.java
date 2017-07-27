@@ -1,11 +1,16 @@
 package com.seveniu.crawler.spider;
 
+import com.seveniu.SecurityUtil;
+import com.seveniu.crawler.spider.pageProcessor.TemplatePageProcessor;
 import com.seveniu.entity.task.Task;
-import com.seveniu.security.SecurityUtil;
+import com.seveniu.entity.template.Template;
+import com.seveniu.entity.template.TemplateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -24,6 +29,8 @@ public class SpiderManagerImpl implements SpiderManager {
     private ExecutorService executor;
     private LinkedBlockingQueue<RunningSpider> allRunningSpider = new LinkedBlockingQueue<>();
     private final Semaphore semaphore;
+    @Autowired
+    TemplateService templateService;
 
     public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum) {
         this.semaphore = new Semaphore(sameTimeThreadMaxNum);
@@ -38,12 +45,18 @@ public class SpiderManagerImpl implements SpiderManager {
         //TODO: 限制一个用户最多使用的线程数, 临时固定为 50 个
 
 
+        // 获取 template 构造 pageProcess
+        PageProcessor pageProcessor = generatePageProcessor(task);
+        if (pageProcessor == null) {
+            throw new RuntimeException("template page processor generate error");
+        }
+
         //TODO: set pageProcessor
-        RunningSpider runningSpider = new RunningSpider(null, task);
+        RunningSpider runningSpider = new RunningSpider(pageProcessor, task);
 
         executor.execute(() -> {
             try {
-                log.info("cur available thread",semaphore.availablePermits());
+                log.info("cur available thread", semaphore.availablePermits());
                 semaphore.acquire();
                 runningSpider.run();
             } catch (InterruptedException e) {
@@ -54,6 +67,15 @@ public class SpiderManagerImpl implements SpiderManager {
         });
 
         return runningSpider;
+    }
+
+    // 获取 template 构造 pageProcess
+    private TemplatePageProcessor generatePageProcessor(Task task) {
+        Template template = templateService.findOne(task.getTemplateId());
+        if (template == null) {
+            return null;
+        }
+        return new TemplatePageProcessor(template.getTemplateStructure());
     }
 
     @Override

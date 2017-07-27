@@ -2,12 +2,10 @@ package com.seveniu.entity.task;
 
 
 import com.seveniu.entity.BaseAuditableEntity;
+import com.seveniu.entity.website.Website;
 import com.seveniu.util.Json;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -27,7 +25,7 @@ public class Task extends BaseAuditableEntity {
     private Date nextRunTime;
     private Date lastStartTime;
     private Date lastDoneTime;
-    private String templateId; // required
+    private Long templateId; // required
 
 
     @Lob
@@ -36,6 +34,8 @@ public class Task extends BaseAuditableEntity {
     private short threadNum = 1;
     private boolean proxy = false;
     private boolean javascript = false;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Website website;
 
 
     public String getName() {
@@ -86,16 +86,17 @@ public class Task extends BaseAuditableEntity {
         this.lastDoneTime = lastDoneTime;
     }
 
-    public String getTemplateId() {
+    public Long getTemplateId() {
         return templateId;
     }
 
-    public void setTemplateId(String templateId) {
+    public void setTemplateId(Long templateId) {
         this.templateId = templateId;
     }
 
     /**
      * 禁止主动调用，使用 getStartUrlList
+     *
      * @return
      */
     public String getStartUrls() {
@@ -156,5 +157,13 @@ public class Task extends BaseAuditableEntity {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public Website getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(Website website) {
+        this.website = website;
     }
 }

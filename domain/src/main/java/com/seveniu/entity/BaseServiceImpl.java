@@ -1,6 +1,6 @@
 package com.seveniu.entity;
 
-import com.seveniu.security.SecurityUtil;
+import com.seveniu.SecurityUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

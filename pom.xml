@@ -13,6 +13,8 @@
         <module>auth</module>
         <module>common</module>
         <module>crawler</module>
+        <module>web</module>
+        <module>framework</module>
     </modules>
 
 

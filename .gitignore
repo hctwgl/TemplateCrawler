@@ -83,3 +83,6 @@ front/researcher/.idea/*
 
 **/build
 **/.idea
+
+!/front/build
+/front/node_modules
