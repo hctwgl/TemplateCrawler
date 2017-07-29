@@ -1,6 +1,8 @@
 package com.seveniu.manage.rest;
 
+import com.seveniu.entity.website.Website;
 import com.seveniu.entity.website.WebsiteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -8,8 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
  * *
  */
 @RestController("/api/website")
-public class WebsiteApi {
-    private WebsiteService websiteService;
+public class WebsiteApi extends BaseApi<Website, Long> {
+    private final WebsiteService websiteService;
 
+    @Autowired
+    public WebsiteApi(WebsiteService websiteService) {
+        super(websiteService);
+        this.websiteService = websiteService;
+    }
 
 }

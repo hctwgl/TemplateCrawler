@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    UserRepository userRepository;
+    UserssRepository userRepository;
 
     @Override
     public User createUser(User newUserConfig, char[] password) {
@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+//        return userRepository.findAll(pageable);
+        return null;
     }
 }

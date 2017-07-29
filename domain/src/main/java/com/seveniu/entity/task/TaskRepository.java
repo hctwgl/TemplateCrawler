@@ -18,12 +18,12 @@ import java.util.List;
  */
 @Repository
 public interface TaskRepository extends BaseRepository<Task, Long> {
-    @Query("SELECT t FROM CrawlerTask t WHERE t.cycle.id > 0 AND t.nextRunTime < now() AND t.status =:status AND t.runStatus =:runStatus")
+    @Query("SELECT t FROM Task t WHERE t.cycle.id > 0 AND t.nextRunTime < NOW() AND t.status =:status AND t.runStatus =:runStatus")
     List<Task> getDueTask(@Param("status") EntityStatus status, @Param("runStatus") TaskRunStatus runStatus);
 
     @Modifying
     @Transactional
-    @Query("UPDATE CrawlerTask t set t.runStatus='DONE' WHERE t.runStatus='ACTIVE'")
+    @Query("UPDATE Task t set t.runStatus='DONE' WHERE t.runStatus='ACTIVE'")
     void resetRunningTaskToUnRun();
 
     Page<Task> findByCreateUserId(Long currentUserId, Pageable pageable);

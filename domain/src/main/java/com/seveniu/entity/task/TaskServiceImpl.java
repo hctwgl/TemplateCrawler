@@ -2,7 +2,7 @@ package com.seveniu.entity.task;
 
 //import com.dhlz.data.jdbc.TaskDao;
 
-import com.seveniu.SecurityUtil;
+import com.seveniu.security.SecurityUtil;
 import com.seveniu.common.date.DateUtil;
 import com.seveniu.entity.EntityStatus;
 import com.seveniu.entity.UserService;

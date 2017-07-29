@@ -1,6 +1,6 @@
 package com.seveniu.crawler.spider;
 
-import com.seveniu.SecurityUtil;
+import com.seveniu.security.SecurityUtil;
 import com.seveniu.crawler.spider.pageProcessor.TemplatePageProcessor;
 import com.seveniu.entity.task.Task;
 import com.seveniu.entity.template.Template;
