@@ -6,8 +6,8 @@ module.exports = {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsSubDirectory: './static',
+    assetsPublicPath: './',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -23,18 +23,39 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    port: 9528,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      '/user': {
+        target: 'http://127.0.0.1:10000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/user': '/user'
+        }
+      },
+      '/auth': {
+        target: 'http://127.0.0.1:10000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/auth': '/auth'
+        }
+      },
+      '/authority': {
+        target: 'http://127.0.0.1:10000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/authority': '/authority'
+        }
+      },
       '/api': {
-        target: 'http://127.0.0.1:6666',
+        target: 'http://127.0.0.1:10000',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/api'
         }
-      },
+      }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
