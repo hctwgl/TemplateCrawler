@@ -1,5 +1,7 @@
 package com.seveniu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class Authority {
     @Column(length = 50)
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
     private List<User> users;
 
@@ -34,6 +37,7 @@ public class Authority {
         this.name = name;
     }
 
+    @JsonIgnore
     public List<User> getUsers() {
         return users;
     }

@@ -5,10 +5,7 @@ import com.seveniu.entity.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by seveniu on 7/29/17.
@@ -34,6 +31,11 @@ public class BaseApi<T extends BaseAuditableEntity, KEY> {
     @RequestMapping(path = "/edit", method = RequestMethod.PUT)
     private T edit(@RequestBody T t) {
         return baseService.save(t);
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    private T findOne(@PathVariable("id") KEY id) {
+        return baseService.findOne(id);
     }
 
     @RequestMapping(path = "/page", method = RequestMethod.GET)

@@ -20,6 +20,8 @@ const Form = _import('page/form');
 const Table = _import('table/index');
 const UserList = _import('user/list');
 const UserEdit = _import('user/edit');
+const WebsitePage = _import('website/page');
+const WebsiteEdit = _import('website/edit');
 
 Vue.use(Router);
 
@@ -60,7 +62,6 @@ export const asyncRouterMap = [
       { path: 'index', component: Form, name: 'Form', icon: 'zonghe' }
     ]
   },
-
   {
     path: '/table',
     component: Layout,
@@ -70,6 +71,7 @@ export const asyncRouterMap = [
     noDropdown: true,
     children: [{ path: 'index', component: Table, name: 'TableIndex', meta: { role: ['admin'] } }]
   },
+  { path: '*', redirect: '/404', hidden: true },
   {
     path: '/user',
     component: Layout,
@@ -83,6 +85,16 @@ export const asyncRouterMap = [
       { path: 'edit', component: UserEdit, name: 'userEdit', meta: { role: ['admin'] } }
     ]
   },
-
-  { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '/website',
+    component: Layout,
+    redirect: '/website/page',
+    name: 'Website',
+    icon: 'zujian',
+    children: [
+      { path: 'page', component: WebsitePage, name: 'websitePage', icon: 'zonghe' },
+      { path: 'edit', component: WebsiteEdit, name: 'websiteEditNew', icon: 'zonghe', hidden: true },
+      { path: 'edit/:id', component: WebsiteEdit, name: 'websiteEdit', icon: 'zonghe', hidden: true }
+    ]
+  },
 ];

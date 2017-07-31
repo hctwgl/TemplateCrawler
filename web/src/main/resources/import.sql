@@ -1,0 +1,14 @@
+INSERT INTO `user` (`id`, `create_by`, `email`, `enabled`, `last_password_reset_date`, `password`, `username`)
+VALUES
+	(1, NULL, 'admin@admin.com', 1, '2017-01-01 01:01:01', '$2a$10$9IniTMqGQ2jfTrQfuxv/BeXXv36a0zEomPQ1Z3z0Rx.8ALUfB4nR6', 'admin'),
+	(2, NULL, 'enabled@user.com', 1, '2017-01-01 01:01:01', '$2a$10$9IniTMqGQ2jfTrQfuxv/BeXXv36a0zEomPQ1Z3z0Rx.8ALUfB4nR6', 'user'),
+	(3, NULL, 'disabled@user.com', 0, '2017-01-01 01:01:01', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'disabled');
+
+
+INSERT INTO AUTHORITY (ID, NAME) VALUES (1, 'ROLE_USER');
+INSERT INTO AUTHORITY (ID, NAME) VALUES (2, 'ROLE_ADMIN');
+
+INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (1, 1);
+INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (1, 2);
+INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (2, 1);
+INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (3, 1);
