@@ -2,7 +2,7 @@ package com.seveniu.entity.task;
 
 
 import com.seveniu.entity.BaseAuditableEntity;
-import com.seveniu.entity.website.Website;
+import com.seveniu.entity.template.Template;
 import com.seveniu.util.Json;
 
 import javax.persistence.*;
@@ -16,26 +16,27 @@ import java.util.Date;
 public class Task extends BaseAuditableEntity {
 
     private String name;
-    private Long createUserId;
-    @Enumerated(value = EnumType.STRING)
-    private TaskRunStatus runStatus;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Template template; // required
     private int cycle = 0; // unit second, 0 run only once
     private int priority = 1; // required
-
-    private Date nextRunTime;
-    private Date lastStartTime;
-    private Date lastDoneTime;
-    private Long templateId; // required
 
 
     @Lob
     private String startUrls;
+    @Transient
     private String[] startUrlList;
     private short threadNum = 1;
     private boolean proxy = false;
     private boolean javascript = false;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Website website;
+
+
+    private Long createUserId;
+    @Enumerated(value = EnumType.STRING)
+    private TaskRunStatus runStatus;
+    private Date nextRunTime;
+    private Date lastStartTime;
+    private Date lastDoneTime;
 
 
     public String getName() {
@@ -86,24 +87,24 @@ public class Task extends BaseAuditableEntity {
         this.lastDoneTime = lastDoneTime;
     }
 
-    public Long getTemplateId() {
-        return templateId;
+    public Template getTemplate() {
+        return template;
     }
 
-    public void setTemplateId(Long templateId) {
-        this.templateId = templateId;
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 
     /**
-     * 禁止主动调用，使用 getStartUrlList
-     *
-     * @return
+     * 禁止主动调用
      */
     public String getStartUrls() {
-        this.startUrls = Json.toJson(this.startUrlList);
         return this.startUrls;
     }
 
+    /**
+     * 禁止主动调用
+     */
     public void setStartUrls(String startUrls) {
         this.startUrls = startUrls;
     }
@@ -116,6 +117,7 @@ public class Task extends BaseAuditableEntity {
     }
 
     public void setStartUrlList(String[] startUrlList) {
+        this.startUrls = Json.toJson(this.startUrlList);
         this.startUrlList = startUrlList;
     }
 
@@ -159,11 +161,4 @@ public class Task extends BaseAuditableEntity {
         this.priority = priority;
     }
 
-    public Website getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(Website website) {
-        this.website = website;
-    }
 }

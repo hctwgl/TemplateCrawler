@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
  * Created by dhlz on 1/1/17.
  * *
  */
+@Service
 public class TemplateServiceImpl extends BaseServiceImpl<Template, Long> implements TemplateService {
     private final TemplateRepository templateRepository;
 

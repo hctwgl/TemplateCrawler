@@ -1,6 +1,7 @@
 package com.seveniu.entity.task;
 
 
+import com.seveniu.entity.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,7 +12,7 @@ import java.util.Map;
  * Created by seveniu on 7/15/17.
  * *
  */
-public interface TaskService {
+public interface TaskService extends BaseService<Task, Long> {
     void execDueTask();
 
     void updateStatus(Long id, TaskRunStatus status);

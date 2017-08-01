@@ -2,10 +2,14 @@ package com.seveniu.manage.rest;
 
 import com.seveniu.entity.BaseAuditableEntity;
 import com.seveniu.entity.BaseService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 /**
  * Created by seveniu on 7/29/17.
@@ -41,5 +45,14 @@ public class BaseApi<T extends BaseAuditableEntity, KEY> {
     @RequestMapping(path = "/page", method = RequestMethod.GET)
     private Page<T> page(@PageableDefault Pageable pageable) {
         return baseService.findAll(pageable);
+    }
+
+    @RequestMapping(path = "/query", method = RequestMethod.GET)
+    private Page<T> query(@RequestParam(value = "field", defaultValue = "name") String field, @RequestParam("q") String q, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        if (StringUtils.isNotBlank(q)) {
+            return baseService.query(null, field, q, pageable);
+        } else {
+            return new PageImpl<T>(Collections.emptyList(), pageable, 0L);
+        }
     }
 }

@@ -22,6 +22,10 @@ const UserList = _import('user/list');
 const UserEdit = _import('user/edit');
 const WebsitePage = _import('website/page');
 const WebsiteEdit = _import('website/edit');
+const TaskPage = _import('task/page');
+const TaskEdit = _import('task/edit');
+const TemplatePage = _import('template/page');
+const TemplateEdit = _import('template/edit');
 
 Vue.use(Router);
 
@@ -95,6 +99,30 @@ export const asyncRouterMap = [
       { path: 'page', component: WebsitePage, name: 'websitePage', icon: 'zonghe' },
       { path: 'edit', component: WebsiteEdit, name: 'websiteEditNew', icon: 'zonghe', hidden: true },
       { path: 'edit/:id', component: WebsiteEdit, name: 'websiteEdit', icon: 'zonghe', hidden: true }
+    ]
+  },
+  {
+    path: '/task',
+    component: Layout,
+    redirect: '/task/page',
+    name: 'Task',
+    icon: 'zujian',
+    children: [
+      { path: 'page', component: TaskPage, name: 'taskPage', icon: 'zonghe' },
+      { path: 'edit', component: TaskEdit, name: 'taskEditNew', icon: 'zonghe', hidden: true },
+      { path: 'edit/:id', component: TaskEdit, name: 'taskEdit', icon: 'zonghe', hidden: true }
+    ]
+  },
+  {
+    path: '/template',
+    component: Layout,
+    redirect: '/template/page',
+    name: 'Template',
+    icon: 'zujian',
+    children: [
+      { path: 'page', component: TemplatePage, name: 'templatePage', icon: 'zonghe' },
+      { path: 'edit', component: TemplateEdit, name: 'templateEditNew', icon: 'zonghe', hidden: true },
+      { path: 'edit/:id', component: TemplateEdit, name: 'templateEdit', icon: 'zonghe', hidden: true }
     ]
   },
 ];

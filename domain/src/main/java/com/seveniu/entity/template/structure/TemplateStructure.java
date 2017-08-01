@@ -45,6 +45,9 @@ public class TemplateStructure {
     }
 
     public static TemplateStructure fromJson(String json) {
+        if (json == null) {
+            return null;
+        }
         TemplateStructure templateStructure = new TemplateStructure();
         templateStructure.pageTemplates = Json.toObject(json, new TypeReference<List<PageTemplate>>() {
         });

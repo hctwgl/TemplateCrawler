@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Field {
 
-    private String name;
+    private String name; // 必须符合驼峰命名法
     private String label;
     private FieldType type;
 
@@ -12,7 +12,7 @@ public class Field {
     private String xpath;
     private List<String> regex;
     private boolean must = false;
-    private boolean single = true;
+    private boolean multiple = true;
 
     public FieldType getType() {
         return type;
@@ -71,12 +71,12 @@ public class Field {
         this.must = must;
     }
 
-    public boolean isSingle() {
-        return single;
+    public boolean isMultiple() {
+        return multiple;
     }
 
-    public void setSingle(boolean single) {
-        this.single = single;
+    public void setMultiple(boolean multiple) {
+        this.multiple = multiple;
     }
 
     @Override

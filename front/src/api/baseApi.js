@@ -14,6 +14,16 @@ export default function BaseApi(baseUri) {
         size
       }
     }),
+    query: (q, field = 'name', page = 0, size = 10) => fetch({
+      url: baseUri + '/query',
+      method: 'GET',
+      params: {
+        q,
+        field,
+        page,
+        size
+      }
+    }),
     add: data => fetch({
       url: baseUri + '/add',
       method: 'POST',

@@ -1,11 +1,9 @@
 package com.seveniu.entity.task;
 
-//import com.dhlz.data.jdbc.TaskDao;
-
-import com.seveniu.security.SecurityUtil;
 import com.seveniu.common.date.DateUtil;
+import com.seveniu.entity.BaseServiceImpl;
 import com.seveniu.entity.EntityStatus;
-import com.seveniu.entity.UserService;
+import com.seveniu.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +28,10 @@ import java.util.concurrent.TimeUnit;
  * TaskService
  */
 @Service
-public class TaskServiceImpl implements TaskService {
+public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements TaskService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired
-    TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
-    private final UserService userService;
-    //    private final TaskAssignService taskAssignService;
     @Value("${execDueTask:false}")
     private boolean execDueTask;
 
@@ -48,10 +43,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Autowired
-    public TaskServiceImpl(UserService userService) {
-
-        this.userService = userService;
-
+    public TaskServiceImpl(TaskRepository taskRepository) {
+        super(taskRepository);
+        this.taskRepository = taskRepository;
     }
 
     @Override

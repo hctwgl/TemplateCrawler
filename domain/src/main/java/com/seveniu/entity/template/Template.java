@@ -2,10 +2,9 @@ package com.seveniu.entity.template;
 
 import com.seveniu.entity.BaseAuditableEntity;
 import com.seveniu.entity.template.structure.TemplateStructure;
+import com.seveniu.entity.website.Website;
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  * Created by seveniu on 7/22/17.
@@ -13,6 +12,9 @@ import javax.persistence.Transient;
  */
 @Entity
 public class Template extends BaseAuditableEntity {
+    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Website website;
 
     @Lob
     private String structure;
@@ -20,13 +22,20 @@ public class Template extends BaseAuditableEntity {
     @Transient
     private TemplateStructure templateStructure;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * 不能主动调用
      *
      * @return
      */
     public String getStructure() {
-        this.structure = templateStructure.toJson();
         return structure;
     }
 
@@ -42,6 +51,19 @@ public class Template extends BaseAuditableEntity {
     }
 
     public void setTemplateStructure(TemplateStructure templateStructure) {
+        if (templateStructure == null) {
+            this.structure = null;
+        } else {
+            this.structure = templateStructure.toJson();
+        }
         this.templateStructure = templateStructure;
+    }
+
+    public Website getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(Website website) {
+        this.website = website;
     }
 }
