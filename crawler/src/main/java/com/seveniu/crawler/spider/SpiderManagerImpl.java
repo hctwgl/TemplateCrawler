@@ -1,10 +1,10 @@
 package com.seveniu.crawler.spider;
 
-import com.seveniu.security.SecurityUtil;
 import com.seveniu.crawler.spider.pageProcessor.TemplatePageProcessor;
 import com.seveniu.entity.task.Task;
 import com.seveniu.entity.template.Template;
 import com.seveniu.entity.template.TemplateService;
+import com.seveniu.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,11 +71,11 @@ public class SpiderManagerImpl implements SpiderManager {
 
     // 获取 template 构造 pageProcess
     private TemplatePageProcessor generatePageProcessor(Task task) {
-        Template template = templateService.findOne(task.getTemplateId());
+        Template template = task.getTemplate();
         if (template == null) {
             return null;
         }
-        return new TemplatePageProcessor(template.getTemplateStructure());
+        return new TemplatePageProcessor(template);
     }
 
     @Override

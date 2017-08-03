@@ -1,9 +1,9 @@
 package com.seveniu.entity.task;
 
 
+import com.seveniu.common.json.Json;
 import com.seveniu.entity.BaseAuditableEntity;
 import com.seveniu.entity.template.Template;
-import com.seveniu.util.Json;
 
 import javax.persistence.*;
 import java.util.Date;

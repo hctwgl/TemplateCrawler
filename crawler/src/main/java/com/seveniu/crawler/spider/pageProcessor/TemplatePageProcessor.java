@@ -4,7 +4,7 @@ import com.seveniu.crawler.spider.pageProcessor.parse.PageParseResult;
 import com.seveniu.crawler.spider.pageProcessor.parse.TemplatePageParse;
 import com.seveniu.entity.data.DataContent;
 import com.seveniu.entity.data.PageContent;
-import com.seveniu.entity.template.structure.TemplateStructure;
+import com.seveniu.entity.template.Template;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -18,9 +18,9 @@ import java.util.List;
  */
 public class TemplatePageProcessor implements PageProcessor {
     public static final String REQUEST_CONTEXT_KEY = "REQUEST_CONTEXT_KEY";
-    private TemplateStructure templateStructure;
+    private Template templateStructure;
 
-    public TemplatePageProcessor(TemplateStructure templateStructure) {
+    public TemplatePageProcessor(Template templateStructure) {
         this.templateStructure = templateStructure;
     }
 
@@ -30,7 +30,7 @@ public class TemplatePageProcessor implements PageProcessor {
         // 获取上下文
         RequestContext requestContext = getRequestContext(page);
         // 解析页面
-        PageParseResult pageParseResult = TemplatePageParse.parse(templateStructure.getTemplate(requestContext.getCurTotalLayer()), page);
+        PageParseResult pageParseResult = TemplatePageParse.parse(templateStructure.getPageStructure().get(requestContext.getCurTotalLayer()), page);
 
         boolean isInContentLayer = templateStructure.getContentLayer() >= requestContext.getCurTotalLayer();
         DataContent dataContentContext = requestContext.getDataContent();

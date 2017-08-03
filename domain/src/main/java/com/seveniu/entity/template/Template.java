@@ -1,10 +1,14 @@
 package com.seveniu.entity.template;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.seveniu.common.json.Json;
 import com.seveniu.entity.BaseAuditableEntity;
-import com.seveniu.entity.template.structure.TemplateStructure;
+import com.seveniu.entity.template.structure.PageTemplate;
 import com.seveniu.entity.website.Website;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by seveniu on 7/22/17.
@@ -17,10 +21,13 @@ public class Template extends BaseAuditableEntity {
     private Website website;
 
     @Lob
+    @JsonIgnore
     private String structure;
+    private int contentLayer = 1; // 0 表示起始 url 开始就是 内容层级， 1 表示从起始url 的下层url 开始是内容层级
 
     @Transient
-    private TemplateStructure templateStructure;
+    private List<PageTemplate> pageStructure;
+
 
     public String getName() {
         return name;
@@ -43,27 +50,34 @@ public class Template extends BaseAuditableEntity {
         this.structure = structure;
     }
 
-    public TemplateStructure getTemplateStructure() {
-        if (templateStructure == null) {
-            this.templateStructure = TemplateStructure.fromJson(this.structure);
-        }
-        return templateStructure;
-    }
-
-    public void setTemplateStructure(TemplateStructure templateStructure) {
-        if (templateStructure == null) {
-            this.structure = null;
-        } else {
-            this.structure = templateStructure.toJson();
-        }
-        this.templateStructure = templateStructure;
-    }
-
     public Website getWebsite() {
         return website;
     }
 
     public void setWebsite(Website website) {
         this.website = website;
+    }
+
+    public int getContentLayer() {
+        return contentLayer;
+    }
+
+    public void setContentLayer(int contentLayer) {
+        this.contentLayer = contentLayer;
+    }
+
+    public List<PageTemplate> getPageStructure() {
+        if (pageStructure == null) {
+            if (this.structure != null) {
+                this.pageStructure = Json.toObject(this.structure, new TypeReference<List<PageTemplate>>() {
+                });
+            }
+        }
+        return pageStructure;
+    }
+
+    public void setPageStructure(List<PageTemplate> pageStructure) {
+        this.pageStructure = pageStructure;
+        this.structure = Json.toJson(this.pageStructure);
     }
 }
