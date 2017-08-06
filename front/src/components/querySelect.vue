@@ -1,18 +1,19 @@
 <template>
-    <el-select
-            v-model="value"
-            filterable
-            remote
-            placeholder="搜索"
-            :remote-method="remoteMethod"
-            :loading="loading">
-        <el-option
-                v-for="item in options"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id">
-        </el-option>
-    </el-select>
+  <el-select
+      v-model="value"
+      filterable
+      remote
+      placeholder="搜索"
+      v-on:change="onChange"
+      :remote-method="remoteMethod"
+      :loading="loading">
+    <el-option
+        v-for="item in options"
+        :key="item.id"
+        :label="item.name"
+        :value="item.id">
+    </el-option>
+  </el-select>
 </template>
 
 <script>
@@ -39,13 +40,29 @@
       return {
         options: [],
         value: [],
-        loading: false
+        loading: false,
+        curData: null
       }
     },
     mounted() {
     },
     methods: {
+//      fetchByValue(value) {
+//        if (value) {
+//          this.loading = true;
+//          this.api.get(value).then(response => {
+//            this.options = [response.data];
+//            this.value = response.data.id;
+//            this.loading = false;
+//          })
+//        }
+//      },
       remoteMethod(query) {
+        if (this.curData && this.curData.name === query) {
+          console.log('same data');
+          return
+        }
+        console.log(query);
         if (query && query.trim().length > 0) {
           this.loading = true;
           this.api.query(query).then(response => {
@@ -54,6 +71,14 @@
           });
         } else {
           this.options = [];
+        }
+      },
+      onChange(value) {
+        if (value) {
+          console.log("change " + value);
+          const data = this.options.find(v => v.id = value);
+          this.curData = data;
+          this.$emit('change', data)
         }
       }
     }

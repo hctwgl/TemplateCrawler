@@ -1,48 +1,56 @@
 <template>
   <div class="user-edit-container">
-    <el-form autoComplete="on" :model="formData" :rules="loginRules" ref="formData" label-position="left"
-             label-width="0px"
+    <el-form autoComplete="on" :model="formData" :rules="loginRules" ref="formData" label-position="right"
+             label-width="80px"
              class="card-box login-form">
       <h3 class="title">编辑</h3>
-      <el-form-item prop="username">
-                <span class="svg-container">
-                  <icon-svg icon-class="jiedianyoujian"></icon-svg>
-                </span>
+      <el-form-item prop="username" label="模板名">
         <el-input name="name" type="text" v-model="formData.name" autoComplete="on" placeholder="模板名"></el-input>
       </el-form-item>
-      <query-select :api="queryApi"></query-select>
+      <el-form-item prop="username" label="网站">
+        <query-select :api="websiteApi" v-on:change="handleWebsiteChange" ref="websiteSelect" v-show="showWebsiteEdit"></query-select>
+        <el-input name="name" type="text" v-model="website.name" :disabled="true" placeholder="模板名" v-show="!showWebsiteEdit">
+          <el-button slot="append" icon="edit" @click="showWebsiteEdit = true"></el-button>
+        </el-input>
+        <!--<el-input name="name" type="text" v-model="formData.websiteId" :disabled="true" style="display: none" placeholder="模板名"></el-input>-->
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleCommit">
           提交
         </el-button>
       </el-form-item>
     </el-form>
-    <el-tabs v-model="editPageName" type="card" editable @edit="handleTabsEdit">
+    <el-tabs class="page-template-edit" v-model="editPageName" type="card" editable @edit="handleTabsEdit">
       <el-tab-pane v-for="(item, index) in formData.pageStructure" :key="index" :label="item.name" :name="item.index +''">
-        <el-form autoComplete="on" :model="formData" :rules="loginRules" ref="formData" label-position="left"
-                 label-width="0px" class="card-box login-form">
-          <el-form-item prop="username">
-                <span class="svg-container">
-                  <icon-svg icon-class="jiedianyoujian"></icon-svg>
-                </span>
+        <el-form :label-position="'right'" label-width="80px">
+          <el-form-item label="网页名称">
             <el-input name="name" type="text" v-model="item.name" autoComplete="on" placeholder="当前页名称"></el-input>
           </el-form-item>
-          <el-form-item prop="username">
-                <span class="svg-container">
-                  <icon-svg icon-class="jiedianyoujian"></icon-svg>
-                </span>
+          <el-form-item label="网页链接">
             <el-input name="name" type="text" v-model="item.url" autoComplete="on" placeholder="网页链接"></el-input>
           </el-form-item>
+          <el-form-item>
+            <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleAddField(item)">
+              添加字段
+            </el-button>
+          </el-form-item>
           <div v-for="(field, index) in item.fields">
-            <el-form :label-position="right" label-width="80px" :model="field">
-              <el-form-item label="名称">
+            <el-form :label-position="'right'" label-width="80px" :model="field">
+              <el-form-item label="属性名">
                 <el-input v-model="field.name"></el-input>
               </el-form-item>
-              <el-form-item label="标签">
+              <el-form-item label="显示名">
                 <el-input v-model="field.label"></el-input>
               </el-form-item>
               <el-form-item label="类型">
-                <el-input v-model="field.type"></el-input>
+                <el-select v-model="field.type" placeholder="请选择">
+                  <el-option
+                      v-for="type in fieldType"
+                      :key = "type.value"
+                      :label="type.label"
+                      :value="type.value">
+                  </el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="默认值">
                 <el-input v-model="field.defaultValue"></el-input>
@@ -51,7 +59,7 @@
                 <el-input v-model="field.xpath"></el-input>
               </el-form-item>
               <el-form-item label="多选">
-                <el-input v-model="field.multiple"></el-input>
+                <el-checkbox v-model="field.multiple"></el-checkbox>
               </el-form-item>
             </el-form>
           </div>
@@ -62,13 +70,14 @@
 </template>
 
 <script>
-  import {validatAlphabetsAndNum} from '@/utils/validate';
+  import Vue from 'vue'
+  import { validatAlphabetsAndNum } from '@/utils/validate';
   import api from '@/api/template';
-  import queryApi from '@/api/website';
+  import websiteApi from '@/api/website';
   import querySelect from '@/components/querySelect';
 
   export default {
-    name: 'login',
+    name: 'template-edit',
     computed: {
     },
     data() {
@@ -94,26 +103,46 @@
           password: '',
           authorities: null
         },
+        website: {
+        },
+        showWebsiteEdit: false,
         loginRules: {
           domain: [
-            {required: true, trigger: 'blur', validator: validatePass}
+            { required: true, trigger: 'blur', validator: validatePass }
           ]
         },
         loading: false,
         authorities: [],
         id: null,
-        queryApi,
-        editPageName: '2',
-//        editPage: [{
-//          title: 'Tab 1',
-//          name: '1',
-//          content: 'Tab 1 content'
-//        }, {
-//          title: 'Tab 2',
-//          name: '2',
-//          content: 'Tab 2 content'
-//        }],
-        tabIndex: 0
+        websiteApi,
+        editPageName: '0',
+        tabIndex: 1,
+        fieldType: [
+          {
+            value: 'HTML_TEXT',
+            label: '文本'
+          },
+          {
+            value: 'TARGET_LINK',
+            label: '跳转链接'
+          },
+          {
+            value: 'NEXT_LINK',
+            label: '下一页链接'
+          },
+          {
+            value: 'TEXT_LINK',
+            label: '抓取的链接文本'
+          },
+          {
+            value: 'PURE_TEXT',
+            label: '抓取的链接文本'
+          },
+          {
+            value: 'DOWNLOAD_LINK',
+            label: '下载链接'
+          }
+        ]
       }
     },
     created() {
@@ -126,7 +155,16 @@
         this.id = id;
         if (id) {
           api.get(id).then(response => {
-            this.formData = response.data
+            this.formData = response.data;
+            if (this.formData.pageStructure) {
+              this.formData.pageStructure.forEach((page, index) => {
+                page.index = index;
+              })
+            }
+            websiteApi.get(this.formData.websiteId).then( response => {
+              this.website = response.data;
+            })
+//            this.$refs.websiteSelect.fetchByValue(this.formData.websiteId)
           });
         }
         console.log('edit id : ' + id);
@@ -163,6 +201,12 @@
           }
         });
       },
+      handleWebsiteChange(data) {
+        console.log(data);
+        this.formData.websiteId = data.id;
+        this.website = data;
+        this.showWebsiteEdit = false;
+      },
       handleTabsEdit(targetName, action) {
         if (action === 'add') {
           if (this.formData.pageStructure === null) {
@@ -196,6 +240,12 @@
           this.editPageName = activeName;
           this.formData.pageStructure = tabs.filter(tab => tab.index !== targetName);
         }
+      },
+      handleAddField: pageTemplate => {
+        if (pageTemplate.fields === undefined || pageTemplate.fields === null) {
+          Vue.set(pageTemplate, 'fields', []);
+        }
+        pageTemplate.fields.push({ type: '' })
       }
     },
     components: {
@@ -213,72 +263,52 @@
   }
 
   .user-edit-container {
+    /*@include relative;*/
+    /*height: 100vh;*/
+    /*background-color: #2d3a4b;*/
+    /*input:-webkit-autofill {*/
+    /*-webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;*/
+    /*-webkit-text-fill-color: #fff !important;*/
+    /*}*/
 
-  /*@include relative;*/
-  /*height: 100vh;*/
-  /*background-color: #2d3a4b;*/
-  /*input:-webkit-autofill {*/
-  /*-webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;*/
-  /*-webkit-text-fill-color: #fff !important;*/
-  /*}*/
-  input {
-    /*background: transparent;*/
-    /*border: 0px;*/
-    /*-webkit-appearance: none;*/
-    /*border-radius: 0px;*/
-    padding: 12px 5px 12px 15px;
+    .svg-container {
+      padding: 6px 5px 6px 15px;
+      color: #889aa4;
+    }
+
+    /*.title {*/
+    /*font-size: 26px;*/
+    /*font-weight: 400;*/
     /*color: #eeeeee;*/
-    /*height: 47px;*/
-  }
+    /*margin: 0px auto 40px auto;*/
+    /*text-align: center;*/
+    /*font-weight: bold;*/
+    /*}*/
+    .login-form {
+      /*position: absolute;*/
+      left: 0;
+      right: 0;
+      width: 500px;
+      padding: 35px 35px 15px 35px;
+      margin: 20px auto;
+    }
 
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-  }
+    .el-form-item {
+      /*border: 1px solid rgba(255, 255, 255, 0.1);*/
+      /*background: rgba(0, 0, 0, 0.1);*/
+      /*border-radius: 5px;*/
+      /*color: #454545;*/
+    }
 
-  .el-select {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-  }
+    .forget-pwd {
+      color: #fff;
+    }
 
-  .el-select .el-input {
-    width: 100%;
-  }
-
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: #889aa4;
-  }
-
-  /*.title {*/
-  /*font-size: 26px;*/
-  /*font-weight: 400;*/
-  /*color: #eeeeee;*/
-  /*margin: 0px auto 40px auto;*/
-  /*text-align: center;*/
-  /*font-weight: bold;*/
-  /*}*/
-  .login-form {
-    /*position: absolute;*/
-    left: 0;
-    right: 0;
-    width: 400px;
-    padding: 35px 35px 15px 35px;
-    margin: 120px auto;
-  }
-
-  .el-form-item {
-    /*border: 1px solid rgba(255, 255, 255, 0.1);*/
-    /*background: rgba(0, 0, 0, 0.1);*/
-    /*border-radius: 5px;*/
-    /*color: #454545;*/
-  }
-
-  .forget-pwd {
-    color: #fff;
-  }
-
+    .page-template-edit {
+      left: 0;
+      right: 0;
+      margin: 20px auto;
+      width: 500px
+    }
   }
 </style>

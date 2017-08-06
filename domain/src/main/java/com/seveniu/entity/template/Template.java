@@ -5,9 +5,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.seveniu.common.json.Json;
 import com.seveniu.entity.BaseAuditableEntity;
 import com.seveniu.entity.template.structure.PageTemplate;
-import com.seveniu.entity.website.Website;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.Transient;
 import java.util.List;
 
 /**
@@ -17,8 +18,7 @@ import java.util.List;
 @Entity
 public class Template extends BaseAuditableEntity {
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Website website;
+    private Long websiteId;
 
     @Lob
     @JsonIgnore
@@ -50,12 +50,12 @@ public class Template extends BaseAuditableEntity {
         this.structure = structure;
     }
 
-    public Website getWebsite() {
-        return website;
+    public Long getWebsiteId() {
+        return websiteId;
     }
 
-    public void setWebsite(Website website) {
-        this.website = website;
+    public void setWebsiteId(Long websiteId) {
+        this.websiteId = websiteId;
     }
 
     public int getContentLayer() {

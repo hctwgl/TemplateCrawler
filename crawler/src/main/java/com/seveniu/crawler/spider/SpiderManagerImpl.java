@@ -71,7 +71,7 @@ public class SpiderManagerImpl implements SpiderManager {
 
     // 获取 template 构造 pageProcess
     private TemplatePageProcessor generatePageProcessor(Task task) {
-        Template template = task.getTemplate();
+        Template template = templateService.findOne(task.getTemplateId());
         if (template == null) {
             return null;
         }

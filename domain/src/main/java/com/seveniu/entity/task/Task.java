@@ -3,7 +3,6 @@ package com.seveniu.entity.task;
 
 import com.seveniu.common.json.Json;
 import com.seveniu.entity.BaseAuditableEntity;
-import com.seveniu.entity.template.Template;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,8 +15,7 @@ import java.util.Date;
 public class Task extends BaseAuditableEntity {
 
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Template template; // required
+    private Long templateId; // required
     private int cycle = 0; // unit second, 0 run only once
     private int priority = 1; // required
 
@@ -87,12 +85,12 @@ public class Task extends BaseAuditableEntity {
         this.lastDoneTime = lastDoneTime;
     }
 
-    public Template getTemplate() {
-        return template;
+    public Long getTemplateId() {
+        return templateId;
     }
 
-    public void setTemplate(Template template) {
-        this.template = template;
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
     }
 
     /**
