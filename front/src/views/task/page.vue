@@ -35,11 +35,11 @@
                     {{scope.row.name}}
                 </template>
             </el-table-column>
-            <el-table-column label="模板名" align="center">
-                <template scope="scope">
-                    <span>{{scope.row.template.name}}</span>
-                </template>
-            </el-table-column>
+            <!--<el-table-column label="模板名" align="center">-->
+                <!--<template scope="scope">-->
+                    <!--<span>{{scope.row.template.name}}</span>-->
+                <!--</template>-->
+            <!--</el-table-column>-->
             <el-table-column label="周期" align="center">
                 <template scope="scope">
                     <span>{{scope.row.cycle}}</span>
@@ -62,6 +62,11 @@
                 </template>
             </el-table-column>
         </el-table>
+        <!--<div v-show="!listLoading" class="pagination-container">-->
+            <!--<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"-->
+                           <!--:page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">-->
+            <!--</el-pagination>-->
+        <!--</div>-->
     </div>
 </template>
 

@@ -47,17 +47,17 @@
     mounted() {
     },
     methods: {
-//      fetchByValue(value) {
-//        if (value) {
-//          this.loading = true;
-//          this.api.get(value).then(response => {
-//            this.options = [response.data];
-//            this.value = response.data.id;
-//            this.loading = false;
-//          })
-//        }
-//      },
+      setData(data) {
+        if (data) {
+          this.curData = data;
+          this.options = [data];
+          this.value = data.id;
+        }
+      },
       remoteMethod(query) {
+        if (query === null || query === undefined || typeof (query) !== 'string' || query.length === 0) {
+          return
+        }
         if (this.curData && this.curData.name === query) {
           console.log('same data');
           return
@@ -75,7 +75,11 @@
       },
       onChange(value) {
         if (value) {
-          console.log("change " + value);
+          if (this.curData && this.curData.id === value) {
+            console.log('same data');
+            return
+          }
+          console.log('change ' + value);
           const data = this.options.find(v => v.id = value);
           this.curData = data;
           this.$emit('change', data)

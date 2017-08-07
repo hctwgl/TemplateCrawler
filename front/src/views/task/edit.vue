@@ -9,7 +9,7 @@
             </el-form-item>
             <el-form-item prop="username">
                 <span class="svg-container"> <icon-svg icon-class="jiedianyoujian"></icon-svg> </span>
-                <el-input name="domain" type="text" v-model="formData.templateId" autoComplete="on" placeholder="模板ID"></el-input>
+                <query-select :api="templateApi" v-on:change="handleTemplateChange" ref="templateSelect"></query-select>
             </el-form-item>
             <el-form-item prop="username">
                 <span class="svg-container"> <icon-svg icon-class="jiedianyoujian"></icon-svg> </span>
@@ -31,6 +31,8 @@
 <script>
   import { validatAlphabetsAndNum } from '@/utils/validate';
   import api from '@/api/task';
+  import templateApi from '@/api/template';
+  import querySelect from '@/components/querySelect';
 
   export default {
     name: 'login',
@@ -64,7 +66,8 @@
         },
         loading: false,
         authorities: [],
-        id: null
+        id: null,
+        templateApi
       }
     },
     created() {
@@ -76,7 +79,12 @@
         this.id = id;
         if (id) {
           api.get(id).then(response => {
-            this.formData = response.data
+            this.formData = response.data;
+            if (this.formData.templateId) {
+              templateApi.get(this.formData.templateId).then(response => {
+                this.$refs.templateSelect.setData(response.data)
+              })
+            }
           });
         }
         console.log('edit id : ' + id);
@@ -112,7 +120,14 @@
             return false;
           }
         });
+      },
+      handleTemplateChange(data) {
+        console.log(data);
+        this.formData.templateId = data.id;
       }
+    },
+    components: {
+      querySelect
     }
   }
 </script>

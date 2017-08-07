@@ -8,11 +8,7 @@
         <el-input name="name" type="text" v-model="formData.name" autoComplete="on" placeholder="模板名"></el-input>
       </el-form-item>
       <el-form-item prop="username" label="网站">
-        <query-select :api="websiteApi" v-on:change="handleWebsiteChange" ref="websiteSelect" v-show="showWebsiteEdit"></query-select>
-        <el-input name="name" type="text" v-model="website.name" :disabled="true" placeholder="模板名" v-show="!showWebsiteEdit">
-          <el-button slot="append" icon="edit" @click="showWebsiteEdit = true"></el-button>
-        </el-input>
-        <!--<el-input name="name" type="text" v-model="formData.websiteId" :disabled="true" style="display: none" placeholder="模板名"></el-input>-->
+        <query-select :api="websiteApi" v-on:change="handleWebsiteChange" ref="websiteSelect"></query-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleCommit">
@@ -103,9 +99,6 @@
           password: '',
           authorities: null
         },
-        website: {
-        },
-        showWebsiteEdit: false,
         loginRules: {
           domain: [
             { required: true, trigger: 'blur', validator: validatePass }
@@ -161,10 +154,11 @@
                 page.index = index;
               })
             }
-            websiteApi.get(this.formData.websiteId).then( response => {
-              this.website = response.data;
-            })
-//            this.$refs.websiteSelect.fetchByValue(this.formData.websiteId)
+            if (this.formData.websiteId) {
+              websiteApi.get(this.formData.websiteId).then( response => {
+                this.$refs.websiteSelect.setData(response.data)
+              })
+            }
           });
         }
         console.log('edit id : ' + id);
@@ -202,10 +196,7 @@
         });
       },
       handleWebsiteChange(data) {
-        console.log(data);
         this.formData.websiteId = data.id;
-        this.website = data;
-        this.showWebsiteEdit = false;
       },
       handleTabsEdit(targetName, action) {
         if (action === 'add') {

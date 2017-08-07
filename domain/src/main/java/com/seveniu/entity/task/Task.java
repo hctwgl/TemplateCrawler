@@ -108,7 +108,7 @@ public class Task extends BaseAuditableEntity {
     }
 
     public String[] getStartUrlList() {
-        if (startUrlList == null) {
+        if (startUrlList == null && this.startUrls != null) {
             return Json.toObject(this.startUrls, String[].class);
         }
         return this.startUrlList;
