@@ -1,6 +1,7 @@
-package com.seveniu.entity.website;
+package com.seveniu.entity;
 
-import com.seveniu.entity.BaseAuditableEntity;
+
+import com.seveniu.entity.base.BaseAuditableEntity;
 
 import javax.persistence.Entity;
 

@@ -1,10 +1,10 @@
 package com.seveniu.crawler.spider.pageProcessor.parse;
 
+import com.seveniu.common.html.HtmlUtil;
 import com.seveniu.entity.data.FieldContent;
 import com.seveniu.entity.data.Link;
 import com.seveniu.entity.template.structure.PageTemplate;
 import com.seveniu.entity.template.structure.field.Field;
-import com.seveniu.util.HtmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Page;

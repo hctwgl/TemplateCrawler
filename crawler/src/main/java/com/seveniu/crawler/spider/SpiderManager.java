@@ -1,6 +1,7 @@
 package com.seveniu.crawler.spider;
 
-import com.seveniu.entity.task.Task;
+
+import com.seveniu.entity.CrawlerTask;
 
 import java.util.Collection;
 
@@ -10,7 +11,7 @@ import java.util.Collection;
  */
 public interface SpiderManager {
 
-    RunningSpider runSpider(Task task);
+    RunningSpider runSpider(CrawlerTask task);
 
     Collection<RunningSpider> getRunningSpiders();
 

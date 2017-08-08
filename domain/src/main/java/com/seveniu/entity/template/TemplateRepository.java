@@ -1,7 +1,6 @@
 package com.seveniu.entity.template;
 
 import com.seveniu.entity.BaseRepository;
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
 
 /**

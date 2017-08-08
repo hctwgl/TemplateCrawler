@@ -2,7 +2,7 @@ package com.seveniu.entity.task;
 
 import com.seveniu.common.date.DateUtil;
 import com.seveniu.entity.BaseServiceImpl;
-import com.seveniu.entity.EntityStatus;
+import com.seveniu.entity.base.EntityStatus;
 import com.seveniu.security.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
     private boolean execDueTask;
 
 
-    private ScheduledExecutorService getTaskScheduled;
+    private ScheduledExecutorService monitorScheduled;
 
     public Task getById(Long taskId) {
         return taskRepository.findOne(taskId);
@@ -46,6 +46,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
     public TaskServiceImpl(TaskRepository taskRepository) {
         super(taskRepository);
         this.taskRepository = taskRepository;
+        this.startMonitorDueTaskAndRun();
     }
 
     @Override
@@ -101,16 +102,16 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
     /**
      * 定时查询过期任务
      */
-    public void execDueTask() {
+    public void startMonitorDueTaskAndRun() {
         if (execDueTask) {
             logger.info("exec due task");
-            getTaskScheduled = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
+            monitorScheduled = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
                 @Override
                 public Thread newThread(Runnable r) {
                     return new Thread(r, "exec-due-task-schedule");
                 }
             });
-            getTaskScheduled.scheduleWithFixedDelay(() -> {
+            monitorScheduled.scheduleWithFixedDelay(() -> {
                 List<Task> taskList = getDueTask();
                 if (taskList == null) {
                     logger.warn(" get task list is null");

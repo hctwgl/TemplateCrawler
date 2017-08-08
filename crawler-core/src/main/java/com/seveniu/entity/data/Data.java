@@ -2,7 +2,7 @@ package com.seveniu.entity.data;
 
 
 import com.seveniu.common.json.Json;
-import com.seveniu.entity.BaseAuditableEntity;
+import com.seveniu.entity.base.BaseAuditableEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;

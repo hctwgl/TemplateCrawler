@@ -1,10 +1,8 @@
 package com.seveniu.crawler.spider;
 
 import com.seveniu.crawler.spider.pageProcessor.TemplatePageProcessor;
-import com.seveniu.entity.task.Task;
-import com.seveniu.entity.template.Template;
-import com.seveniu.entity.template.TemplateService;
-import com.seveniu.security.SecurityUtil;
+import com.seveniu.entity.CrawlerTask;
+import com.seveniu.service.CrawlerTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +11,7 @@ import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.Collection;
-import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -25,38 +20,34 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SpiderManagerImpl implements SpiderManager {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private ExecutorService executor;
     private LinkedBlockingQueue<RunningSpider> allRunningSpider = new LinkedBlockingQueue<>();
     private final Semaphore semaphore;
-    @Autowired
-    TemplateService templateService;
+    private final CrawlerTaskService crawlerTaskService;
 
-    public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum) {
+    @Autowired
+    public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum, CrawlerTaskService crawlerTaskService) {
         this.semaphore = new Semaphore(sameTimeThreadMaxNum);
         this.executor = CrawlerThreadPoolFactory.getTaskThreadPool();
+        this.checkTaskFromTaskQueue();
+        this.crawlerTaskService = crawlerTaskService;
     }
 
     @Override
-    public RunningSpider runSpider(Task task) {
-        if (!Objects.equals(SecurityUtil.getCurrentUserId(), task.getCreateUserId())) {
-            throw new RuntimeException("user : " + SecurityUtil.getCurrentUserId() + " can't run task " + task.getId() + " because task create by : " + task.getCreateUserId());
-        }
+    public RunningSpider runSpider(CrawlerTask task) {
         //TODO: 限制一个用户最多使用的线程数, 临时固定为 50 个
 
 
         // 获取 template 构造 pageProcess
-        PageProcessor pageProcessor = generatePageProcessor(task);
-        if (pageProcessor == null) {
-            throw new RuntimeException("template page processor generate error");
-        }
+        PageProcessor pageProcessor = new TemplatePageProcessor(task.getTemplate());
 
         //TODO: set pageProcessor
         RunningSpider runningSpider = new RunningSpider(pageProcessor, task);
 
         executor.execute(() -> {
             try {
-                log.info("cur available thread", semaphore.availablePermits());
+                logger.info("cur available thread", semaphore.availablePermits());
                 semaphore.acquire();
                 runningSpider.run();
             } catch (InterruptedException e) {
@@ -69,15 +60,6 @@ public class SpiderManagerImpl implements SpiderManager {
         return runningSpider;
     }
 
-    // 获取 template 构造 pageProcess
-    private TemplatePageProcessor generatePageProcessor(Task task) {
-        Template template = templateService.findOne(task.getTemplateId());
-        if (template == null) {
-            return null;
-        }
-        return new TemplatePageProcessor(template);
-    }
-
     @Override
     public Collection<RunningSpider> getRunningSpiders() {
         return allRunningSpider;
@@ -85,6 +67,24 @@ public class SpiderManagerImpl implements SpiderManager {
 
     @Override
     public Collection<RunningSpider> getRunningSpidersByUserId(Long userId) {
-        return allRunningSpider.stream().filter(v -> v.getTask().getCreateUserId().equals(userId)).collect(Collectors.toList());
+        return allRunningSpider.stream().filter(v -> v.getTask().getTask().getCreateUserId().equals(userId)).collect(Collectors.toList());
+    }
+
+    private ScheduledExecutorService monitorScheduled;
+
+    private void checkTaskFromTaskQueue() {
+
+        logger.info("exec due task");
+        monitorScheduled = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                return new Thread(r, "check-task-schedule");
+            }
+        });
+        monitorScheduled.scheduleWithFixedDelay(() -> {
+            CrawlerTask crawlerTask = crawlerTaskService.take();
+
+            this.runSpider(crawlerTask);
+        }, 0, 1, TimeUnit.MINUTES);
     }
 }

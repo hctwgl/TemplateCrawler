@@ -1,5 +1,7 @@
 package com.seveniu.entity;
 
+import com.seveniu.entity.base.BaseAuditableEntity;
+import com.seveniu.entity.base.EntityStatus;
 import com.seveniu.security.SecurityUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

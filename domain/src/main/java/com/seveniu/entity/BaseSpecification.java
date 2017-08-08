@@ -1,6 +1,8 @@
 package com.seveniu.entity;
 
 
+import com.seveniu.entity.base.BaseAuditableEntity;
+import com.seveniu.entity.base.EntityStatus;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 

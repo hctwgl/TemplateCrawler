@@ -1,6 +1,6 @@
 package com.seveniu.manage.rest;
 
-import com.seveniu.entity.BaseAuditableEntity;
+import com.seveniu.entity.base.BaseAuditableEntity;
 import com.seveniu.entity.BaseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;

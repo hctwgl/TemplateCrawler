@@ -1,4 +1,5 @@
-package com.seveniu.util;
+package com.seveniu.common.html;
+
 
 import org.apache.commons.lang3.StringUtils;
 

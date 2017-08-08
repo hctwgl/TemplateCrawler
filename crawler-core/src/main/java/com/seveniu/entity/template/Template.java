@@ -3,7 +3,7 @@ package com.seveniu.entity.template;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.seveniu.common.json.Json;
-import com.seveniu.entity.BaseAuditableEntity;
+import com.seveniu.entity.base.BaseAuditableEntity;
 import com.seveniu.entity.template.structure.PageTemplate;
 
 import javax.persistence.Entity;

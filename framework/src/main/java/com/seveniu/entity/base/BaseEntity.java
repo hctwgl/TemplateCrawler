@@ -1,4 +1,4 @@
-package com.seveniu.entity;
+package com.seveniu.entity.base;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

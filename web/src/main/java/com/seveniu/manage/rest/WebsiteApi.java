@@ -1,6 +1,6 @@
 package com.seveniu.manage.rest;
 
-import com.seveniu.entity.website.Website;
+import com.seveniu.entity.Website;
 import com.seveniu.entity.website.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

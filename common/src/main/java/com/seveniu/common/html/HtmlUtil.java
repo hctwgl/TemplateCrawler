@@ -1,4 +1,4 @@
-package com.seveniu.util;
+package com.seveniu.common.html;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

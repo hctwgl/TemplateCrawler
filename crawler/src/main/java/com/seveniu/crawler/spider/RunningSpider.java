@@ -1,7 +1,6 @@
 package com.seveniu.crawler.spider;
 
-import com.seveniu.crawler.spider.pageProcessor.TemplatePageProcessor;
-import com.seveniu.entity.task.Task;
+import com.seveniu.entity.CrawlerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Request;
@@ -21,13 +20,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RunningSpider extends Spider {
     private static AtomicInteger allCount = new AtomicInteger();
     private Logger log = LoggerFactory.getLogger(this.getClass());
-    private Task task;
+    private CrawlerTask task;
     private Date timeCreated = new Date();
     private Date timeEnded;
     private SpiderCloseListener closeListener;
     private AtomicInteger errorPageCount;
 
-    public RunningSpider(PageProcessor pageProcessor, Task task) {
+    public RunningSpider(PageProcessor pageProcessor, CrawlerTask task) {
         super(pageProcessor);
         this.task = task;
     }
@@ -40,12 +39,12 @@ public class RunningSpider extends Spider {
     }
 
     private void init() {
-        this.setUUID("spider-" + allCount.getAndIncrement() + "-task-" + this.task.getId() + "-" + this.timeCreated.getTime())
+        this.setUUID("spider-" + allCount.getAndIncrement() + "-task-" + this.task.getTask().getId() + "-" + this.timeCreated.getTime())
                 .thread(
-                        Executors.newFixedThreadPool(task.getThreadNum(), CrawlerThreadPoolFactory.getSpiderThreadFactory(task)),
+                        Executors.newFixedThreadPool(task.getTask().getThreadNum(), CrawlerThreadPoolFactory.getSpiderThreadFactory(task.getTask().getId())),
 
-                        task.getThreadNum())
-                .addUrl(task.getStartUrlList())
+                        task.getTask().getThreadNum())
+                .addUrl(task.getTask().getStartUrlList())
                 .setSpiderListeners(Collections.singletonList(new Listener()))
         ;
         this.errorPageCount = new AtomicInteger();
@@ -58,7 +57,7 @@ public class RunningSpider extends Spider {
             closeListener.close();
         }
         this.timeEnded = new Date();
-        log.info("task : {} run from {} to {}, get page {}, error page: {}", this.task.getId(), this.timeCreated, this.timeEnded, this.getPageCount(), this.errorPageCount.get());
+        log.info("task : {} run from {} to {}, get page {}, error page: {}", this.task.getTask().getId(), this.timeCreated, this.timeEnded, this.getPageCount(), this.errorPageCount.get());
     }
 
     private class Listener implements SpiderListener {
@@ -75,11 +74,12 @@ public class RunningSpider extends Spider {
     }
 
     // get and set
-    public Task getTask() {
+
+    public CrawlerTask getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(CrawlerTask task) {
         this.task = task;
     }
 

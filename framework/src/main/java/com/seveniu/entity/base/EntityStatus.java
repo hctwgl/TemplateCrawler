@@ -1,4 +1,4 @@
-package com.seveniu.entity;
+package com.seveniu.entity.base;
 
 /**
  * Created by dhlz on 12/31/16.

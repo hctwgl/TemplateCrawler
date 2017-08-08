@@ -13,7 +13,7 @@ import java.util.Map;
  * *
  */
 public interface TaskService extends BaseService<Task, Long> {
-    void execDueTask();
+    void startMonitorDueTaskAndRun();
 
     void updateStatus(Long id, TaskRunStatus status);
 
