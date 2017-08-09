@@ -159,4 +159,12 @@ public class Task extends BaseAuditableEntity {
         this.priority = priority;
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", name=" + name + '\'' +
+                ", templateId=" + templateId +
+                '}';
+    }
 }

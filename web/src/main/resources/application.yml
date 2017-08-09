@@ -31,3 +31,9 @@ jwt:
       crossOrigin: http://localhost:9528
       path: auth
       refresh: refresh
+
+queue:
+  redis:
+    enable: true
+    host: 127.0.0.1
+    port: 6379

@@ -12,12 +12,14 @@ import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.List;
 
+import static com.seveniu.crawler.spider.Def.DATA_CONTENT_RESULT_KEY;
+import static com.seveniu.crawler.spider.Def.REQUEST_CONTEXT_KEY;
+
 /**
  * Created by seveniu on 7/24/17.
  * *
  */
 public class TemplatePageProcessor implements PageProcessor {
-    public static final String REQUEST_CONTEXT_KEY = "REQUEST_CONTEXT_KEY";
     private Template templateStructure;
 
     public TemplatePageProcessor(Template templateStructure) {
@@ -34,34 +36,43 @@ public class TemplatePageProcessor implements PageProcessor {
 
         boolean isInContentLayer = templateStructure.getContentLayer() >= requestContext.getCurTotalLayer();
         DataContent dataContentContext = requestContext.getDataContent();
-        // 页面内容
-        if (isInContentLayer) {
-            PageContent pageContent = pageParseResult.getPageContent();
-            if (dataContentContext == null) {
-                // root DataContent
-                dataContentContext = new DataContent(page.getUrl().get());
-            }
-            dataContentContext.getPageContents().set(requestContext.getCurPageNum(), pageContent);
-        }
-        // 下一级 url
-        List<String> urls = pageParseResult.getNextUrls();
-        for (String url : urls) {
-            RequestContext nextRequestContext = RequestContext.createNextLayerRequestContext(requestContext, isInContentLayer, url);
+        try {
+            // 页面内容
             if (isInContentLayer) {
-                DataContent nextDataContent = new DataContent(url);
-                dataContentContext.getChildren().add(nextDataContent);
-                nextRequestContext.setDataContent(nextDataContent);
+                PageContent pageContent = pageParseResult.getPageContent();
+                if (dataContentContext == null) {
+                    // root DataContent
+                    dataContentContext = new DataContent(page.getUrl().get());
+                }
+                dataContentContext.getPageContents().set(requestContext.getCurPageNum(), pageContent);
             }
-            page.addTargetRequest(new Request(url).putExtra(REQUEST_CONTEXT_KEY, nextRequestContext));
+            // 下一级 url
+            List<String> urls = pageParseResult.getNextUrls();
+            for (String url : urls) {
+                RequestContext nextRequestContext = RequestContext.createNextLayerRequestContext(requestContext, isInContentLayer, url);
+                if (isInContentLayer) {
+                    DataContent nextDataContent = new DataContent(url);
+                    dataContentContext.addChild(nextDataContent);
+                    nextRequestContext.setDataContent(nextDataContent);
+                }
+                page.addTargetRequest(new Request(url).putExtra(REQUEST_CONTEXT_KEY, nextRequestContext));
+            }
+
+            // 同一级 url
+            List<String> pageUrls = pageParseResult.getPageUrls();
+            for (String url : pageUrls) {
+                page.addTargetRequest(new Request(url).putExtra(REQUEST_CONTEXT_KEY, RequestContext.createNextPageRequestContext(requestContext)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (dataContentContext != null) {
+                DataContent doneDataContent = dataContentContext.done();
+                if (doneDataContent != null) {
+                    page.putField(DATA_CONTENT_RESULT_KEY, doneDataContent);
+                }
+            }
         }
-
-        // 同一级 url
-        List<String> pageUrls = pageParseResult.getPageUrls();
-        for (String url : pageUrls) {
-            page.addTargetRequest(new Request(url).putExtra(REQUEST_CONTEXT_KEY, RequestContext.createNextPageRequestContext(requestContext)));
-        }
-
-
     }
 
     private static RequestContext getRequestContext(Page page) {

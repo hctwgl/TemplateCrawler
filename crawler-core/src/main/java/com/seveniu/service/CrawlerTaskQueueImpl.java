@@ -17,16 +17,16 @@ public class CrawlerTaskQueueImpl implements CrawlerTaskService {
     @Autowired
     DataQueue dataQueue;
 
-    private static final String PREFIX = "task-";
+    private static final String CRAWLER_TASK_QUEUE_NAME = "crawler-task-queue";
 
 
     @Override
     public void add(Task task, Template template) {
-        dataQueue.push(PREFIX + task.getId(), Json.toJson(new CrawlerTask(task, template)));
+        dataQueue.push(CRAWLER_TASK_QUEUE_NAME, Json.toJson(new CrawlerTask(task, template)));
     }
 
     @Override
     public CrawlerTask take() {
-        return Json.toObject(dataQueue.pop(""), CrawlerTask.class);
+        return Json.toObject(dataQueue.pop(CRAWLER_TASK_QUEUE_NAME), CrawlerTask.class);
     }
 }

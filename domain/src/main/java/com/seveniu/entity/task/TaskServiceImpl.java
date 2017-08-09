@@ -3,15 +3,18 @@ package com.seveniu.entity.task;
 import com.seveniu.common.date.DateUtil;
 import com.seveniu.entity.BaseServiceImpl;
 import com.seveniu.entity.base.EntityStatus;
+import com.seveniu.entity.template.Template;
+import com.seveniu.entity.template.TemplateService;
 import com.seveniu.security.SecurityUtil;
+import com.seveniu.service.CrawlerTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -32,20 +35,36 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private final TaskRepository taskRepository;
 
-    @Value("${execDueTask:false}")
-    private boolean execDueTask;
+//    @Value("${execDueTask:false}")
+//    private boolean execDueTask;
 
 
     private ScheduledExecutorService monitorScheduled;
+    @Autowired
+    CrawlerTaskService crawlerTaskService;
+    @Autowired
+    TemplateService templateService;
 
+    @Override
     public Task getById(Long taskId) {
         return taskRepository.findOne(taskId);
+    }
+
+    @Override
+    public Task save(Task task) {
+        task.setNextRunTime(new Date());
+        task.setRunStatus(TaskRunStatus.DONE);
+        return super.save(task);
     }
 
     @Autowired
     public TaskServiceImpl(TaskRepository taskRepository) {
         super(taskRepository);
         this.taskRepository = taskRepository;
+    }
+
+    @PostConstruct
+    public void init() {
         this.startMonitorDueTaskAndRun();
     }
 
@@ -93,7 +112,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
 
 
     public List<Task> getDueTask() {
-        return taskRepository.getDueTask(EntityStatus.ACTIVE, TaskRunStatus.TODO);
+        return taskRepository.getDueTask(EntityStatus.ACTIVE, TaskRunStatus.DONE);
     }
 
     private static final int DEFAULT_TASK_PRIORITY = 1;
@@ -103,15 +122,15 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
      * 定时查询过期任务
      */
     public void startMonitorDueTaskAndRun() {
-        if (execDueTask) {
-            logger.info("exec due task");
-            monitorScheduled = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
-                @Override
-                public Thread newThread(Runnable r) {
-                    return new Thread(r, "exec-due-task-schedule");
-                }
-            });
-            monitorScheduled.scheduleWithFixedDelay(() -> {
+        logger.info("exec due task");
+        monitorScheduled = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                return new Thread(r, "exec-due-task-schedule");
+            }
+        });
+        monitorScheduled.scheduleWithFixedDelay(() -> {
+            try {
                 List<Task> taskList = getDueTask();
                 if (taskList == null) {
                     logger.warn(" get task list is null");
@@ -119,12 +138,26 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
                 }
                 logger.info(" check due task count : {}", taskList.size());
                 for (Task task : taskList) {
-                    runTask(task.getId(), DUE_TASK_PRIORITY);
                     logger.info("run due task : {}", task);
-                }
 
-            }, 0, 1, TimeUnit.MINUTES);
-        }
+                    if (task.getTemplateId() == null) {
+                        logger.warn("task : {} template id is null", task.getId());
+                        return;
+                    }
+                    Template template = templateService.findOne(task.getTemplateId());
+                    if (task.getTemplateId() == null) {
+                        logger.warn("task : {} template {} not find", task.getId(), task.getTemplateId());
+                        return;
+                    }
+                    crawlerTaskService.add(task, template);
+                    task.setRunStatus(TaskRunStatus.TODO);
+                    this.save(task);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }, 0, 10, TimeUnit.SECONDS);
     }
 
     public TaskRunStatus run(int uid, Long id) {
