@@ -82,9 +82,19 @@ public class SpiderManagerImpl implements SpiderManager {
             }
         });
         monitorScheduled.scheduleWithFixedDelay(() -> {
-            CrawlerTask crawlerTask = crawlerTaskService.take();
-
-            this.runSpider(crawlerTask);
-        }, 0, 1, TimeUnit.MINUTES);
+            while (true) {
+                try {
+                    CrawlerTask crawlerTask = crawlerTaskService.take();
+                    if (crawlerTask == null) {
+                        break;
+                    }
+                    this.runSpider(crawlerTask);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+            logger.info("no task ... ");
+        }, 0, 30, TimeUnit.SECONDS);
     }
 }

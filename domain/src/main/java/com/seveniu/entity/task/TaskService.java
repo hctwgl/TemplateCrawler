@@ -49,6 +49,6 @@ public interface TaskService extends BaseService<Task, Long> {
 
     List<Task> limit(Integer user, int i, int pagesize, String orderColumn, String orderType);
 
-    Page<Task> findSelfCreate(Pageable pageable);
+    Page<Task> findCreateByUser(Long userId, Pageable pageable);
 
 }

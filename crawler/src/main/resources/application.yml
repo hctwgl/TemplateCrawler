@@ -1,0 +1,23 @@
+spring:
+  mail:
+    host: smtp.mxhichina.com
+    port: 25
+    protocol: smtp
+    username: sender@seveniu.com
+    password: xPFY6O#hxWp!
+  datasource:
+    validationQuery: SELECT 1
+    url: jdbc:mysql://127.0.0.1:3306/crawler?relaxAutoCommit=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;autoReconnect=true
+    username: root
+    password: passw0rd
+    #driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+queue:
+  redis:
+    enable: true
+    host: 127.0.0.1
+    port: 6379

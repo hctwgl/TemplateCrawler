@@ -1,14 +1,14 @@
-package com.seveniu.entity;
+package entity;
 
-import com.seveniu.FrameworkConfig;
+import com.seveniu.AuthConfig;
+import com.seveniu.entity.User;
+import com.seveniu.entity.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 //@ContextConfiguration(classes = FrameworkConfig.class)
 //@ContextConfiguration(classes = FrameworkConfig.class, initializers = ConfigFileApplicationContextInitializer.class)
-@SpringBootTest(classes = FrameworkConfig.class)
+@SpringBootTest(classes = AuthConfig.class)
 //@ActiveProfiles("test")
 public class UserServiceImplTest {
     @Autowired

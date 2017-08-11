@@ -27,6 +27,10 @@ public class CrawlerTaskQueueImpl implements CrawlerTaskService {
 
     @Override
     public CrawlerTask take() {
-        return Json.toObject(dataQueue.pop(CRAWLER_TASK_QUEUE_NAME), CrawlerTask.class);
+        String data = dataQueue.pop(CRAWLER_TASK_QUEUE_NAME);
+        if (data == null) {
+            return null;
+        }
+        return Json.toObject(data, CrawlerTask.class);
     }
 }

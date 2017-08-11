@@ -2,7 +2,6 @@ package com.seveniu.entity;
 
 import com.seveniu.entity.base.BaseAuditableEntity;
 import com.seveniu.entity.base.EntityStatus;
-import com.seveniu.security.SecurityUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -43,13 +42,9 @@ public abstract class BaseServiceImpl<T extends BaseAuditableEntity, ID extends 
 
     @Override
     public T save(T t) {
-        Long userId = SecurityUtil.getCurrentUserId();
-//        Long userId = 1L;
         if (t.getId() != null) { // update
-            t.setUpdatedBy(userId);
             t.setTimeUpdated(new Date());
         } else {
-            t.setCreatedBy(userId); // create
             t.setTimeCreated(new Date());
             t.setStatus(EntityStatus.ACTIVE);
         }

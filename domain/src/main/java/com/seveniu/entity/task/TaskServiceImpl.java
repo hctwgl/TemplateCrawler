@@ -5,7 +5,6 @@ import com.seveniu.entity.BaseServiceImpl;
 import com.seveniu.entity.base.EntityStatus;
 import com.seveniu.entity.template.Template;
 import com.seveniu.entity.template.TemplateService;
-import com.seveniu.security.SecurityUtil;
 import com.seveniu.service.CrawlerTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,8 +105,8 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
     }
 
     @Override
-    public Page<Task> findSelfCreate(Pageable pageable) {
-        return taskRepository.findByCreateUserId(SecurityUtil.getCurrentUserId(), pageable);
+    public Page<Task> findCreateByUser(Long userId, Pageable pageable) {
+        return taskRepository.findByCreateUserId(userId, pageable);
     }
 
 
