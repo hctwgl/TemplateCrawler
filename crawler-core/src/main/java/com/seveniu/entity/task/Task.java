@@ -1,7 +1,6 @@
 package com.seveniu.entity.task;
 
 
-import com.seveniu.common.json.Json;
 import com.seveniu.entity.base.BaseAuditableEntity;
 
 import javax.persistence.*;
@@ -109,13 +108,13 @@ public class Task extends BaseAuditableEntity {
 
     public String[] getStartUrlList() {
         if (startUrlList == null && this.startUrls != null) {
-            return Json.toObject(this.startUrls, String[].class);
+            return this.startUrls.split("\\r?\\n");
         }
         return this.startUrlList;
     }
 
     public void setStartUrlList(String[] startUrlList) {
-        this.startUrls = Json.toJson(this.startUrlList);
+        this.startUrls = String.join("\n", startUrlList);
         this.startUrlList = startUrlList;
     }
 

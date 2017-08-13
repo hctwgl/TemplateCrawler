@@ -3,6 +3,8 @@ package com.seveniu.entity.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Transient;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -53,6 +55,15 @@ public class DataContent {
         this.children.add(child);
         child.parent = this;
         this.allChildrenCount.getAndIncrement();
+    }
+
+    public DataContent addPage(PageContent pageContent) {
+        if (this.pageContents == null) {
+            this.pageContents = new LinkedList<>();
+        }
+        this.pageContents.add(pageContent);
+        this.pageContents.sort(Comparator.comparingInt(PageContent::getIndex));
+        return this;
     }
 
     /**

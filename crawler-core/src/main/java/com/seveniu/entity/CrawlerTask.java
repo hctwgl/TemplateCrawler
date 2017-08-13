@@ -11,6 +11,9 @@ public class CrawlerTask {
     private Task task;
     private Template template;
 
+    public CrawlerTask() {
+    }
+
     public CrawlerTask(Task task, Template template) {
         this.task = task;
         this.template = template;

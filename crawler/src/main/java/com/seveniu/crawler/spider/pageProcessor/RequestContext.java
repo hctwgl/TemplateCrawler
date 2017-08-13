@@ -8,8 +8,8 @@ import com.seveniu.entity.data.DataContent;
  */
 public class RequestContext {
     private int curTotalLayer = 0; // 初始化
-    private int curContentLayer = 0;
-    private int curPageNum = 0;
+    private int curContentLayer = 0; // 层数，从0开始
+    private int curPageNum = 0; // 同一层 页数， 从 0 开始
     private DataContent dataContent;
 
     public int getCurTotalLayer() {

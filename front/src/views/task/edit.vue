@@ -3,12 +3,10 @@
         <el-form autoComplete="on" :model="formData" :rules="loginRules" ref="formData" label-position="left" label-width="0px"
         class="card-box login-form">
             <h3 class="title">编辑</h3>
-            <el-form-item prop="username">
-                <span class="svg-container"> <icon-svg icon-class="jiedianyoujian"></icon-svg> </span>
+            <el-form-item prop="username" label="任务名">
                 <el-input name="name" type="text" v-model="formData.name" autoComplete="on" placeholder="任务名"></el-input>
             </el-form-item>
-            <el-form-item prop="username">
-                <span class="svg-container"> <icon-svg icon-class="jiedianyoujian"></icon-svg> </span>
+            <el-form-item prop="username" label="搜索">
                 <query-select :api="templateApi" v-on:change="handleTemplateChange" ref="templateSelect"></query-select>
             </el-form-item>
             <el-form-item prop="username">

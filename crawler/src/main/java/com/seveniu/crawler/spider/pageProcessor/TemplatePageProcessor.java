@@ -44,7 +44,7 @@ public class TemplatePageProcessor implements PageProcessor {
                     // root DataContent
                     dataContentContext = new DataContent(page.getUrl().get());
                 }
-                dataContentContext.getPageContents().set(requestContext.getCurPageNum(), pageContent);
+                dataContentContext.addPage(pageContent);
             }
             // 下一级 url
             List<String> urls = pageParseResult.getNextUrls();
@@ -86,6 +86,6 @@ public class TemplatePageProcessor implements PageProcessor {
 
     @Override
     public Site getSite() {
-        return null;
+        return Site.me();
     }
 }

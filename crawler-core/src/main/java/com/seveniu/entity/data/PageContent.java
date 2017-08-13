@@ -8,8 +8,17 @@ import java.util.List;
  * *
  */
 public class PageContent {
+    private int index = 0;
     private String url;
     private List<FieldContent> fieldContents;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     public String getUrl() {
         return url;

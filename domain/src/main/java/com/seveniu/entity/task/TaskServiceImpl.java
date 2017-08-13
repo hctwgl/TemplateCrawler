@@ -148,6 +148,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
                         logger.warn("task : {} template {} not find", task.getId(), task.getTemplateId());
                         return;
                     }
+                    logger.info("run task : {}", task.getId());
                     crawlerTaskService.add(task, template);
                     task.setRunStatus(TaskRunStatus.TODO);
                     this.save(task);

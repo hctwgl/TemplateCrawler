@@ -38,7 +38,7 @@ public class TemplatePageParse {
                     pageParseResult.setPageUrls(urls);
                     break;
                 case HTML_TEXT:
-                    fieldContents.add(parseContent(html, field));
+                    fieldContents.add(parseHtmlContent(html, field));
                     break;
                 case NEXT_LINK:
                     List<String> nextUrls = parseNextLinkLabel(html, field);
@@ -86,16 +86,22 @@ public class TemplatePageParse {
         return null;
     }
 
-    private static FieldContent parseContent(Html html, Field field) {
+    private static FieldContent parseHtmlContent(Html html, Field field) {
         Selectable selectable = parseBase(html, field);
         if (selectable == null || !selectable.match()) {
             return null;
         }
-        String content = selectable.get();
-        if (content == null || content.length() == 0) {
-            content = field.getDefaultValue();
+        List<String> contents;
+        if (field.isMultiple()) {
+            contents = selectable.all();
+        } else {
+            String content = trim(selectable.get());
+            if (content == null || content.length() == 0) {
+                content = field.getDefaultValue();
+            }
+            contents = Collections.singletonList(content);
         }
-        return new FieldContent(field, Collections.singletonList(content));
+        return new FieldContent(field, contents);
     }
 
     private static FieldContent parsePureContent(Html html, Field field) {
@@ -247,4 +253,12 @@ public class TemplatePageParse {
         return -1;
     }
 
+
+    private static String trim(String text) {
+        String result = null;
+        if (text != null) {
+            result = text.trim();
+        }
+        return result;
+    }
 }

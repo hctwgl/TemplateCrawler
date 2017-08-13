@@ -29,6 +29,14 @@ public class RunningSpider extends Spider {
     public RunningSpider(PageProcessor pageProcessor, CrawlerTask task) {
         super(pageProcessor);
         this.task = task;
+        this.setUUID("spider-" + allCount.getAndIncrement() + "-task-" + this.task.getTask().getId() + "-" + this.timeCreated.getTime())
+                .thread(
+                        Executors.newFixedThreadPool(task.getTask().getThreadNum(), CrawlerThreadPoolFactory.getSpiderThreadFactory(task.getTask().getId())),
+
+                        task.getTask().getThreadNum())
+                .addUrl(task.getTask().getStartUrlList())
+                .setSpiderListeners(Collections.singletonList(new Listener()))
+        ;
     }
 
     @Override
@@ -39,14 +47,6 @@ public class RunningSpider extends Spider {
     }
 
     private void init() {
-        this.setUUID("spider-" + allCount.getAndIncrement() + "-task-" + this.task.getTask().getId() + "-" + this.timeCreated.getTime())
-                .thread(
-                        Executors.newFixedThreadPool(task.getTask().getThreadNum(), CrawlerThreadPoolFactory.getSpiderThreadFactory(task.getTask().getId())),
-
-                        task.getTask().getThreadNum())
-                .addUrl(task.getTask().getStartUrlList())
-                .setSpiderListeners(Collections.singletonList(new Listener()))
-        ;
         this.errorPageCount = new AtomicInteger();
     }
 

@@ -1,6 +1,7 @@
 package com.seveniu.crawler.spider;
 
 import com.seveniu.crawler.spider.pageProcessor.TemplatePageProcessor;
+import com.seveniu.crawler.spider.pipeline.ConsolePipeline;
 import com.seveniu.entity.CrawlerTask;
 import com.seveniu.service.CrawlerTaskService;
 import org.slf4j.Logger;
@@ -8,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -25,13 +28,15 @@ public class SpiderManagerImpl implements SpiderManager {
     private LinkedBlockingQueue<RunningSpider> allRunningSpider = new LinkedBlockingQueue<>();
     private final Semaphore semaphore;
     private final CrawlerTaskService crawlerTaskService;
+    private List<Pipeline> pipelines;
 
     @Autowired
-    public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum, CrawlerTaskService crawlerTaskService) {
+    public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum, CrawlerTaskService crawlerTaskService,@Autowired(required = false) List<Pipeline> pipelines) {
         this.semaphore = new Semaphore(sameTimeThreadMaxNum);
         this.executor = CrawlerThreadPoolFactory.getTaskThreadPool();
         this.checkTaskFromTaskQueue();
         this.crawlerTaskService = crawlerTaskService;
+        this.pipelines = pipelines;
     }
 
     @Override
@@ -42,8 +47,10 @@ public class SpiderManagerImpl implements SpiderManager {
         // 获取 template 构造 pageProcess
         PageProcessor pageProcessor = new TemplatePageProcessor(task.getTemplate());
 
-        //TODO: set pageProcessor
         RunningSpider runningSpider = new RunningSpider(pageProcessor, task);
+        if (pipelines == null || pipelines.size() == 0) {
+            runningSpider.addPipeline(new ConsolePipeline());
+        }
 
         executor.execute(() -> {
             try {
