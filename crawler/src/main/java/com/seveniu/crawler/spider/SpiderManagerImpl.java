@@ -3,14 +3,18 @@ package com.seveniu.crawler.spider;
 import com.seveniu.crawler.spider.pageProcessor.TemplatePageProcessor;
 import com.seveniu.crawler.spider.pipeline.ConsolePipeline;
 import com.seveniu.entity.CrawlerTask;
+import com.seveniu.entity.template.Template;
 import com.seveniu.service.CrawlerTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.scheduler.QueueScheduler;
+import us.codecraft.webmagic.scheduler.Scheduler;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +35,7 @@ public class SpiderManagerImpl implements SpiderManager {
     private List<Pipeline> pipelines;
 
     @Autowired
-    public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum, CrawlerTaskService crawlerTaskService,@Autowired(required = false) List<Pipeline> pipelines) {
+    public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum, CrawlerTaskService crawlerTaskService, @Autowired(required = false) List<Pipeline> pipelines) {
         this.semaphore = new Semaphore(sameTimeThreadMaxNum);
         this.executor = CrawlerThreadPoolFactory.getTaskThreadPool();
         this.checkTaskFromTaskQueue();
@@ -44,10 +48,18 @@ public class SpiderManagerImpl implements SpiderManager {
         //TODO: 限制一个用户最多使用的线程数, 临时固定为 50 个
 
 
+        Scheduler scheduler;
         // 获取 template 构造 pageProcess
+        Template template = task.getTemplate();
+        if (template.getContentStartLayer() + 1 == template.getPageStructure().size()) {
+            scheduler = new NormalScheduler();
+        } else {
+            scheduler = new QueueScheduler();
+        }
         PageProcessor pageProcessor = new TemplatePageProcessor(task.getTemplate());
 
         RunningSpider runningSpider = new RunningSpider(pageProcessor, task);
+        runningSpider.setScheduler(scheduler);
         if (pipelines == null || pipelines.size() == 0) {
             runningSpider.addPipeline(new ConsolePipeline());
         }

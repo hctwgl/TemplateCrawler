@@ -2,14 +2,17 @@ package com.seveniu.crawler.spider.pageProcessor;
 
 import com.seveniu.entity.data.DataContent;
 
+import javax.persistence.Transient;
+
 /**
  * Created by seveniu on 7/24/17.
  * *
  */
 public class RequestContext {
-    private int curTotalLayer = 0; // 初始化
-    private int curContentLayer = 0; // 层数，从0开始
+    private int curTotalLayer = 0; //记录总层数 初始化
+    private int curContentLayer = 0; // 当前层数，从0开始
     private int curPageNum = 0; // 同一层 页数， 从 0 开始
+    @Transient
     private DataContent dataContent;
 
     public int getCurTotalLayer() {

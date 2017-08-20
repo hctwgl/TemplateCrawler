@@ -21,20 +21,28 @@ import static com.seveniu.crawler.spider.Def.REQUEST_CONTEXT_KEY;
  */
 public class TemplatePageProcessor implements PageProcessor {
     private Template templateStructure;
+    private static final int PREVENT_CYCLE_LAYER = 8;
 
     public TemplatePageProcessor(Template templateStructure) {
         this.templateStructure = templateStructure;
     }
+    // 错误处理
+    // 防止循环
+    // 层级结构 不用 排重的 downloader
 
 
     @Override
     public void process(Page page) {
         // 获取上下文
         RequestContext requestContext = getRequestContext(page);
+        if (requestContext.getCurTotalLayer() > PREVENT_CYCLE_LAYER) {
+            requestContext.getDataContent().done();
+        }
+
         // 解析页面
         PageParseResult pageParseResult = TemplatePageParse.parse(templateStructure.getPageStructure().get(requestContext.getCurTotalLayer()), page);
 
-        boolean isInContentLayer = templateStructure.getContentLayer() >= requestContext.getCurTotalLayer();
+        boolean isInContentLayer = templateStructure.getContentStartLayer() >= requestContext.getCurTotalLayer();
         DataContent dataContentContext = requestContext.getDataContent();
         try {
             // 页面内容

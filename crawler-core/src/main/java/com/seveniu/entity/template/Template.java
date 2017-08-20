@@ -23,7 +23,7 @@ public class Template extends BaseAuditableEntity {
     @Lob
     @JsonIgnore
     private String structure;
-    private int contentLayer = 1; // 0 表示起始 url 开始就是 内容层级， 1 表示从起始url 的下层url 开始是内容层级
+    private int contentStartLayer = 1; // 0 表示起始 url 开始就是 内容层级， 1 表示从起始url 的下层url 开始是内容层级
 
     @Transient
     private List<PageTemplate> pageStructure;
@@ -58,12 +58,12 @@ public class Template extends BaseAuditableEntity {
         this.websiteId = websiteId;
     }
 
-    public int getContentLayer() {
-        return contentLayer;
+    public int getContentStartLayer() {
+        return contentStartLayer;
     }
 
-    public void setContentLayer(int contentLayer) {
-        this.contentLayer = contentLayer;
+    public void setContentStartLayer(int contentStartLayer) {
+        this.contentStartLayer = contentStartLayer;
     }
 
     public List<PageTemplate> getPageStructure() {

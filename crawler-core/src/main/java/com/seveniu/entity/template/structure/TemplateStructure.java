@@ -33,11 +33,11 @@
 //        return pageTemplates.size();
 //    }
 //
-//    public int getContentLayer() {
+//    public int getContentStartLayer() {
 //        return contentLayer;
 //    }
 //
-//    public void setContentLayer(int contentLayer) {
+//    public void setContentStartLayer(int contentLayer) {
 //        this.contentLayer = contentLayer;
 //    }
 //
