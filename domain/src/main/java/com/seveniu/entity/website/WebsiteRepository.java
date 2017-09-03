@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface WebsiteRepository extends BaseRepository<Website, Long> {
+    Website findByDomain(String domain);
 }

@@ -25,7 +25,8 @@ jwt:
   secret: mySecret
   expiration: 604800
   cookie:
-    domain: localhost:9528
+    enable: true
+#    domain: localhost:9528
   route:
     authentication:
       crossOrigin: http://localhost:9528

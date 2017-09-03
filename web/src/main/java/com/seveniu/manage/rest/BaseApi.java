@@ -16,39 +16,39 @@ import java.util.Collections;
  * *
  */
 public class BaseApi<T extends BaseAuditableEntity, KEY> {
-    private BaseService<T, KEY> baseService;
+    protected BaseService<T, KEY> baseService;
 
     public BaseApi(BaseService<T, KEY> baseService) {
         this.baseService = baseService;
     }
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    private T add(@RequestBody T t) {
+    protected T add(@RequestBody T t) {
         return baseService.save(t);
     }
 
     @RequestMapping(path = "/delete/{id}", method = RequestMethod.DELETE)
-    private void delete(@RequestParam("id") KEY id) {
+    protected void delete(@RequestParam("id") KEY id) {
         baseService.delete(id);
     }
 
     @RequestMapping(path = "/edit", method = RequestMethod.PUT)
-    private T edit(@RequestBody T t) {
+    protected T edit(@RequestBody T t) {
         return baseService.save(t);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    private T findOne(@PathVariable("id") KEY id) {
+    protected T findOne(@PathVariable("id") KEY id) {
         return baseService.findOne(id);
     }
 
     @RequestMapping(path = "/page", method = RequestMethod.GET)
-    private Page<T> page(@PageableDefault Pageable pageable) {
+    protected Page<T> page(@PageableDefault Pageable pageable) {
         return baseService.findAll(pageable);
     }
 
     @RequestMapping(path = "/query", method = RequestMethod.GET)
-    private Page<T> query(@RequestParam(value = "field", defaultValue = "name") String field, @RequestParam("q") String q, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+    protected Page<T> query(@RequestParam(value = "field", defaultValue = "name") String field, @RequestParam("q") String q, @PageableDefault(page = 0, size = 10) Pageable pageable) {
         if (StringUtils.isNotBlank(q)) {
             return baseService.query(null, field, q, pageable);
         } else {

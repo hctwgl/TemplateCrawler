@@ -3,8 +3,7 @@ package com.seveniu.manage.rest;
 import com.seveniu.entity.Website;
 import com.seveniu.entity.website.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by seveniu on 7/27/17.
@@ -19,6 +18,23 @@ public class WebsiteApi extends BaseApi<Website, Long> {
     public WebsiteApi(WebsiteService websiteService) {
         super(websiteService);
         this.websiteService = websiteService;
+    }
+
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
+    public Website add(@RequestBody Website t) {
+        String domain = t.getDomain();
+        Website website = websiteService.findOneByDomain(domain);
+        if (website == null) {
+            return websiteService.save(t);
+        }
+        return website;
+    }
+
+    @RequestMapping("domain")
+    public Website getByDomain(@RequestParam("value") String domain) {
+        Website website = this.websiteService.findOneByDomain(domain);
+        System.out.println(website);
+        return website;
     }
 
 }

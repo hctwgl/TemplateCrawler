@@ -10,4 +10,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface WebsiteService extends BaseService<Website, Long> {
+    Website findOneByDomain(String domain);
 }

@@ -11,9 +11,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class WebsiteServiceImpl extends BaseServiceImpl<Website, Long> implements WebsiteService {
+    private WebsiteRepository websiteRepository;
 
     @Autowired
     public WebsiteServiceImpl(WebsiteRepository repository) {
         super(repository);
+        this.websiteRepository = repository;
+    }
+
+    @Override
+    public Website findOneByDomain(String domain) {
+        return websiteRepository.findByDomain(domain);
     }
 }

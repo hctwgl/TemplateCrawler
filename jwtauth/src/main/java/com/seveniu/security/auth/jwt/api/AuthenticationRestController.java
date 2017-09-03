@@ -34,7 +34,7 @@ public class AuthenticationRestController {
     private Integer expiration;
     @Value("${jwt.cookie.enable:false}")
     private Boolean cookieEnable;
-    @Value("${jwt.cookie.domain}")
+    @Value("${jwt.cookie.domain:}")
     private String domain;
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -47,6 +47,9 @@ public class AuthenticationRestController {
     @CrossOrigin(origins = "${jwt.route.authentication.crossOrigin}", methods = {RequestMethod.POST, RequestMethod.OPTIONS})
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(String username, String password, HttpServletResponse response) throws AuthenticationException {
+        if (username == null || password == null) {
+            return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).build();
+        }
         // Perform the security
         final Authentication authentication;
         try {
@@ -84,7 +87,7 @@ public class AuthenticationRestController {
             response.addCookie(jwtTokenUtil.generateJwtCookie(refreshedToken));
             return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
         } else {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).build();
         }
     }
 }
