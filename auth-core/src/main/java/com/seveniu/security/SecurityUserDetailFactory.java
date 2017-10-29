@@ -16,13 +16,8 @@ public final class SecurityUserDetailFactory {
 
     public static SecurityUserDetails create(User user) {
         return new SecurityUserDetails(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword(),
-                mapToGrantedAuthorities(user.getAuthorities()),
-                user.getEnabled(),
-                user.getLastPasswordResetDate()
+                user,
+                mapToGrantedAuthorities(user.getAuthorities())
         );
     }
 

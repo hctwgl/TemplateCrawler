@@ -1,5 +1,8 @@
 package com.seveniu.security.auth.jwt.api;
 
+import com.seveniu.entity.User;
+import com.seveniu.entity.UserService;
+import com.seveniu.security.SecurityUserDetails;
 import com.seveniu.security.auth.jwt.jwt.JwtAuthenticationResponse;
 import com.seveniu.security.auth.jwt.jwt.JwtTokenUtil;
 import org.slf4j.Logger;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
 public class AuthenticationRestController {
     private static Logger logger = LoggerFactory.getLogger(AuthenticationRestController.class);
     @Value("${jwt.header}")
@@ -44,7 +48,6 @@ public class AuthenticationRestController {
     private UserDetailsService userDetailsService;
 
 
-    @CrossOrigin(origins = "${jwt.route.authentication.crossOrigin}", methods = {RequestMethod.POST, RequestMethod.OPTIONS})
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(String username, String password, HttpServletResponse response) throws AuthenticationException {
         if (username == null || password == null) {
@@ -89,5 +92,21 @@ public class AuthenticationRestController {
         } else {
             return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).build();
         }
+    }
+
+    //    @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.OPTIONS})
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public User getCur(HttpServletRequest request, HttpServletResponse response) {
+        String token = jwtTokenUtil.getToken(request);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            if (jwtTokenUtil.validateToken(token, userDetails)) {
+                return ((SecurityUserDetails)userDetails).getUser();
+            }
+        }
+        ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).build();
+        return null;
     }
 }

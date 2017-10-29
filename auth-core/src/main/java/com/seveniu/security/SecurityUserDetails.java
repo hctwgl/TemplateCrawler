@@ -1,5 +1,6 @@
 package com.seveniu.security;
 
+import com.seveniu.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,22 +16,20 @@ public class SecurityUserDetails implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean enabled;
     private final Date lastPasswordResetDate;
+    private User user;
 
     public SecurityUserDetails(
-            Long id,
-            String username,
-            String email,
-            String password, Collection<? extends GrantedAuthority> authorities,
-            boolean enabled,
-            Date lastPasswordResetDate
+            User user,
+            Collection<? extends GrantedAuthority> authorities
     ) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
         this.authorities = authorities;
-        this.enabled = enabled;
-        this.lastPasswordResetDate = lastPasswordResetDate;
+        this.enabled = user.getEnabled();
+        this.lastPasswordResetDate = user.getLastPasswordResetDate();
+        this.user = user;
     }
 
     //    @JsonIgnore
@@ -84,6 +83,10 @@ public class SecurityUserDetails implements UserDetails {
     //    @JsonIgnore
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
+    }
+
+    public User getUser() {
+        return user;
     }
 
 }

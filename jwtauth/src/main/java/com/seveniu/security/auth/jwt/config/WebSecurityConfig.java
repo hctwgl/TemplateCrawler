@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.cors().and()
                 .csrf()//Disabled CSRF protection
                 .disable();
 
@@ -52,6 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(LOGIN_URL).permitAll()
                 .antMatchers(AUTH_URL).permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/auth/**").permitAll()//allow CORS option calls
+                .antMatchers(HttpMethod.GET, "/auth/**").permitAll()//allow CORS option calls
+                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()//allow CORS option calls
                 .antMatchers("/api/**").authenticated()//allow CORS option calls
                 .anyRequest().permitAll()
                 .and()

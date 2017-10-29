@@ -1,6 +1,8 @@
 package com.seveniu.entity.template;
 
 import com.seveniu.entity.BaseRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -8,5 +10,7 @@ import org.springframework.stereotype.Repository;
  * *
  */
 @Repository
-public interface TemplateRepository<T extends Template> extends BaseRepository<T, Long> {
+public interface TemplateRepository extends BaseRepository<Template, Long> {
+
+    Page<Template> findByWebsiteId(Long websiteId, Pageable pageable);
 }

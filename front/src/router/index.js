@@ -26,6 +26,7 @@ const TaskPage = _import('task/page');
 const TaskEdit = _import('task/edit');
 const TemplatePage = _import('template/page');
 const TemplateEdit = _import('template/edit');
+const ParsePage = _import('parse/parse');
 
 Vue.use(Router);
 
@@ -125,4 +126,13 @@ export const asyncRouterMap = [
       { path: 'edit/:id', component: TemplateEdit, name: 'templateEdit', icon: 'zonghe', hidden: true }
     ]
   },
+  {
+    path: '/parse',
+    component: Layout,
+    redirect: '/parse/parse',
+    name: 'ParsePage',
+    icon: 'zujian',
+    noDropdown: true,
+    children: [{ path: 'index', component: ParsePage, name: 'TableIndex', meta: { role: ['admin'] } }]
+  }
 ];

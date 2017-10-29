@@ -2,6 +2,7 @@ package com.seveniu.manage.rest;
 
 import com.seveniu.entity.Website;
 import com.seveniu.entity.website.WebsiteService;
+import com.seveniu.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * *
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/api/website")
 public class WebsiteApi extends BaseApi<Website, Long> {
     private final WebsiteService websiteService;
@@ -25,6 +27,8 @@ public class WebsiteApi extends BaseApi<Website, Long> {
         String domain = t.getDomain();
         Website website = websiteService.findOneByDomain(domain);
         if (website == null) {
+            Long curUserId = SecurityUtil.getCurrentUserId();
+            t.setCreatedBy(curUserId);
             return websiteService.save(t);
         }
         return website;

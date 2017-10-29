@@ -2,6 +2,7 @@ package com.seveniu.manage.rest;
 
 import com.seveniu.entity.base.BaseAuditableEntity;
 import com.seveniu.entity.BaseService;
+import com.seveniu.security.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,6 +25,8 @@ public class BaseApi<T extends BaseAuditableEntity, KEY> {
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     protected T add(@RequestBody T t) {
+        Long curUserId = SecurityUtil.getCurrentUserId();
+        t.setCreatedBy(curUserId);
         return baseService.save(t);
     }
 

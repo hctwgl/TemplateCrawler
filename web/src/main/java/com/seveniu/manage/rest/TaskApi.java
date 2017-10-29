@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/task")
-public class TasKApi extends BaseApi<Task, Long> {
+public class TaskApi extends BaseApi<Task, Long> {
     private final TaskService taskService;
 
     @Autowired
-    public TasKApi(TaskService taskService) {
+    public TaskApi(TaskService taskService) {
         super(taskService);
         this.taskService = taskService;
     }
