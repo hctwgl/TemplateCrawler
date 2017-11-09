@@ -17,13 +17,17 @@ import java.util.List;
  */
 @Entity
 public class Template extends BaseAuditableEntity {
+    public static final int PREVENT_CYCLE_LAYER = 8;
     private String name;
     private Long websiteId;
 
     @Lob
     @JsonIgnore
     private String structure;
-    private int contentStartLayer = 1; // 0 表示起始 url 开始就是 内容层级， 1 表示从起始url 的下层url 开始是内容层级
+    // 0 表示起始 url 开始就是 内容层级
+    // 1 表示从起始url 的下层url 开始是内容层级
+    // -1 表示模板为非层级模板，都是内容页，需要通过Page url 匹配
+    private int contentStartLayer = 1;
 
     @Transient
     private List<PageTemplate> pageStructure;

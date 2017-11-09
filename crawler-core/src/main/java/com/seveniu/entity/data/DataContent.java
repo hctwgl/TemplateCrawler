@@ -3,15 +3,14 @@ package com.seveniu.entity.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Transient;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * Created by seveniu on 7/22/17.
  * url 对应的 content
+ * 线程不安全
  * *
  */
 public class DataContent {
@@ -22,7 +21,7 @@ public class DataContent {
     }
 
     private String url;
-    private List<PageContent> pageContents;
+    private Map<Integer, PageContent> pageContents;
     private List<DataContent> children;
     @Transient
     @JsonIgnore
@@ -39,11 +38,7 @@ public class DataContent {
     }
 
     public List<PageContent> getPageContents() {
-        return pageContents;
-    }
-
-    public void setPageContents(List<PageContent> pageContents) {
-        this.pageContents = pageContents;
+        return pageContents.entrySet().stream().sorted(Comparator.comparingInt(Map.Entry::getKey)).map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
     public List<DataContent> getChildren() {
@@ -64,19 +59,18 @@ public class DataContent {
         this.allChildrenCount.getAndIncrement();
     }
 
-    public DataContent addPage(PageContent pageContent) {
+    public synchronized DataContent addPage(PageContent pageContent, int index) {
         if (this.pageContents == null) {
-            this.pageContents = new LinkedList<>();
+            this.pageContents = new HashMap<>();
         }
-        this.pageContents.add(pageContent);
-        this.pageContents.sort(Comparator.comparingInt(PageContent::getIndex));
+        this.pageContents.put(index, pageContent);
         return this;
     }
 
     /**
      * 递归向上遍历父节点，判断是否完成. 没有完成 返回 null；直到根节点都完成，则返回 根节点
      */
-    public DataContent error() {
+    public synchronized DataContent error() {
         this.error = true;
         if (this.allChildrenCount.get() == this.doneChildrenCount.get()) {
             if (this.parent == null) {
@@ -87,10 +81,11 @@ public class DataContent {
         }
         return null;
     }
+
     /**
      * 递归向上遍历父节点，判断是否完成. 没有完成 返回 null；直到根节点都完成，则返回 根节点
      */
-    public DataContent done() {
+    public synchronized DataContent done() {
         if (this.allChildrenCount.get() == this.doneChildrenCount.get()) {
             if (this.parent == null) {
                 return this;

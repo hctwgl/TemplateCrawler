@@ -10,7 +10,7 @@ import java.util.List;
  * *
  */
 public class PageParseResult {
-    private List<String> nextUrls; // 下一层 url
+    private List<String> nextLevelUrls; // 下一层 url
     private List<String> pageUrls; // 同级页面 url
     private PageContent pageContent; // 页面内容
 
@@ -19,15 +19,15 @@ public class PageParseResult {
         this.pageContent.setUrl(url);
     }
 
-    public List<String> getNextUrls() {
-        if (nextUrls == null) {
+    public List<String> getNextLevelUrls() {
+        if (nextLevelUrls == null) {
             return Collections.emptyList();
         }
-        return nextUrls;
+        return nextLevelUrls;
     }
 
-    public void setNextUrls(List<String> nextUrls) {
-        this.nextUrls = nextUrls;
+    public void setNextLevelUrls(List<String> nextLevelUrls) {
+        this.nextLevelUrls = nextLevelUrls;
     }
 
     public List<String> getPageUrls() {

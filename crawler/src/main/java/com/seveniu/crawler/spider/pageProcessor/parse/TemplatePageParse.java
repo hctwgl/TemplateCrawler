@@ -42,7 +42,7 @@ public class TemplatePageParse {
                     break;
                 case NEXT_LINK:
                     List<String> nextUrls = parseNextLinkLabel(html, field);
-                    pageParseResult.setNextUrls(nextUrls);
+                    pageParseResult.setNextLevelUrls(nextUrls);
                     break;
                 case TEXT_LINK:
                     fieldContents.add(parseTextLinkField(html, field));

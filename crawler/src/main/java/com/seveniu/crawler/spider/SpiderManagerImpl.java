@@ -1,6 +1,6 @@
 package com.seveniu.crawler.spider;
 
-import com.seveniu.crawler.spider.pageProcessor.TemplatePageProcessor;
+import com.seveniu.crawler.spider.pageProcessor.HasContextPageProcessor;
 import com.seveniu.crawler.spider.pipeline.ConsolePipeline;
 import com.seveniu.entity.CrawlerTask;
 import com.seveniu.entity.template.Template;
@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
@@ -56,7 +55,7 @@ public class SpiderManagerImpl implements SpiderManager {
         } else {
             scheduler = new QueueScheduler();
         }
-        PageProcessor pageProcessor = new TemplatePageProcessor(task.getTemplate());
+        PageProcessor pageProcessor = new HasContextPageProcessor(task.getTemplate());
 
         RunningSpider runningSpider = new RunningSpider(pageProcessor, task);
         runningSpider.setScheduler(scheduler);

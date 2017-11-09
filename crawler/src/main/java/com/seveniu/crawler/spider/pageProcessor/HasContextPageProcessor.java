@@ -7,8 +7,6 @@ import com.seveniu.entity.data.PageContent;
 import com.seveniu.entity.template.Template;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
-import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.List;
 
@@ -16,14 +14,14 @@ import static com.seveniu.crawler.spider.Def.DATA_CONTENT_RESULT_KEY;
 import static com.seveniu.crawler.spider.Def.REQUEST_CONTEXT_KEY;
 
 /**
+ * 层级模板处理，适合有上下级关系的页面爬取
  * Created by seveniu on 7/24/17.
  * *
  */
-public class TemplatePageProcessor implements PageProcessor {
+public class HasContextPageProcessor extends ContextPageProcessor {
     private Template templateStructure;
-    private static final int PREVENT_CYCLE_LAYER = 8;
 
-    public TemplatePageProcessor(Template templateStructure) {
+    public HasContextPageProcessor(Template templateStructure) {
         this.templateStructure = templateStructure;
     }
     // 错误处理
@@ -35,7 +33,7 @@ public class TemplatePageProcessor implements PageProcessor {
     public void process(Page page) {
         // 获取上下文
         RequestContext requestContext = getRequestContext(page);
-        if (requestContext.getCurTotalLayer() > PREVENT_CYCLE_LAYER) {
+        if (requestContext.getCurTotalLayer() > Template.PREVENT_CYCLE_LAYER) {
             requestContext.getDataContent().done();
         }
 
@@ -52,10 +50,10 @@ public class TemplatePageProcessor implements PageProcessor {
                     // root DataContent
                     dataContentContext = new DataContent(page.getUrl().get());
                 }
-                dataContentContext.addPage(pageContent);
+                dataContentContext.addPage(pageContent, requestContext.getCurPageIndex());
             }
             // 下一级 url
-            List<String> urls = pageParseResult.getNextUrls();
+            List<String> urls = pageParseResult.getNextLevelUrls();
             for (String url : urls) {
                 RequestContext nextRequestContext = RequestContext.createNextLayerRequestContext(requestContext, isInContentLayer, url);
                 if (isInContentLayer) {
@@ -66,11 +64,8 @@ public class TemplatePageProcessor implements PageProcessor {
                 page.addTargetRequest(new Request(url).putExtra(REQUEST_CONTEXT_KEY, nextRequestContext));
             }
 
-            // 同一级 url
-            List<String> pageUrls = pageParseResult.getPageUrls();
-            for (String url : pageUrls) {
-                page.addTargetRequest(new Request(url).putExtra(REQUEST_CONTEXT_KEY, RequestContext.createNextPageRequestContext(requestContext)));
-            }
+            // 多页 url
+            processMultiPage(pageParseResult, requestContext, page);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -83,17 +78,4 @@ public class TemplatePageProcessor implements PageProcessor {
         }
     }
 
-    private static RequestContext getRequestContext(Page page) {
-        Object obj = page.getRequest().getExtra(REQUEST_CONTEXT_KEY);
-        if (obj == null) {
-            return new RequestContext();
-        }
-        return (RequestContext) obj;
-    }
-
-
-    @Override
-    public Site getSite() {
-        return Site.me();
-    }
 }

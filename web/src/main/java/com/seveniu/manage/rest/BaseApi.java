@@ -1,7 +1,7 @@
 package com.seveniu.manage.rest;
 
-import com.seveniu.entity.base.BaseAuditableEntity;
 import com.seveniu.entity.BaseService;
+import com.seveniu.entity.base.BaseAuditableEntity;
 import com.seveniu.security.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -43,6 +43,11 @@ public class BaseApi<T extends BaseAuditableEntity, KEY> {
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     protected T findOne(@PathVariable("id") KEY id) {
         return baseService.findOne(id);
+    }
+
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    protected Iterable<T> page() {
+        return baseService.findAll();
     }
 
     @RequestMapping(path = "/page", method = RequestMethod.GET)

@@ -12,7 +12,7 @@ public class Field {
     private String xpath;
     private List<String> regex;
     private boolean must = false;
-    private boolean multiple = true;
+    private boolean multiple = true; // 有多个值
 
     public FieldType getType() {
         return type;
