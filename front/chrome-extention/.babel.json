@@ -1,0 +1,1070 @@
+{
+  "{\"filename\":\"/Users/seveniu/project/github/antd-admin/.roadhogrc.js\",\"env\":{\"development\":{\"plugins\":[]}},\"retainLines\":false,\"highlightCode\":true,\"suppressDeprecationMessages\":false,\"presets\":[],\"plugins\":[[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],{\"loose\":false,\"spec\":false}],[[],null],[[],null],[[],{\"spec\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"async\":false,\"asyncGenerators\":false}]],\"ignore\":[],\"code\":true,\"metadata\":true,\"ast\":true,\"comments\":true,\"compact\":\"auto\",\"minified\":false,\"sourceRoot\":\"/Users/seveniu/project/github/antd-admin\",\"babelrc\":false,\"sourceType\":\"module\",\"moduleIds\":false,\"passPerPreset\":false,\"parserOpts\":false,\"generatorOpts\":false}:6.26.0:production": {
+    "metadata": {
+      "usedHelpers": [],
+      "marked": [],
+      "modules": {
+        "imports": [],
+        "exports": {
+          "exported": [],
+          "specifiers": []
+        }
+      }
+    },
+    "options": {
+      "filename": "/Users/seveniu/project/github/antd-admin/.roadhogrc.js",
+      "filenameRelative": "/Users/seveniu/project/github/antd-admin/.roadhogrc.js",
+      "env": {},
+      "retainLines": false,
+      "highlightCode": true,
+      "suppressDeprecationMessages": false,
+      "presets": [],
+      "plugins": [
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false,
+            "spec": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "spec": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          {
+            "async": false,
+            "asyncGenerators": false
+          }
+        ]
+      ],
+      "ignore": [],
+      "code": true,
+      "metadata": true,
+      "ast": false,
+      "comments": true,
+      "compact": "auto",
+      "minified": false,
+      "sourceMaps": "both",
+      "sourceMapTarget": ".roadhogrc.js",
+      "sourceFileName": ".roadhogrc.js",
+      "sourceRoot": "/Users/seveniu/project/github/antd-admin",
+      "babelrc": false,
+      "sourceType": "module",
+      "moduleRoot": "/Users/seveniu/project/github/antd-admin",
+      "moduleIds": false,
+      "passPerPreset": false,
+      "parserOpts": false,
+      "generatorOpts": false,
+      "basename": ".roadhogrc"
+    },
+    "ignored": false,
+    "code": "'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar path = require('path');\n\nvar _require = require('./package.json'),\n    version = _require.version;\n\nvar svgSpriteDirs = [path.resolve(__dirname, 'src/svg/'), require.resolve('antd').replace(/index\\.js$/, '')];\n\nexports.default = {\n  entry: 'src/index.js',\n  svgSpriteLoaderDirs: svgSpriteDirs,\n  theme: \"./theme.config.js\",\n  publicPath: '/' + version + '/',\n  outputPath: './dist/' + version,\n  // 接口代理示例\n  proxy: {\n    \"/api/v1/weather\": {\n      \"target\": \"https://api.seniverse.com/\",\n      \"changeOrigin\": true,\n      \"pathRewrite\": { \"^/api/v1/weather\": \"/v3/weather\" }\n    }\n    // \"/api/v2\": {\n    //   \"target\": \"http://192.168.0.110\",\n    //   \"changeOrigin\": true,\n    //   \"pathRewrite\": { \"^/api/v2\" : \"/api/v2\" }\n    // }\n  },\n  env: {\n    development: {\n      extraBabelPlugins: [\"dva-hmr\", \"transform-runtime\", [\"import\", {\n        \"libraryName\": \"antd\",\n        \"style\": true\n      }]]\n    },\n    production: {\n      extraBabelPlugins: [\"transform-runtime\", [\"import\", {\n        \"libraryName\": \"antd\",\n        \"style\": true\n      }]]\n    }\n  },\n  dllPlugin: {\n    exclude: [\"babel-runtime\", \"roadhog\", \"cross-env\"],\n    include: [\"dva/router\", \"dva/saga\", \"dva/fetch\"]\n  }\n};\nmodule.exports = exports['default'];\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi5yb2FkaG9ncmMuanMiXSwibmFtZXMiOlsicGF0aCIsInJlcXVpcmUiLCJ2ZXJzaW9uIiwic3ZnU3ByaXRlRGlycyIsInJlc29sdmUiLCJfX2Rpcm5hbWUiLCJyZXBsYWNlIiwiZW50cnkiLCJzdmdTcHJpdGVMb2FkZXJEaXJzIiwidGhlbWUiLCJwdWJsaWNQYXRoIiwib3V0cHV0UGF0aCIsInByb3h5IiwiZW52IiwiZGV2ZWxvcG1lbnQiLCJleHRyYUJhYmVsUGx1Z2lucyIsInByb2R1Y3Rpb24iLCJkbGxQbHVnaW4iLCJleGNsdWRlIiwiaW5jbHVkZSJdLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBQSxJQUFNQSxPQUFPQyxRQUFRLE1BQVIsQ0FBYjs7ZUFDb0JBLFFBQVEsZ0JBQVIsQztJQUFaQyxPLFlBQUFBLE87O0FBRVIsSUFBTUMsZ0JBQWdCLENBQ3BCSCxLQUFLSSxPQUFMLENBQWFDLFNBQWIsRUFBd0IsVUFBeEIsQ0FEb0IsRUFFcEJKLFFBQVFHLE9BQVIsQ0FBZ0IsTUFBaEIsRUFBd0JFLE9BQXhCLENBQWdDLFlBQWhDLEVBQThDLEVBQTlDLENBRm9CLENBQXRCOztrQkFLZTtBQUNiQyxTQUFPLGNBRE07QUFFYkMsdUJBQXFCTCxhQUZSO0FBR2JNLFNBQU8sbUJBSE07QUFJYkMsb0JBQWdCUixPQUFoQixNQUphO0FBS2JTLDBCQUFzQlQsT0FMVDtBQU1iO0FBQ0FVLFNBQU87QUFDTCx1QkFBbUI7QUFDakIsZ0JBQVUsNEJBRE87QUFFakIsc0JBQWdCLElBRkM7QUFHakIscUJBQWUsRUFBRSxvQkFBb0IsYUFBdEI7QUFIRTtBQUtuQjtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBVkssR0FQTTtBQW1CYkMsT0FBSztBQUNIQyxpQkFBYTtBQUNYQyx5QkFBbUIsQ0FDakIsU0FEaUIsRUFFakIsbUJBRmlCLEVBR2pCLENBQ0UsUUFERixFQUNZO0FBQ1IsdUJBQWUsTUFEUDtBQUVSLGlCQUFTO0FBRkQsT0FEWixDQUhpQjtBQURSLEtBRFY7QUFhSEMsZ0JBQVk7QUFDVkQseUJBQW1CLENBQ2pCLG1CQURpQixFQUVqQixDQUNFLFFBREYsRUFDWTtBQUNSLHVCQUFlLE1BRFA7QUFFUixpQkFBUztBQUZELE9BRFosQ0FGaUI7QUFEVDtBQWJULEdBbkJRO0FBNENiRSxhQUFXO0FBQ1RDLGFBQVMsQ0FBQyxlQUFELEVBQWtCLFNBQWxCLEVBQTZCLFdBQTdCLENBREE7QUFFVEMsYUFBUyxDQUFDLFlBQUQsRUFBZSxVQUFmLEVBQTJCLFdBQTNCO0FBRkE7QUE1Q0UsQyIsImZpbGUiOiIucm9hZGhvZ3JjLmpzIiwic291cmNlUm9vdCI6Ii9Vc2Vycy9zZXZlbml1L3Byb2plY3QvZ2l0aHViL2FudGQtYWRtaW4iLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBwYXRoID0gcmVxdWlyZSgncGF0aCcpXG5jb25zdCB7IHZlcnNpb24gfSA9IHJlcXVpcmUoJy4vcGFja2FnZS5qc29uJylcblxuY29uc3Qgc3ZnU3ByaXRlRGlycyA9IFtcbiAgcGF0aC5yZXNvbHZlKF9fZGlybmFtZSwgJ3NyYy9zdmcvJyksXG4gIHJlcXVpcmUucmVzb2x2ZSgnYW50ZCcpLnJlcGxhY2UoL2luZGV4XFwuanMkLywgJycpXG5dXG5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgZW50cnk6ICdzcmMvaW5kZXguanMnLFxuICBzdmdTcHJpdGVMb2FkZXJEaXJzOiBzdmdTcHJpdGVEaXJzLFxuICB0aGVtZTogXCIuL3RoZW1lLmNvbmZpZy5qc1wiLFxuICBwdWJsaWNQYXRoOiBgLyR7dmVyc2lvbn0vYCxcbiAgb3V0cHV0UGF0aDogYC4vZGlzdC8ke3ZlcnNpb259YCxcbiAgLy8g5o6l5Y+j5Luj55CG56S65L6LXG4gIHByb3h5OiB7XG4gICAgXCIvYXBpL3YxL3dlYXRoZXJcIjoge1xuICAgICAgXCJ0YXJnZXRcIjogXCJodHRwczovL2FwaS5zZW5pdmVyc2UuY29tL1wiLFxuICAgICAgXCJjaGFuZ2VPcmlnaW5cIjogdHJ1ZSxcbiAgICAgIFwicGF0aFJld3JpdGVcIjogeyBcIl4vYXBpL3YxL3dlYXRoZXJcIjogXCIvdjMvd2VhdGhlclwiIH1cbiAgICB9LFxuICAgIC8vIFwiL2FwaS92MlwiOiB7XG4gICAgLy8gICBcInRhcmdldFwiOiBcImh0dHA6Ly8xOTIuMTY4LjAuMTEwXCIsXG4gICAgLy8gICBcImNoYW5nZU9yaWdpblwiOiB0cnVlLFxuICAgIC8vICAgXCJwYXRoUmV3cml0ZVwiOiB7IFwiXi9hcGkvdjJcIiA6IFwiL2FwaS92MlwiIH1cbiAgICAvLyB9XG4gIH0sXG4gIGVudjoge1xuICAgIGRldmVsb3BtZW50OiB7XG4gICAgICBleHRyYUJhYmVsUGx1Z2luczogW1xuICAgICAgICBcImR2YS1obXJcIixcbiAgICAgICAgXCJ0cmFuc2Zvcm0tcnVudGltZVwiLFxuICAgICAgICBbXG4gICAgICAgICAgXCJpbXBvcnRcIiwge1xuICAgICAgICAgICAgXCJsaWJyYXJ5TmFtZVwiOiBcImFudGRcIixcbiAgICAgICAgICAgIFwic3R5bGVcIjogdHJ1ZVxuICAgICAgICAgIH1cbiAgICAgICAgXVxuICAgICAgXVxuICAgIH0sXG4gICAgcHJvZHVjdGlvbjoge1xuICAgICAgZXh0cmFCYWJlbFBsdWdpbnM6IFtcbiAgICAgICAgXCJ0cmFuc2Zvcm0tcnVudGltZVwiLFxuICAgICAgICBbXG4gICAgICAgICAgXCJpbXBvcnRcIiwge1xuICAgICAgICAgICAgXCJsaWJyYXJ5TmFtZVwiOiBcImFudGRcIixcbiAgICAgICAgICAgIFwic3R5bGVcIjogdHJ1ZVxuICAgICAgICAgIH1cbiAgICAgICAgXVxuICAgICAgXVxuICAgIH1cbiAgfSxcbiAgZGxsUGx1Z2luOiB7XG4gICAgZXhjbHVkZTogW1wiYmFiZWwtcnVudGltZVwiLCBcInJvYWRob2dcIiwgXCJjcm9zcy1lbnZcIl0sXG4gICAgaW5jbHVkZTogW1wiZHZhL3JvdXRlclwiLCBcImR2YS9zYWdhXCIsIFwiZHZhL2ZldGNoXCJdXG4gIH1cbn1cbiJdfQ==",
+    "ast": null,
+    "map": {
+      "version": 3,
+      "sources": [
+        ".roadhogrc.js"
+      ],
+      "names": [
+        "path",
+        "require",
+        "version",
+        "svgSpriteDirs",
+        "resolve",
+        "__dirname",
+        "replace",
+        "entry",
+        "svgSpriteLoaderDirs",
+        "theme",
+        "publicPath",
+        "outputPath",
+        "proxy",
+        "env",
+        "development",
+        "extraBabelPlugins",
+        "production",
+        "dllPlugin",
+        "exclude",
+        "include"
+      ],
+      "mappings": ";;;;;AAAA,IAAMA,OAAOC,QAAQ,MAAR,CAAb;;eACoBA,QAAQ,gBAAR,C;IAAZC,O,YAAAA,O;;AAER,IAAMC,gBAAgB,CACpBH,KAAKI,OAAL,CAAaC,SAAb,EAAwB,UAAxB,CADoB,EAEpBJ,QAAQG,OAAR,CAAgB,MAAhB,EAAwBE,OAAxB,CAAgC,YAAhC,EAA8C,EAA9C,CAFoB,CAAtB;;kBAKe;AACbC,SAAO,cADM;AAEbC,uBAAqBL,aAFR;AAGbM,SAAO,mBAHM;AAIbC,oBAAgBR,OAAhB,MAJa;AAKbS,0BAAsBT,OALT;AAMb;AACAU,SAAO;AACL,uBAAmB;AACjB,gBAAU,4BADO;AAEjB,sBAAgB,IAFC;AAGjB,qBAAe,EAAE,oBAAoB,aAAtB;AAHE;AAKnB;AACA;AACA;AACA;AACA;AAVK,GAPM;AAmBbC,OAAK;AACHC,iBAAa;AACXC,yBAAmB,CACjB,SADiB,EAEjB,mBAFiB,EAGjB,CACE,QADF,EACY;AACR,uBAAe,MADP;AAER,iBAAS;AAFD,OADZ,CAHiB;AADR,KADV;AAaHC,gBAAY;AACVD,yBAAmB,CACjB,mBADiB,EAEjB,CACE,QADF,EACY;AACR,uBAAe,MADP;AAER,iBAAS;AAFD,OADZ,CAFiB;AADT;AAbT,GAnBQ;AA4CbE,aAAW;AACTC,aAAS,CAAC,eAAD,EAAkB,SAAlB,EAA6B,WAA7B,CADA;AAETC,aAAS,CAAC,YAAD,EAAe,UAAf,EAA2B,WAA3B;AAFA;AA5CE,C",
+      "file": ".roadhogrc.js",
+      "sourceRoot": "/Users/seveniu/project/github/antd-admin",
+      "sourcesContent": [
+        "const path = require('path')\nconst { version } = require('./package.json')\n\nconst svgSpriteDirs = [\n  path.resolve(__dirname, 'src/svg/'),\n  require.resolve('antd').replace(/index\\.js$/, '')\n]\n\nexport default {\n  entry: 'src/index.js',\n  svgSpriteLoaderDirs: svgSpriteDirs,\n  theme: \"./theme.config.js\",\n  publicPath: `/${version}/`,\n  outputPath: `./dist/${version}`,\n  // 接口代理示例\n  proxy: {\n    \"/api/v1/weather\": {\n      \"target\": \"https://api.seniverse.com/\",\n      \"changeOrigin\": true,\n      \"pathRewrite\": { \"^/api/v1/weather\": \"/v3/weather\" }\n    },\n    // \"/api/v2\": {\n    //   \"target\": \"http://192.168.0.110\",\n    //   \"changeOrigin\": true,\n    //   \"pathRewrite\": { \"^/api/v2\" : \"/api/v2\" }\n    // }\n  },\n  env: {\n    development: {\n      extraBabelPlugins: [\n        \"dva-hmr\",\n        \"transform-runtime\",\n        [\n          \"import\", {\n            \"libraryName\": \"antd\",\n            \"style\": true\n          }\n        ]\n      ]\n    },\n    production: {\n      extraBabelPlugins: [\n        \"transform-runtime\",\n        [\n          \"import\", {\n            \"libraryName\": \"antd\",\n            \"style\": true\n          }\n        ]\n      ]\n    }\n  },\n  dllPlugin: {\n    exclude: [\"babel-runtime\", \"roadhog\", \"cross-env\"],\n    include: [\"dva/router\", \"dva/saga\", \"dva/fetch\"]\n  }\n}\n"
+      ]
+    },
+    "mtime": 1507819271000
+  },
+  "{\"filename\":\"/Users/seveniu/project/github/antd-admin/webpack.config.js\",\"env\":{\"development\":{\"plugins\":[]}},\"retainLines\":false,\"highlightCode\":true,\"suppressDeprecationMessages\":false,\"presets\":[],\"plugins\":[[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],{\"loose\":false,\"spec\":false}],[[],null],[[],null],[[],{\"spec\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"async\":false,\"asyncGenerators\":false}]],\"ignore\":[],\"code\":true,\"metadata\":true,\"ast\":true,\"comments\":true,\"compact\":\"auto\",\"minified\":false,\"sourceRoot\":\"/Users/seveniu/project/github/antd-admin\",\"babelrc\":false,\"sourceType\":\"module\",\"moduleIds\":false,\"passPerPreset\":false,\"parserOpts\":false,\"generatorOpts\":false}:6.26.0:production": {
+    "metadata": {
+      "usedHelpers": [],
+      "marked": [],
+      "modules": {
+        "imports": [],
+        "exports": {
+          "exported": [],
+          "specifiers": []
+        }
+      }
+    },
+    "options": {
+      "filename": "/Users/seveniu/project/github/antd-admin/webpack.config.js",
+      "filenameRelative": "/Users/seveniu/project/github/antd-admin/webpack.config.js",
+      "env": {},
+      "retainLines": false,
+      "highlightCode": true,
+      "suppressDeprecationMessages": false,
+      "presets": [],
+      "plugins": [
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false,
+            "spec": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "spec": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          {
+            "async": false,
+            "asyncGenerators": false
+          }
+        ]
+      ],
+      "ignore": [],
+      "code": true,
+      "metadata": true,
+      "ast": false,
+      "comments": true,
+      "compact": "auto",
+      "minified": false,
+      "sourceMaps": "both",
+      "sourceMapTarget": "webpack.config.js",
+      "sourceFileName": "webpack.config.js",
+      "sourceRoot": "/Users/seveniu/project/github/antd-admin",
+      "babelrc": false,
+      "sourceType": "module",
+      "moduleRoot": "/Users/seveniu/project/github/antd-admin",
+      "moduleIds": false,
+      "passPerPreset": false,
+      "parserOpts": false,
+      "generatorOpts": false,
+      "basename": "webpack.config"
+    },
+    "ignored": false,
+    "code": "'use strict';\n\nvar HtmlWebpackPlugin = require('html-webpack-plugin');\nvar CopyWebpackPlugin = require('copy-webpack-plugin');\nvar webpack = require('webpack');\n\nmodule.exports = function (webpackConfig, env) {\n  var production = env === 'production';\n  // FilenameHash\n  webpackConfig.output.chunkFilename = '[name].[chunkhash].js';\n\n  if (production) {\n    if (webpackConfig.module) {\n      // ClassnameHash\n      webpackConfig.module.rules.map(function (item) {\n        if (String(item.test) === '/\\\\.less$/' || String(item.test) === '/\\\\.css/') {\n          item.use.filter(function (iitem) {\n            return iitem.loader === 'css';\n          })[0].options.localIdentName = '[hash:base64:5]';\n        }\n        return item;\n      });\n    }\n    webpackConfig.plugins.push(new webpack.LoaderOptionsPlugin({\n      minimize: true,\n      debug: false\n    }));\n  }\n\n  webpackConfig.plugins = webpackConfig.plugins.concat([new CopyWebpackPlugin([{\n    from: 'src/public',\n    to: production ? '../' : webpackConfig.output.outputPath\n  }]), new HtmlWebpackPlugin({\n    template: __dirname + '/src/entry.ejs',\n    filename: production ? '../index.html' : 'index.html',\n    minify: production ? {\n      collapseWhitespace: true\n    } : null,\n    hash: true,\n    headScripts: production ? null : ['/roadhog.dll.js']\n  })]);\n\n  // Alias\n  webpackConfig.resolve.alias = {\n    components: __dirname + '/src/components',\n    utils: __dirname + '/src/utils',\n    config: __dirname + '/src/utils/config',\n    enums: __dirname + '/src/utils/enums',\n    services: __dirname + '/src/services',\n    models: __dirname + '/src/models',\n    routes: __dirname + '/src/routes',\n    themes: __dirname + '/src/themes'\n  };\n\n  return webpackConfig;\n};\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2suY29uZmlnLmpzIl0sIm5hbWVzIjpbIkh0bWxXZWJwYWNrUGx1Z2luIiwicmVxdWlyZSIsIkNvcHlXZWJwYWNrUGx1Z2luIiwid2VicGFjayIsIm1vZHVsZSIsImV4cG9ydHMiLCJ3ZWJwYWNrQ29uZmlnIiwiZW52IiwicHJvZHVjdGlvbiIsIm91dHB1dCIsImNodW5rRmlsZW5hbWUiLCJydWxlcyIsIm1hcCIsIml0ZW0iLCJTdHJpbmciLCJ0ZXN0IiwidXNlIiwiZmlsdGVyIiwiaWl0ZW0iLCJsb2FkZXIiLCJvcHRpb25zIiwibG9jYWxJZGVudE5hbWUiLCJwbHVnaW5zIiwicHVzaCIsIkxvYWRlck9wdGlvbnNQbHVnaW4iLCJtaW5pbWl6ZSIsImRlYnVnIiwiY29uY2F0IiwiZnJvbSIsInRvIiwib3V0cHV0UGF0aCIsInRlbXBsYXRlIiwiX19kaXJuYW1lIiwiZmlsZW5hbWUiLCJtaW5pZnkiLCJjb2xsYXBzZVdoaXRlc3BhY2UiLCJoYXNoIiwiaGVhZFNjcmlwdHMiLCJyZXNvbHZlIiwiYWxpYXMiLCJjb21wb25lbnRzIiwidXRpbHMiLCJjb25maWciLCJlbnVtcyIsInNlcnZpY2VzIiwibW9kZWxzIiwicm91dGVzIiwidGhlbWVzIl0sIm1hcHBpbmdzIjoiOztBQUFBLElBQU1BLG9CQUFvQkMsUUFBUSxxQkFBUixDQUExQjtBQUNBLElBQU1DLG9CQUFvQkQsUUFBUSxxQkFBUixDQUExQjtBQUNBLElBQU1FLFVBQVVGLFFBQVEsU0FBUixDQUFoQjs7QUFFQUcsT0FBT0MsT0FBUCxHQUFpQixVQUFDQyxhQUFELEVBQWdCQyxHQUFoQixFQUF3QjtBQUN2QyxNQUFNQyxhQUFhRCxRQUFRLFlBQTNCO0FBQ0E7QUFDQUQsZ0JBQWNHLE1BQWQsQ0FBcUJDLGFBQXJCLEdBQXFDLHVCQUFyQzs7QUFFQSxNQUFJRixVQUFKLEVBQWdCO0FBQ2QsUUFBSUYsY0FBY0YsTUFBbEIsRUFBMEI7QUFDMUI7QUFDRUUsb0JBQWNGLE1BQWQsQ0FBcUJPLEtBQXJCLENBQTJCQyxHQUEzQixDQUErQixVQUFDQyxJQUFELEVBQVU7QUFDdkMsWUFBSUMsT0FBT0QsS0FBS0UsSUFBWixNQUFzQixZQUF0QixJQUFzQ0QsT0FBT0QsS0FBS0UsSUFBWixNQUFzQixVQUFoRSxFQUE0RTtBQUMxRUYsZUFBS0csR0FBTCxDQUFTQyxNQUFULENBQWdCO0FBQUEsbUJBQVNDLE1BQU1DLE1BQU4sS0FBaUIsS0FBMUI7QUFBQSxXQUFoQixFQUFpRCxDQUFqRCxFQUFvREMsT0FBcEQsQ0FBNERDLGNBQTVELEdBQTZFLGlCQUE3RTtBQUNEO0FBQ0QsZUFBT1IsSUFBUDtBQUNELE9BTEQ7QUFNRDtBQUNEUCxrQkFBY2dCLE9BQWQsQ0FBc0JDLElBQXRCLENBQ0UsSUFBSXBCLFFBQVFxQixtQkFBWixDQUFnQztBQUM5QkMsZ0JBQVUsSUFEb0I7QUFFOUJDLGFBQU87QUFGdUIsS0FBaEMsQ0FERjtBQU1EOztBQUVEcEIsZ0JBQWNnQixPQUFkLEdBQXdCaEIsY0FBY2dCLE9BQWQsQ0FBc0JLLE1BQXRCLENBQTZCLENBQ25ELElBQUl6QixpQkFBSixDQUFzQixDQUNwQjtBQUNFMEIsVUFBTSxZQURSO0FBRUVDLFFBQUlyQixhQUFhLEtBQWIsR0FBcUJGLGNBQWNHLE1BQWQsQ0FBcUJxQjtBQUZoRCxHQURvQixDQUF0QixDQURtRCxFQU9uRCxJQUFJOUIsaUJBQUosQ0FBc0I7QUFDcEIrQixjQUFhQyxTQUFiLG1CQURvQjtBQUVwQkMsY0FBVXpCLGFBQWEsZUFBYixHQUErQixZQUZyQjtBQUdwQjBCLFlBQVExQixhQUFhO0FBQ25CMkIsMEJBQW9CO0FBREQsS0FBYixHQUVKLElBTGdCO0FBTXBCQyxVQUFNLElBTmM7QUFPcEJDLGlCQUFhN0IsYUFBYSxJQUFiLEdBQW9CLENBQUMsaUJBQUQ7QUFQYixHQUF0QixDQVBtRCxDQUE3QixDQUF4Qjs7QUFrQkE7QUFDQUYsZ0JBQWNnQyxPQUFkLENBQXNCQyxLQUF0QixHQUE4QjtBQUM1QkMsZ0JBQWVSLFNBQWYsb0JBRDRCO0FBRTVCUyxXQUFVVCxTQUFWLGVBRjRCO0FBRzVCVSxZQUFXVixTQUFYLHNCQUg0QjtBQUk1QlcsV0FBVVgsU0FBVixxQkFKNEI7QUFLNUJZLGNBQWFaLFNBQWIsa0JBTDRCO0FBTTVCYSxZQUFXYixTQUFYLGdCQU40QjtBQU81QmMsWUFBV2QsU0FBWCxnQkFQNEI7QUFRNUJlLFlBQVdmLFNBQVg7QUFSNEIsR0FBOUI7O0FBV0EsU0FBTzFCLGFBQVA7QUFDRCxDQXRERCIsImZpbGUiOiJ3ZWJwYWNrLmNvbmZpZy5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMvc2V2ZW5pdS9wcm9qZWN0L2dpdGh1Yi9hbnRkLWFkbWluIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgSHRtbFdlYnBhY2tQbHVnaW4gPSByZXF1aXJlKCdodG1sLXdlYnBhY2stcGx1Z2luJylcbmNvbnN0IENvcHlXZWJwYWNrUGx1Z2luID0gcmVxdWlyZSgnY29weS13ZWJwYWNrLXBsdWdpbicpXG5jb25zdCB3ZWJwYWNrID0gcmVxdWlyZSgnd2VicGFjaycpXG5cbm1vZHVsZS5leHBvcnRzID0gKHdlYnBhY2tDb25maWcsIGVudikgPT4ge1xuICBjb25zdCBwcm9kdWN0aW9uID0gZW52ID09PSAncHJvZHVjdGlvbidcbiAgLy8gRmlsZW5hbWVIYXNoXG4gIHdlYnBhY2tDb25maWcub3V0cHV0LmNodW5rRmlsZW5hbWUgPSAnW25hbWVdLltjaHVua2hhc2hdLmpzJ1xuXG4gIGlmIChwcm9kdWN0aW9uKSB7XG4gICAgaWYgKHdlYnBhY2tDb25maWcubW9kdWxlKSB7XG4gICAgLy8gQ2xhc3NuYW1lSGFzaFxuICAgICAgd2VicGFja0NvbmZpZy5tb2R1bGUucnVsZXMubWFwKChpdGVtKSA9PiB7XG4gICAgICAgIGlmIChTdHJpbmcoaXRlbS50ZXN0KSA9PT0gJy9cXFxcLmxlc3MkLycgfHwgU3RyaW5nKGl0ZW0udGVzdCkgPT09ICcvXFxcXC5jc3MvJykge1xuICAgICAgICAgIGl0ZW0udXNlLmZpbHRlcihpaXRlbSA9PiBpaXRlbS5sb2FkZXIgPT09ICdjc3MnKVswXS5vcHRpb25zLmxvY2FsSWRlbnROYW1lID0gJ1toYXNoOmJhc2U2NDo1XSdcbiAgICAgICAgfVxuICAgICAgICByZXR1cm4gaXRlbVxuICAgICAgfSlcbiAgICB9XG4gICAgd2VicGFja0NvbmZpZy5wbHVnaW5zLnB1c2goXG4gICAgICBuZXcgd2VicGFjay5Mb2FkZXJPcHRpb25zUGx1Z2luKHtcbiAgICAgICAgbWluaW1pemU6IHRydWUsXG4gICAgICAgIGRlYnVnOiBmYWxzZSxcbiAgICAgIH0pXG4gICAgKVxuICB9XG5cbiAgd2VicGFja0NvbmZpZy5wbHVnaW5zID0gd2VicGFja0NvbmZpZy5wbHVnaW5zLmNvbmNhdChbXG4gICAgbmV3IENvcHlXZWJwYWNrUGx1Z2luKFtcbiAgICAgIHtcbiAgICAgICAgZnJvbTogJ3NyYy9wdWJsaWMnLFxuICAgICAgICB0bzogcHJvZHVjdGlvbiA/ICcuLi8nIDogd2VicGFja0NvbmZpZy5vdXRwdXQub3V0cHV0UGF0aCxcbiAgICAgIH0sXG4gICAgXSksXG4gICAgbmV3IEh0bWxXZWJwYWNrUGx1Z2luKHtcbiAgICAgIHRlbXBsYXRlOiBgJHtfX2Rpcm5hbWV9L3NyYy9lbnRyeS5lanNgLFxuICAgICAgZmlsZW5hbWU6IHByb2R1Y3Rpb24gPyAnLi4vaW5kZXguaHRtbCcgOiAnaW5kZXguaHRtbCcsXG4gICAgICBtaW5pZnk6IHByb2R1Y3Rpb24gPyB7XG4gICAgICAgIGNvbGxhcHNlV2hpdGVzcGFjZTogdHJ1ZSxcbiAgICAgIH0gOiBudWxsLFxuICAgICAgaGFzaDogdHJ1ZSxcbiAgICAgIGhlYWRTY3JpcHRzOiBwcm9kdWN0aW9uID8gbnVsbCA6IFsnL3JvYWRob2cuZGxsLmpzJ10sXG4gICAgfSksXG4gIF0pXG5cbiAgLy8gQWxpYXNcbiAgd2VicGFja0NvbmZpZy5yZXNvbHZlLmFsaWFzID0ge1xuICAgIGNvbXBvbmVudHM6IGAke19fZGlybmFtZX0vc3JjL2NvbXBvbmVudHNgLFxuICAgIHV0aWxzOiBgJHtfX2Rpcm5hbWV9L3NyYy91dGlsc2AsXG4gICAgY29uZmlnOiBgJHtfX2Rpcm5hbWV9L3NyYy91dGlscy9jb25maWdgLFxuICAgIGVudW1zOiBgJHtfX2Rpcm5hbWV9L3NyYy91dGlscy9lbnVtc2AsXG4gICAgc2VydmljZXM6IGAke19fZGlybmFtZX0vc3JjL3NlcnZpY2VzYCxcbiAgICBtb2RlbHM6IGAke19fZGlybmFtZX0vc3JjL21vZGVsc2AsXG4gICAgcm91dGVzOiBgJHtfX2Rpcm5hbWV9L3NyYy9yb3V0ZXNgLFxuICAgIHRoZW1lczogYCR7X19kaXJuYW1lfS9zcmMvdGhlbWVzYCxcbiAgfVxuXG4gIHJldHVybiB3ZWJwYWNrQ29uZmlnXG59XG4iXX0=",
+    "ast": null,
+    "map": {
+      "version": 3,
+      "sources": [
+        "webpack.config.js"
+      ],
+      "names": [
+        "HtmlWebpackPlugin",
+        "require",
+        "CopyWebpackPlugin",
+        "webpack",
+        "module",
+        "exports",
+        "webpackConfig",
+        "env",
+        "production",
+        "output",
+        "chunkFilename",
+        "rules",
+        "map",
+        "item",
+        "String",
+        "test",
+        "use",
+        "filter",
+        "iitem",
+        "loader",
+        "options",
+        "localIdentName",
+        "plugins",
+        "push",
+        "LoaderOptionsPlugin",
+        "minimize",
+        "debug",
+        "concat",
+        "from",
+        "to",
+        "outputPath",
+        "template",
+        "__dirname",
+        "filename",
+        "minify",
+        "collapseWhitespace",
+        "hash",
+        "headScripts",
+        "resolve",
+        "alias",
+        "components",
+        "utils",
+        "config",
+        "enums",
+        "services",
+        "models",
+        "routes",
+        "themes"
+      ],
+      "mappings": ";;AAAA,IAAMA,oBAAoBC,QAAQ,qBAAR,CAA1B;AACA,IAAMC,oBAAoBD,QAAQ,qBAAR,CAA1B;AACA,IAAME,UAAUF,QAAQ,SAAR,CAAhB;;AAEAG,OAAOC,OAAP,GAAiB,UAACC,aAAD,EAAgBC,GAAhB,EAAwB;AACvC,MAAMC,aAAaD,QAAQ,YAA3B;AACA;AACAD,gBAAcG,MAAd,CAAqBC,aAArB,GAAqC,uBAArC;;AAEA,MAAIF,UAAJ,EAAgB;AACd,QAAIF,cAAcF,MAAlB,EAA0B;AAC1B;AACEE,oBAAcF,MAAd,CAAqBO,KAArB,CAA2BC,GAA3B,CAA+B,UAACC,IAAD,EAAU;AACvC,YAAIC,OAAOD,KAAKE,IAAZ,MAAsB,YAAtB,IAAsCD,OAAOD,KAAKE,IAAZ,MAAsB,UAAhE,EAA4E;AAC1EF,eAAKG,GAAL,CAASC,MAAT,CAAgB;AAAA,mBAASC,MAAMC,MAAN,KAAiB,KAA1B;AAAA,WAAhB,EAAiD,CAAjD,EAAoDC,OAApD,CAA4DC,cAA5D,GAA6E,iBAA7E;AACD;AACD,eAAOR,IAAP;AACD,OALD;AAMD;AACDP,kBAAcgB,OAAd,CAAsBC,IAAtB,CACE,IAAIpB,QAAQqB,mBAAZ,CAAgC;AAC9BC,gBAAU,IADoB;AAE9BC,aAAO;AAFuB,KAAhC,CADF;AAMD;;AAEDpB,gBAAcgB,OAAd,GAAwBhB,cAAcgB,OAAd,CAAsBK,MAAtB,CAA6B,CACnD,IAAIzB,iBAAJ,CAAsB,CACpB;AACE0B,UAAM,YADR;AAEEC,QAAIrB,aAAa,KAAb,GAAqBF,cAAcG,MAAd,CAAqBqB;AAFhD,GADoB,CAAtB,CADmD,EAOnD,IAAI9B,iBAAJ,CAAsB;AACpB+B,cAAaC,SAAb,mBADoB;AAEpBC,cAAUzB,aAAa,eAAb,GAA+B,YAFrB;AAGpB0B,YAAQ1B,aAAa;AACnB2B,0BAAoB;AADD,KAAb,GAEJ,IALgB;AAMpBC,UAAM,IANc;AAOpBC,iBAAa7B,aAAa,IAAb,GAAoB,CAAC,iBAAD;AAPb,GAAtB,CAPmD,CAA7B,CAAxB;;AAkBA;AACAF,gBAAcgC,OAAd,CAAsBC,KAAtB,GAA8B;AAC5BC,gBAAeR,SAAf,oBAD4B;AAE5BS,WAAUT,SAAV,eAF4B;AAG5BU,YAAWV,SAAX,sBAH4B;AAI5BW,WAAUX,SAAV,qBAJ4B;AAK5BY,cAAaZ,SAAb,kBAL4B;AAM5Ba,YAAWb,SAAX,gBAN4B;AAO5Bc,YAAWd,SAAX,gBAP4B;AAQ5Be,YAAWf,SAAX;AAR4B,GAA9B;;AAWA,SAAO1B,aAAP;AACD,CAtDD",
+      "file": "webpack.config.js",
+      "sourceRoot": "/Users/seveniu/project/github/antd-admin",
+      "sourcesContent": [
+        "const HtmlWebpackPlugin = require('html-webpack-plugin')\nconst CopyWebpackPlugin = require('copy-webpack-plugin')\nconst webpack = require('webpack')\n\nmodule.exports = (webpackConfig, env) => {\n  const production = env === 'production'\n  // FilenameHash\n  webpackConfig.output.chunkFilename = '[name].[chunkhash].js'\n\n  if (production) {\n    if (webpackConfig.module) {\n    // ClassnameHash\n      webpackConfig.module.rules.map((item) => {\n        if (String(item.test) === '/\\\\.less$/' || String(item.test) === '/\\\\.css/') {\n          item.use.filter(iitem => iitem.loader === 'css')[0].options.localIdentName = '[hash:base64:5]'\n        }\n        return item\n      })\n    }\n    webpackConfig.plugins.push(\n      new webpack.LoaderOptionsPlugin({\n        minimize: true,\n        debug: false,\n      })\n    )\n  }\n\n  webpackConfig.plugins = webpackConfig.plugins.concat([\n    new CopyWebpackPlugin([\n      {\n        from: 'src/public',\n        to: production ? '../' : webpackConfig.output.outputPath,\n      },\n    ]),\n    new HtmlWebpackPlugin({\n      template: `${__dirname}/src/entry.ejs`,\n      filename: production ? '../index.html' : 'index.html',\n      minify: production ? {\n        collapseWhitespace: true,\n      } : null,\n      hash: true,\n      headScripts: production ? null : ['/roadhog.dll.js'],\n    }),\n  ])\n\n  // Alias\n  webpackConfig.resolve.alias = {\n    components: `${__dirname}/src/components`,\n    utils: `${__dirname}/src/utils`,\n    config: `${__dirname}/src/utils/config`,\n    enums: `${__dirname}/src/utils/enums`,\n    services: `${__dirname}/src/services`,\n    models: `${__dirname}/src/models`,\n    routes: `${__dirname}/src/routes`,\n    themes: `${__dirname}/src/themes`,\n  }\n\n  return webpackConfig\n}\n"
+      ]
+    },
+    "mtime": 1507819271000
+  },
+  "{\"filename\":\"/Users/seveniu/project/github/antd-admin/.roadhogrc.js\",\"env\":{\"development\":{\"plugins\":[]}},\"retainLines\":false,\"highlightCode\":true,\"suppressDeprecationMessages\":false,\"presets\":[],\"plugins\":[[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],{\"loose\":false,\"spec\":false}],[[],null],[[],null],[[],{\"spec\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"async\":false,\"asyncGenerators\":false}]],\"ignore\":[],\"code\":true,\"metadata\":true,\"ast\":true,\"comments\":true,\"compact\":\"auto\",\"minified\":false,\"sourceRoot\":\"/Users/seveniu/project/github/antd-admin\",\"babelrc\":false,\"sourceType\":\"module\",\"moduleIds\":false,\"passPerPreset\":false,\"parserOpts\":false,\"generatorOpts\":false}:6.26.0:development": {
+    "metadata": {
+      "usedHelpers": [],
+      "marked": [],
+      "modules": {
+        "imports": [],
+        "exports": {
+          "exported": [],
+          "specifiers": []
+        }
+      }
+    },
+    "options": {
+      "filename": "/Users/seveniu/project/github/antd-admin/.roadhogrc.js",
+      "filenameRelative": "/Users/seveniu/project/github/antd-admin/.roadhogrc.js",
+      "env": {},
+      "retainLines": false,
+      "highlightCode": true,
+      "suppressDeprecationMessages": false,
+      "presets": [],
+      "plugins": [
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false,
+            "spec": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "spec": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          {
+            "async": false,
+            "asyncGenerators": false
+          }
+        ]
+      ],
+      "ignore": [],
+      "code": true,
+      "metadata": true,
+      "ast": false,
+      "comments": true,
+      "compact": "auto",
+      "minified": false,
+      "sourceMaps": "both",
+      "sourceMapTarget": ".roadhogrc.js",
+      "sourceFileName": ".roadhogrc.js",
+      "sourceRoot": "/Users/seveniu/project/github/antd-admin",
+      "babelrc": false,
+      "sourceType": "module",
+      "moduleRoot": "/Users/seveniu/project/github/antd-admin",
+      "moduleIds": false,
+      "passPerPreset": false,
+      "parserOpts": false,
+      "generatorOpts": false,
+      "basename": ".roadhogrc"
+    },
+    "ignored": false,
+    "code": "'use strict';\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar path = require('path');\n\nvar _require = require('./package.json'),\n    version = _require.version;\n\nvar svgSpriteDirs = [path.resolve(__dirname, 'src/svg/'), require.resolve('antd').replace(/index\\.js$/, '')];\n\nexports.default = {\n  entry: 'src/index.js',\n  svgSpriteLoaderDirs: svgSpriteDirs,\n  theme: \"./theme.config.js\",\n  publicPath: '/' + version + '/',\n  outputPath: './dist/' + version,\n  // 接口代理示例\n  proxy: {\n    \"/api/v1/weather\": {\n      \"target\": \"https://api.seniverse.com/\",\n      \"changeOrigin\": true,\n      \"pathRewrite\": { \"^/api/v1/weather\": \"/v3/weather\" }\n    }\n    // \"/api/v2\": {\n    //   \"target\": \"http://192.168.0.110\",\n    //   \"changeOrigin\": true,\n    //   \"pathRewrite\": { \"^/api/v2\" : \"/api/v2\" }\n    // }\n  },\n  env: {\n    development: {\n      extraBabelPlugins: [\"dva-hmr\", \"transform-runtime\", [\"import\", {\n        \"libraryName\": \"antd\",\n        \"style\": true\n      }]]\n    },\n    production: {\n      extraBabelPlugins: [\"transform-runtime\", [\"import\", {\n        \"libraryName\": \"antd\",\n        \"style\": true\n      }]]\n    }\n  },\n  dllPlugin: {\n    exclude: [\"babel-runtime\", \"roadhog\", \"cross-env\"],\n    include: [\"dva/router\", \"dva/saga\", \"dva/fetch\"]\n  }\n};\nmodule.exports = exports['default'];\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi5yb2FkaG9ncmMuanMiXSwibmFtZXMiOlsicGF0aCIsInJlcXVpcmUiLCJ2ZXJzaW9uIiwic3ZnU3ByaXRlRGlycyIsInJlc29sdmUiLCJfX2Rpcm5hbWUiLCJyZXBsYWNlIiwiZW50cnkiLCJzdmdTcHJpdGVMb2FkZXJEaXJzIiwidGhlbWUiLCJwdWJsaWNQYXRoIiwib3V0cHV0UGF0aCIsInByb3h5IiwiZW52IiwiZGV2ZWxvcG1lbnQiLCJleHRyYUJhYmVsUGx1Z2lucyIsInByb2R1Y3Rpb24iLCJkbGxQbHVnaW4iLCJleGNsdWRlIiwiaW5jbHVkZSJdLCJtYXBwaW5ncyI6Ijs7Ozs7QUFBQSxJQUFNQSxPQUFPQyxRQUFRLE1BQVIsQ0FBYjs7ZUFDb0JBLFFBQVEsZ0JBQVIsQztJQUFaQyxPLFlBQUFBLE87O0FBRVIsSUFBTUMsZ0JBQWdCLENBQ3BCSCxLQUFLSSxPQUFMLENBQWFDLFNBQWIsRUFBd0IsVUFBeEIsQ0FEb0IsRUFFcEJKLFFBQVFHLE9BQVIsQ0FBZ0IsTUFBaEIsRUFBd0JFLE9BQXhCLENBQWdDLFlBQWhDLEVBQThDLEVBQTlDLENBRm9CLENBQXRCOztrQkFLZTtBQUNiQyxTQUFPLGNBRE07QUFFYkMsdUJBQXFCTCxhQUZSO0FBR2JNLFNBQU8sbUJBSE07QUFJYkMsb0JBQWdCUixPQUFoQixNQUphO0FBS2JTLDBCQUFzQlQsT0FMVDtBQU1iO0FBQ0FVLFNBQU87QUFDTCx1QkFBbUI7QUFDakIsZ0JBQVUsNEJBRE87QUFFakIsc0JBQWdCLElBRkM7QUFHakIscUJBQWUsRUFBRSxvQkFBb0IsYUFBdEI7QUFIRTtBQUtuQjtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBVkssR0FQTTtBQW1CYkMsT0FBSztBQUNIQyxpQkFBYTtBQUNYQyx5QkFBbUIsQ0FDakIsU0FEaUIsRUFFakIsbUJBRmlCLEVBR2pCLENBQ0UsUUFERixFQUNZO0FBQ1IsdUJBQWUsTUFEUDtBQUVSLGlCQUFTO0FBRkQsT0FEWixDQUhpQjtBQURSLEtBRFY7QUFhSEMsZ0JBQVk7QUFDVkQseUJBQW1CLENBQ2pCLG1CQURpQixFQUVqQixDQUNFLFFBREYsRUFDWTtBQUNSLHVCQUFlLE1BRFA7QUFFUixpQkFBUztBQUZELE9BRFosQ0FGaUI7QUFEVDtBQWJULEdBbkJRO0FBNENiRSxhQUFXO0FBQ1RDLGFBQVMsQ0FBQyxlQUFELEVBQWtCLFNBQWxCLEVBQTZCLFdBQTdCLENBREE7QUFFVEMsYUFBUyxDQUFDLFlBQUQsRUFBZSxVQUFmLEVBQTJCLFdBQTNCO0FBRkE7QUE1Q0UsQyIsImZpbGUiOiIucm9hZGhvZ3JjLmpzIiwic291cmNlUm9vdCI6Ii9Vc2Vycy9zZXZlbml1L3Byb2plY3QvZ2l0aHViL2FudGQtYWRtaW4iLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBwYXRoID0gcmVxdWlyZSgncGF0aCcpXG5jb25zdCB7IHZlcnNpb24gfSA9IHJlcXVpcmUoJy4vcGFja2FnZS5qc29uJylcblxuY29uc3Qgc3ZnU3ByaXRlRGlycyA9IFtcbiAgcGF0aC5yZXNvbHZlKF9fZGlybmFtZSwgJ3NyYy9zdmcvJyksXG4gIHJlcXVpcmUucmVzb2x2ZSgnYW50ZCcpLnJlcGxhY2UoL2luZGV4XFwuanMkLywgJycpXG5dXG5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgZW50cnk6ICdzcmMvaW5kZXguanMnLFxuICBzdmdTcHJpdGVMb2FkZXJEaXJzOiBzdmdTcHJpdGVEaXJzLFxuICB0aGVtZTogXCIuL3RoZW1lLmNvbmZpZy5qc1wiLFxuICBwdWJsaWNQYXRoOiBgLyR7dmVyc2lvbn0vYCxcbiAgb3V0cHV0UGF0aDogYC4vZGlzdC8ke3ZlcnNpb259YCxcbiAgLy8g5o6l5Y+j5Luj55CG56S65L6LXG4gIHByb3h5OiB7XG4gICAgXCIvYXBpL3YxL3dlYXRoZXJcIjoge1xuICAgICAgXCJ0YXJnZXRcIjogXCJodHRwczovL2FwaS5zZW5pdmVyc2UuY29tL1wiLFxuICAgICAgXCJjaGFuZ2VPcmlnaW5cIjogdHJ1ZSxcbiAgICAgIFwicGF0aFJld3JpdGVcIjogeyBcIl4vYXBpL3YxL3dlYXRoZXJcIjogXCIvdjMvd2VhdGhlclwiIH1cbiAgICB9LFxuICAgIC8vIFwiL2FwaS92MlwiOiB7XG4gICAgLy8gICBcInRhcmdldFwiOiBcImh0dHA6Ly8xOTIuMTY4LjAuMTEwXCIsXG4gICAgLy8gICBcImNoYW5nZU9yaWdpblwiOiB0cnVlLFxuICAgIC8vICAgXCJwYXRoUmV3cml0ZVwiOiB7IFwiXi9hcGkvdjJcIiA6IFwiL2FwaS92MlwiIH1cbiAgICAvLyB9XG4gIH0sXG4gIGVudjoge1xuICAgIGRldmVsb3BtZW50OiB7XG4gICAgICBleHRyYUJhYmVsUGx1Z2luczogW1xuICAgICAgICBcImR2YS1obXJcIixcbiAgICAgICAgXCJ0cmFuc2Zvcm0tcnVudGltZVwiLFxuICAgICAgICBbXG4gICAgICAgICAgXCJpbXBvcnRcIiwge1xuICAgICAgICAgICAgXCJsaWJyYXJ5TmFtZVwiOiBcImFudGRcIixcbiAgICAgICAgICAgIFwic3R5bGVcIjogdHJ1ZVxuICAgICAgICAgIH1cbiAgICAgICAgXVxuICAgICAgXVxuICAgIH0sXG4gICAgcHJvZHVjdGlvbjoge1xuICAgICAgZXh0cmFCYWJlbFBsdWdpbnM6IFtcbiAgICAgICAgXCJ0cmFuc2Zvcm0tcnVudGltZVwiLFxuICAgICAgICBbXG4gICAgICAgICAgXCJpbXBvcnRcIiwge1xuICAgICAgICAgICAgXCJsaWJyYXJ5TmFtZVwiOiBcImFudGRcIixcbiAgICAgICAgICAgIFwic3R5bGVcIjogdHJ1ZVxuICAgICAgICAgIH1cbiAgICAgICAgXVxuICAgICAgXVxuICAgIH1cbiAgfSxcbiAgZGxsUGx1Z2luOiB7XG4gICAgZXhjbHVkZTogW1wiYmFiZWwtcnVudGltZVwiLCBcInJvYWRob2dcIiwgXCJjcm9zcy1lbnZcIl0sXG4gICAgaW5jbHVkZTogW1wiZHZhL3JvdXRlclwiLCBcImR2YS9zYWdhXCIsIFwiZHZhL2ZldGNoXCJdXG4gIH1cbn1cbiJdfQ==",
+    "ast": null,
+    "map": {
+      "version": 3,
+      "sources": [
+        ".roadhogrc.js"
+      ],
+      "names": [
+        "path",
+        "require",
+        "version",
+        "svgSpriteDirs",
+        "resolve",
+        "__dirname",
+        "replace",
+        "entry",
+        "svgSpriteLoaderDirs",
+        "theme",
+        "publicPath",
+        "outputPath",
+        "proxy",
+        "env",
+        "development",
+        "extraBabelPlugins",
+        "production",
+        "dllPlugin",
+        "exclude",
+        "include"
+      ],
+      "mappings": ";;;;;AAAA,IAAMA,OAAOC,QAAQ,MAAR,CAAb;;eACoBA,QAAQ,gBAAR,C;IAAZC,O,YAAAA,O;;AAER,IAAMC,gBAAgB,CACpBH,KAAKI,OAAL,CAAaC,SAAb,EAAwB,UAAxB,CADoB,EAEpBJ,QAAQG,OAAR,CAAgB,MAAhB,EAAwBE,OAAxB,CAAgC,YAAhC,EAA8C,EAA9C,CAFoB,CAAtB;;kBAKe;AACbC,SAAO,cADM;AAEbC,uBAAqBL,aAFR;AAGbM,SAAO,mBAHM;AAIbC,oBAAgBR,OAAhB,MAJa;AAKbS,0BAAsBT,OALT;AAMb;AACAU,SAAO;AACL,uBAAmB;AACjB,gBAAU,4BADO;AAEjB,sBAAgB,IAFC;AAGjB,qBAAe,EAAE,oBAAoB,aAAtB;AAHE;AAKnB;AACA;AACA;AACA;AACA;AAVK,GAPM;AAmBbC,OAAK;AACHC,iBAAa;AACXC,yBAAmB,CACjB,SADiB,EAEjB,mBAFiB,EAGjB,CACE,QADF,EACY;AACR,uBAAe,MADP;AAER,iBAAS;AAFD,OADZ,CAHiB;AADR,KADV;AAaHC,gBAAY;AACVD,yBAAmB,CACjB,mBADiB,EAEjB,CACE,QADF,EACY;AACR,uBAAe,MADP;AAER,iBAAS;AAFD,OADZ,CAFiB;AADT;AAbT,GAnBQ;AA4CbE,aAAW;AACTC,aAAS,CAAC,eAAD,EAAkB,SAAlB,EAA6B,WAA7B,CADA;AAETC,aAAS,CAAC,YAAD,EAAe,UAAf,EAA2B,WAA3B;AAFA;AA5CE,C",
+      "file": ".roadhogrc.js",
+      "sourceRoot": "/Users/seveniu/project/github/antd-admin",
+      "sourcesContent": [
+        "const path = require('path')\nconst { version } = require('./package.json')\n\nconst svgSpriteDirs = [\n  path.resolve(__dirname, 'src/svg/'),\n  require.resolve('antd').replace(/index\\.js$/, '')\n]\n\nexport default {\n  entry: 'src/index.js',\n  svgSpriteLoaderDirs: svgSpriteDirs,\n  theme: \"./theme.config.js\",\n  publicPath: `/${version}/`,\n  outputPath: `./dist/${version}`,\n  // 接口代理示例\n  proxy: {\n    \"/api/v1/weather\": {\n      \"target\": \"https://api.seniverse.com/\",\n      \"changeOrigin\": true,\n      \"pathRewrite\": { \"^/api/v1/weather\": \"/v3/weather\" }\n    },\n    // \"/api/v2\": {\n    //   \"target\": \"http://192.168.0.110\",\n    //   \"changeOrigin\": true,\n    //   \"pathRewrite\": { \"^/api/v2\" : \"/api/v2\" }\n    // }\n  },\n  env: {\n    development: {\n      extraBabelPlugins: [\n        \"dva-hmr\",\n        \"transform-runtime\",\n        [\n          \"import\", {\n            \"libraryName\": \"antd\",\n            \"style\": true\n          }\n        ]\n      ]\n    },\n    production: {\n      extraBabelPlugins: [\n        \"transform-runtime\",\n        [\n          \"import\", {\n            \"libraryName\": \"antd\",\n            \"style\": true\n          }\n        ]\n      ]\n    }\n  },\n  dllPlugin: {\n    exclude: [\"babel-runtime\", \"roadhog\", \"cross-env\"],\n    include: [\"dva/router\", \"dva/saga\", \"dva/fetch\"]\n  }\n}\n"
+      ]
+    },
+    "mtime": 1507819271000
+  },
+  "{\"filename\":\"/Users/seveniu/project/github/antd-admin/webpack.config.js\",\"env\":{\"development\":{\"plugins\":[]}},\"retainLines\":false,\"highlightCode\":true,\"suppressDeprecationMessages\":false,\"presets\":[],\"plugins\":[[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],null],[[],{\"loose\":false,\"spec\":false}],[[],null],[[],null],[[],{\"spec\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"loose\":false}],[[],null],[[],null],[[],null],[[],{\"loose\":false}],[[],null],[[],{\"loose\":false}],[[],null],[[],null],[[],{\"loose\":false}],[[],{\"async\":false,\"asyncGenerators\":false}]],\"ignore\":[],\"code\":true,\"metadata\":true,\"ast\":true,\"comments\":true,\"compact\":\"auto\",\"minified\":false,\"sourceRoot\":\"/Users/seveniu/project/github/antd-admin\",\"babelrc\":false,\"sourceType\":\"module\",\"moduleIds\":false,\"passPerPreset\":false,\"parserOpts\":false,\"generatorOpts\":false}:6.26.0:development": {
+    "metadata": {
+      "usedHelpers": [],
+      "marked": [],
+      "modules": {
+        "imports": [],
+        "exports": {
+          "exported": [],
+          "specifiers": []
+        }
+      }
+    },
+    "options": {
+      "filename": "/Users/seveniu/project/github/antd-admin/webpack.config.js",
+      "filenameRelative": "/Users/seveniu/project/github/antd-admin/webpack.config.js",
+      "env": {},
+      "retainLines": false,
+      "highlightCode": true,
+      "suppressDeprecationMessages": false,
+      "presets": [],
+      "plugins": [
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false,
+            "spec": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "spec": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          null
+        ],
+        [
+          [],
+          {
+            "loose": false
+          }
+        ],
+        [
+          [],
+          {
+            "async": false,
+            "asyncGenerators": false
+          }
+        ]
+      ],
+      "ignore": [],
+      "code": true,
+      "metadata": true,
+      "ast": false,
+      "comments": true,
+      "compact": "auto",
+      "minified": false,
+      "sourceMaps": "both",
+      "sourceMapTarget": "webpack.config.js",
+      "sourceFileName": "webpack.config.js",
+      "sourceRoot": "/Users/seveniu/project/github/antd-admin",
+      "babelrc": false,
+      "sourceType": "module",
+      "moduleRoot": "/Users/seveniu/project/github/antd-admin",
+      "moduleIds": false,
+      "passPerPreset": false,
+      "parserOpts": false,
+      "generatorOpts": false,
+      "basename": "webpack.config"
+    },
+    "ignored": false,
+    "code": "'use strict';\n\nvar HtmlWebpackPlugin = require('html-webpack-plugin');\nvar CopyWebpackPlugin = require('copy-webpack-plugin');\nvar webpack = require('webpack');\n\nmodule.exports = function (webpackConfig, env) {\n  var production = env === 'production';\n  // FilenameHash\n  webpackConfig.output.chunkFilename = '[name].[chunkhash].js';\n\n  if (production) {\n    if (webpackConfig.module) {\n      // ClassnameHash\n      webpackConfig.module.rules.map(function (item) {\n        if (String(item.test) === '/\\\\.less$/' || String(item.test) === '/\\\\.css/') {\n          item.use.filter(function (iitem) {\n            return iitem.loader === 'css';\n          })[0].options.localIdentName = '[hash:base64:5]';\n        }\n        return item;\n      });\n    }\n    webpackConfig.plugins.push(new webpack.LoaderOptionsPlugin({\n      minimize: true,\n      debug: false\n    }));\n  }\n\n  webpackConfig.plugins = webpackConfig.plugins.concat([new CopyWebpackPlugin([{\n    from: 'src/public',\n    to: production ? '../' : webpackConfig.output.outputPath\n  }]), new HtmlWebpackPlugin({\n    template: __dirname + '/src/entry.ejs',\n    filename: production ? '../index.html' : 'index.html',\n    minify: production ? {\n      collapseWhitespace: true\n    } : null,\n    hash: true,\n    headScripts: production ? null : ['/roadhog.dll.js']\n  })]);\n\n  // Alias\n  webpackConfig.resolve.alias = {\n    components: __dirname + '/src/components',\n    utils: __dirname + '/src/utils',\n    config: __dirname + '/src/utils/config',\n    enums: __dirname + '/src/utils/enums',\n    services: __dirname + '/src/services',\n    models: __dirname + '/src/models',\n    routes: __dirname + '/src/routes',\n    themes: __dirname + '/src/themes'\n  };\n\n  return webpackConfig;\n};\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2suY29uZmlnLmpzIl0sIm5hbWVzIjpbIkh0bWxXZWJwYWNrUGx1Z2luIiwicmVxdWlyZSIsIkNvcHlXZWJwYWNrUGx1Z2luIiwid2VicGFjayIsIm1vZHVsZSIsImV4cG9ydHMiLCJ3ZWJwYWNrQ29uZmlnIiwiZW52IiwicHJvZHVjdGlvbiIsIm91dHB1dCIsImNodW5rRmlsZW5hbWUiLCJydWxlcyIsIm1hcCIsIml0ZW0iLCJTdHJpbmciLCJ0ZXN0IiwidXNlIiwiZmlsdGVyIiwiaWl0ZW0iLCJsb2FkZXIiLCJvcHRpb25zIiwibG9jYWxJZGVudE5hbWUiLCJwbHVnaW5zIiwicHVzaCIsIkxvYWRlck9wdGlvbnNQbHVnaW4iLCJtaW5pbWl6ZSIsImRlYnVnIiwiY29uY2F0IiwiZnJvbSIsInRvIiwib3V0cHV0UGF0aCIsInRlbXBsYXRlIiwiX19kaXJuYW1lIiwiZmlsZW5hbWUiLCJtaW5pZnkiLCJjb2xsYXBzZVdoaXRlc3BhY2UiLCJoYXNoIiwiaGVhZFNjcmlwdHMiLCJyZXNvbHZlIiwiYWxpYXMiLCJjb21wb25lbnRzIiwidXRpbHMiLCJjb25maWciLCJlbnVtcyIsInNlcnZpY2VzIiwibW9kZWxzIiwicm91dGVzIiwidGhlbWVzIl0sIm1hcHBpbmdzIjoiOztBQUFBLElBQU1BLG9CQUFvQkMsUUFBUSxxQkFBUixDQUExQjtBQUNBLElBQU1DLG9CQUFvQkQsUUFBUSxxQkFBUixDQUExQjtBQUNBLElBQU1FLFVBQVVGLFFBQVEsU0FBUixDQUFoQjs7QUFFQUcsT0FBT0MsT0FBUCxHQUFpQixVQUFDQyxhQUFELEVBQWdCQyxHQUFoQixFQUF3QjtBQUN2QyxNQUFNQyxhQUFhRCxRQUFRLFlBQTNCO0FBQ0E7QUFDQUQsZ0JBQWNHLE1BQWQsQ0FBcUJDLGFBQXJCLEdBQXFDLHVCQUFyQzs7QUFFQSxNQUFJRixVQUFKLEVBQWdCO0FBQ2QsUUFBSUYsY0FBY0YsTUFBbEIsRUFBMEI7QUFDMUI7QUFDRUUsb0JBQWNGLE1BQWQsQ0FBcUJPLEtBQXJCLENBQTJCQyxHQUEzQixDQUErQixVQUFDQyxJQUFELEVBQVU7QUFDdkMsWUFBSUMsT0FBT0QsS0FBS0UsSUFBWixNQUFzQixZQUF0QixJQUFzQ0QsT0FBT0QsS0FBS0UsSUFBWixNQUFzQixVQUFoRSxFQUE0RTtBQUMxRUYsZUFBS0csR0FBTCxDQUFTQyxNQUFULENBQWdCO0FBQUEsbUJBQVNDLE1BQU1DLE1BQU4sS0FBaUIsS0FBMUI7QUFBQSxXQUFoQixFQUFpRCxDQUFqRCxFQUFvREMsT0FBcEQsQ0FBNERDLGNBQTVELEdBQTZFLGlCQUE3RTtBQUNEO0FBQ0QsZUFBT1IsSUFBUDtBQUNELE9BTEQ7QUFNRDtBQUNEUCxrQkFBY2dCLE9BQWQsQ0FBc0JDLElBQXRCLENBQ0UsSUFBSXBCLFFBQVFxQixtQkFBWixDQUFnQztBQUM5QkMsZ0JBQVUsSUFEb0I7QUFFOUJDLGFBQU87QUFGdUIsS0FBaEMsQ0FERjtBQU1EOztBQUVEcEIsZ0JBQWNnQixPQUFkLEdBQXdCaEIsY0FBY2dCLE9BQWQsQ0FBc0JLLE1BQXRCLENBQTZCLENBQ25ELElBQUl6QixpQkFBSixDQUFzQixDQUNwQjtBQUNFMEIsVUFBTSxZQURSO0FBRUVDLFFBQUlyQixhQUFhLEtBQWIsR0FBcUJGLGNBQWNHLE1BQWQsQ0FBcUJxQjtBQUZoRCxHQURvQixDQUF0QixDQURtRCxFQU9uRCxJQUFJOUIsaUJBQUosQ0FBc0I7QUFDcEIrQixjQUFhQyxTQUFiLG1CQURvQjtBQUVwQkMsY0FBVXpCLGFBQWEsZUFBYixHQUErQixZQUZyQjtBQUdwQjBCLFlBQVExQixhQUFhO0FBQ25CMkIsMEJBQW9CO0FBREQsS0FBYixHQUVKLElBTGdCO0FBTXBCQyxVQUFNLElBTmM7QUFPcEJDLGlCQUFhN0IsYUFBYSxJQUFiLEdBQW9CLENBQUMsaUJBQUQ7QUFQYixHQUF0QixDQVBtRCxDQUE3QixDQUF4Qjs7QUFrQkE7QUFDQUYsZ0JBQWNnQyxPQUFkLENBQXNCQyxLQUF0QixHQUE4QjtBQUM1QkMsZ0JBQWVSLFNBQWYsb0JBRDRCO0FBRTVCUyxXQUFVVCxTQUFWLGVBRjRCO0FBRzVCVSxZQUFXVixTQUFYLHNCQUg0QjtBQUk1QlcsV0FBVVgsU0FBVixxQkFKNEI7QUFLNUJZLGNBQWFaLFNBQWIsa0JBTDRCO0FBTTVCYSxZQUFXYixTQUFYLGdCQU40QjtBQU81QmMsWUFBV2QsU0FBWCxnQkFQNEI7QUFRNUJlLFlBQVdmLFNBQVg7QUFSNEIsR0FBOUI7O0FBV0EsU0FBTzFCLGFBQVA7QUFDRCxDQXRERCIsImZpbGUiOiJ3ZWJwYWNrLmNvbmZpZy5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMvc2V2ZW5pdS9wcm9qZWN0L2dpdGh1Yi9hbnRkLWFkbWluIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgSHRtbFdlYnBhY2tQbHVnaW4gPSByZXF1aXJlKCdodG1sLXdlYnBhY2stcGx1Z2luJylcbmNvbnN0IENvcHlXZWJwYWNrUGx1Z2luID0gcmVxdWlyZSgnY29weS13ZWJwYWNrLXBsdWdpbicpXG5jb25zdCB3ZWJwYWNrID0gcmVxdWlyZSgnd2VicGFjaycpXG5cbm1vZHVsZS5leHBvcnRzID0gKHdlYnBhY2tDb25maWcsIGVudikgPT4ge1xuICBjb25zdCBwcm9kdWN0aW9uID0gZW52ID09PSAncHJvZHVjdGlvbidcbiAgLy8gRmlsZW5hbWVIYXNoXG4gIHdlYnBhY2tDb25maWcub3V0cHV0LmNodW5rRmlsZW5hbWUgPSAnW25hbWVdLltjaHVua2hhc2hdLmpzJ1xuXG4gIGlmIChwcm9kdWN0aW9uKSB7XG4gICAgaWYgKHdlYnBhY2tDb25maWcubW9kdWxlKSB7XG4gICAgLy8gQ2xhc3NuYW1lSGFzaFxuICAgICAgd2VicGFja0NvbmZpZy5tb2R1bGUucnVsZXMubWFwKChpdGVtKSA9PiB7XG4gICAgICAgIGlmIChTdHJpbmcoaXRlbS50ZXN0KSA9PT0gJy9cXFxcLmxlc3MkLycgfHwgU3RyaW5nKGl0ZW0udGVzdCkgPT09ICcvXFxcXC5jc3MvJykge1xuICAgICAgICAgIGl0ZW0udXNlLmZpbHRlcihpaXRlbSA9PiBpaXRlbS5sb2FkZXIgPT09ICdjc3MnKVswXS5vcHRpb25zLmxvY2FsSWRlbnROYW1lID0gJ1toYXNoOmJhc2U2NDo1XSdcbiAgICAgICAgfVxuICAgICAgICByZXR1cm4gaXRlbVxuICAgICAgfSlcbiAgICB9XG4gICAgd2VicGFja0NvbmZpZy5wbHVnaW5zLnB1c2goXG4gICAgICBuZXcgd2VicGFjay5Mb2FkZXJPcHRpb25zUGx1Z2luKHtcbiAgICAgICAgbWluaW1pemU6IHRydWUsXG4gICAgICAgIGRlYnVnOiBmYWxzZSxcbiAgICAgIH0pXG4gICAgKVxuICB9XG5cbiAgd2VicGFja0NvbmZpZy5wbHVnaW5zID0gd2VicGFja0NvbmZpZy5wbHVnaW5zLmNvbmNhdChbXG4gICAgbmV3IENvcHlXZWJwYWNrUGx1Z2luKFtcbiAgICAgIHtcbiAgICAgICAgZnJvbTogJ3NyYy9wdWJsaWMnLFxuICAgICAgICB0bzogcHJvZHVjdGlvbiA/ICcuLi8nIDogd2VicGFja0NvbmZpZy5vdXRwdXQub3V0cHV0UGF0aCxcbiAgICAgIH0sXG4gICAgXSksXG4gICAgbmV3IEh0bWxXZWJwYWNrUGx1Z2luKHtcbiAgICAgIHRlbXBsYXRlOiBgJHtfX2Rpcm5hbWV9L3NyYy9lbnRyeS5lanNgLFxuICAgICAgZmlsZW5hbWU6IHByb2R1Y3Rpb24gPyAnLi4vaW5kZXguaHRtbCcgOiAnaW5kZXguaHRtbCcsXG4gICAgICBtaW5pZnk6IHByb2R1Y3Rpb24gPyB7XG4gICAgICAgIGNvbGxhcHNlV2hpdGVzcGFjZTogdHJ1ZSxcbiAgICAgIH0gOiBudWxsLFxuICAgICAgaGFzaDogdHJ1ZSxcbiAgICAgIGhlYWRTY3JpcHRzOiBwcm9kdWN0aW9uID8gbnVsbCA6IFsnL3JvYWRob2cuZGxsLmpzJ10sXG4gICAgfSksXG4gIF0pXG5cbiAgLy8gQWxpYXNcbiAgd2VicGFja0NvbmZpZy5yZXNvbHZlLmFsaWFzID0ge1xuICAgIGNvbXBvbmVudHM6IGAke19fZGlybmFtZX0vc3JjL2NvbXBvbmVudHNgLFxuICAgIHV0aWxzOiBgJHtfX2Rpcm5hbWV9L3NyYy91dGlsc2AsXG4gICAgY29uZmlnOiBgJHtfX2Rpcm5hbWV9L3NyYy91dGlscy9jb25maWdgLFxuICAgIGVudW1zOiBgJHtfX2Rpcm5hbWV9L3NyYy91dGlscy9lbnVtc2AsXG4gICAgc2VydmljZXM6IGAke19fZGlybmFtZX0vc3JjL3NlcnZpY2VzYCxcbiAgICBtb2RlbHM6IGAke19fZGlybmFtZX0vc3JjL21vZGVsc2AsXG4gICAgcm91dGVzOiBgJHtfX2Rpcm5hbWV9L3NyYy9yb3V0ZXNgLFxuICAgIHRoZW1lczogYCR7X19kaXJuYW1lfS9zcmMvdGhlbWVzYCxcbiAgfVxuXG4gIHJldHVybiB3ZWJwYWNrQ29uZmlnXG59XG4iXX0=",
+    "ast": null,
+    "map": {
+      "version": 3,
+      "sources": [
+        "webpack.config.js"
+      ],
+      "names": [
+        "HtmlWebpackPlugin",
+        "require",
+        "CopyWebpackPlugin",
+        "webpack",
+        "module",
+        "exports",
+        "webpackConfig",
+        "env",
+        "production",
+        "output",
+        "chunkFilename",
+        "rules",
+        "map",
+        "item",
+        "String",
+        "test",
+        "use",
+        "filter",
+        "iitem",
+        "loader",
+        "options",
+        "localIdentName",
+        "plugins",
+        "push",
+        "LoaderOptionsPlugin",
+        "minimize",
+        "debug",
+        "concat",
+        "from",
+        "to",
+        "outputPath",
+        "template",
+        "__dirname",
+        "filename",
+        "minify",
+        "collapseWhitespace",
+        "hash",
+        "headScripts",
+        "resolve",
+        "alias",
+        "components",
+        "utils",
+        "config",
+        "enums",
+        "services",
+        "models",
+        "routes",
+        "themes"
+      ],
+      "mappings": ";;AAAA,IAAMA,oBAAoBC,QAAQ,qBAAR,CAA1B;AACA,IAAMC,oBAAoBD,QAAQ,qBAAR,CAA1B;AACA,IAAME,UAAUF,QAAQ,SAAR,CAAhB;;AAEAG,OAAOC,OAAP,GAAiB,UAACC,aAAD,EAAgBC,GAAhB,EAAwB;AACvC,MAAMC,aAAaD,QAAQ,YAA3B;AACA;AACAD,gBAAcG,MAAd,CAAqBC,aAArB,GAAqC,uBAArC;;AAEA,MAAIF,UAAJ,EAAgB;AACd,QAAIF,cAAcF,MAAlB,EAA0B;AAC1B;AACEE,oBAAcF,MAAd,CAAqBO,KAArB,CAA2BC,GAA3B,CAA+B,UAACC,IAAD,EAAU;AACvC,YAAIC,OAAOD,KAAKE,IAAZ,MAAsB,YAAtB,IAAsCD,OAAOD,KAAKE,IAAZ,MAAsB,UAAhE,EAA4E;AAC1EF,eAAKG,GAAL,CAASC,MAAT,CAAgB;AAAA,mBAASC,MAAMC,MAAN,KAAiB,KAA1B;AAAA,WAAhB,EAAiD,CAAjD,EAAoDC,OAApD,CAA4DC,cAA5D,GAA6E,iBAA7E;AACD;AACD,eAAOR,IAAP;AACD,OALD;AAMD;AACDP,kBAAcgB,OAAd,CAAsBC,IAAtB,CACE,IAAIpB,QAAQqB,mBAAZ,CAAgC;AAC9BC,gBAAU,IADoB;AAE9BC,aAAO;AAFuB,KAAhC,CADF;AAMD;;AAEDpB,gBAAcgB,OAAd,GAAwBhB,cAAcgB,OAAd,CAAsBK,MAAtB,CAA6B,CACnD,IAAIzB,iBAAJ,CAAsB,CACpB;AACE0B,UAAM,YADR;AAEEC,QAAIrB,aAAa,KAAb,GAAqBF,cAAcG,MAAd,CAAqBqB;AAFhD,GADoB,CAAtB,CADmD,EAOnD,IAAI9B,iBAAJ,CAAsB;AACpB+B,cAAaC,SAAb,mBADoB;AAEpBC,cAAUzB,aAAa,eAAb,GAA+B,YAFrB;AAGpB0B,YAAQ1B,aAAa;AACnB2B,0BAAoB;AADD,KAAb,GAEJ,IALgB;AAMpBC,UAAM,IANc;AAOpBC,iBAAa7B,aAAa,IAAb,GAAoB,CAAC,iBAAD;AAPb,GAAtB,CAPmD,CAA7B,CAAxB;;AAkBA;AACAF,gBAAcgC,OAAd,CAAsBC,KAAtB,GAA8B;AAC5BC,gBAAeR,SAAf,oBAD4B;AAE5BS,WAAUT,SAAV,eAF4B;AAG5BU,YAAWV,SAAX,sBAH4B;AAI5BW,WAAUX,SAAV,qBAJ4B;AAK5BY,cAAaZ,SAAb,kBAL4B;AAM5Ba,YAAWb,SAAX,gBAN4B;AAO5Bc,YAAWd,SAAX,gBAP4B;AAQ5Be,YAAWf,SAAX;AAR4B,GAA9B;;AAWA,SAAO1B,aAAP;AACD,CAtDD",
+      "file": "webpack.config.js",
+      "sourceRoot": "/Users/seveniu/project/github/antd-admin",
+      "sourcesContent": [
+        "const HtmlWebpackPlugin = require('html-webpack-plugin')\nconst CopyWebpackPlugin = require('copy-webpack-plugin')\nconst webpack = require('webpack')\n\nmodule.exports = (webpackConfig, env) => {\n  const production = env === 'production'\n  // FilenameHash\n  webpackConfig.output.chunkFilename = '[name].[chunkhash].js'\n\n  if (production) {\n    if (webpackConfig.module) {\n    // ClassnameHash\n      webpackConfig.module.rules.map((item) => {\n        if (String(item.test) === '/\\\\.less$/' || String(item.test) === '/\\\\.css/') {\n          item.use.filter(iitem => iitem.loader === 'css')[0].options.localIdentName = '[hash:base64:5]'\n        }\n        return item\n      })\n    }\n    webpackConfig.plugins.push(\n      new webpack.LoaderOptionsPlugin({\n        minimize: true,\n        debug: false,\n      })\n    )\n  }\n\n  webpackConfig.plugins = webpackConfig.plugins.concat([\n    new CopyWebpackPlugin([\n      {\n        from: 'src/public',\n        to: production ? '../' : webpackConfig.output.outputPath,\n      },\n    ]),\n    new HtmlWebpackPlugin({\n      template: `${__dirname}/src/entry.ejs`,\n      filename: production ? '../index.html' : 'index.html',\n      minify: production ? {\n        collapseWhitespace: true,\n      } : null,\n      hash: true,\n      headScripts: production ? null : ['/roadhog.dll.js'],\n    }),\n  ])\n\n  // Alias\n  webpackConfig.resolve.alias = {\n    components: `${__dirname}/src/components`,\n    utils: `${__dirname}/src/utils`,\n    config: `${__dirname}/src/utils/config`,\n    enums: `${__dirname}/src/utils/enums`,\n    services: `${__dirname}/src/services`,\n    models: `${__dirname}/src/models`,\n    routes: `${__dirname}/src/routes`,\n    themes: `${__dirname}/src/themes`,\n  }\n\n  return webpackConfig\n}\n"
+      ]
+    },
+    "mtime": 1507819271000
+  }
+}

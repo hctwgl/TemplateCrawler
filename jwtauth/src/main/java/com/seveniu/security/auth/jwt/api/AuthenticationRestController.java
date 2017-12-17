@@ -84,12 +84,16 @@ public class AuthenticationRestController {
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request, HttpServletResponse response) {
-        String oldToken = jwtTokenUtil.getToken(request);
-        if (oldToken != null && jwtTokenUtil.canTokenBeRefreshed(oldToken)) {
-            String refreshedToken = jwtTokenUtil.refreshToken(oldToken);
-            response.addCookie(jwtTokenUtil.generateJwtCookie(refreshedToken));
-            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
-        } else {
+        try {
+            String oldToken = jwtTokenUtil.getToken(request);
+            if (oldToken != null && jwtTokenUtil.canTokenBeRefreshed(oldToken)) {
+                String refreshedToken = jwtTokenUtil.refreshToken(oldToken);
+                response.addCookie(jwtTokenUtil.generateJwtCookie(refreshedToken));
+                return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
+            } else {
+                return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).build();
+            }
+        } catch (Exception e) {
             return ResponseEntity.status(HttpServletResponse.SC_UNAUTHORIZED).build();
         }
     }

@@ -1,0 +1,7 @@
+{
+  "inject": false,
+  "template": "./template/default.html",
+  "title": "Webpack APP",
+  "keywords": "",
+  "description": ""
+}

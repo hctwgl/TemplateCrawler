@@ -1,0 +1,27 @@
+#create-template-inject-iframe {
+  position: fixed;
+  border: none;
+  background-color: aliceblue;
+  z-index: 999999999999;
+  resize: none;
+  bottom: auto;
+  box-shadow: none;
+  display: block;
+  left: auto;
+  width: 270px;
+  transition: transform 300ms ease, opacity 300ms ease;
+  border-width: initial !important;
+  border-style: none !important;
+  border-color: initial !important;
+  border-image: initial !important;
+  opacity: 1;
+  transform: translate3d(0px, 0px, 0px);
+  right: 0px;
+  top: 0px;
+  height: 100% !important;
+}
+
+.create-template-choose-dom {
+  outline: 1px dashed #ff00eb !important;
+  background: #ffff00 !important;
+}

@@ -84,5 +84,6 @@ front/researcher/.idea/*
 **/build
 **/.idea
 
-!/front/build
+!/front/*/build/*
 /front/node_modules
+**/dist
