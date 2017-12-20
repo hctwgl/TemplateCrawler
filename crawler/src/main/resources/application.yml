@@ -1,3 +1,5 @@
+server:
+  port: 10001
 spring:
   mail:
     host: smtp.mxhichina.com
@@ -21,3 +23,8 @@ queue:
     enable: true
     host: 127.0.0.1
     port: 6379
+
+crawler:
+  pipeline:
+    mysql:
+      enable: true

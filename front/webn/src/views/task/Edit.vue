@@ -1,12 +1,16 @@
 <template>
   <div class="user-edit-container">
-    <el-form autoComplete="on" :model="formData" :rules="loginRules" ref="formData" :label-position="'right'" class="edit-form">
+    <el-form autoComplete="on" :model="formData" :rules="loginRules" ref="formData" :label-position="'top'" class="edit-form">
       <h3 class="title">编辑</h3>
       <el-form-item label="任务名">
         <el-input name="name" type="text" v-model="formData.name" autoComplete="on" placeholder="任务名"></el-input>
       </el-form-item>
       <el-form-item label="搜索">
         <!-- <query-select :api="templateApi" v-on:change="handleTemplateChange" ref="templateSelect"></query-select> -->
+        <el-select v-model="formData.templateId" filterable remote reserve-keyword placeholder="请输入模板名称" :remote-method="searchTemplate" :loading="loading">
+          <el-option v-for="item in searchTemplates" :key="item.id" :label="item.name" :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="周期">
         <el-input name="domain" type="number" v-model="formData.cycle" placeholder="周期"></el-input>
@@ -55,7 +59,8 @@ export default {
       loading: false,
       authorities: [],
       id: null,
-      templateApi
+      templateApi,
+      searchTemplates: []
     }
   },
   created () {
@@ -70,7 +75,7 @@ export default {
           this.formData = response.data
           if (this.formData.templateId) {
             templateApi.get(this.formData.templateId).then(response => {
-              this.$refs.templateSelect.setData(response.data)
+              this.searchTemplates.push(response.data)
             })
           }
         })
@@ -81,11 +86,12 @@ export default {
       this.$refs.formData.validate(valid => {
         if (valid) {
           this.loading = true
+          this.formData.startUrlList = this.formData.startUrls.split('\n')
           if (this.id) {
             api.edit(this.formData).then(response => {
               //            this.authorities = response.data.content
               this.loading = false
-              this.$router.push({ path: '/task/page' })
+              this.$router.push({ path: '/task' })
             }).catch(() => {
               this.loading = false
             })
@@ -93,7 +99,7 @@ export default {
             api.add(this.formData).then(response => {
               //            this.authorities = response.data.content
               this.loading = false
-              this.$router.push({ path: '/task/page' })
+              this.$router.push({ path: '/task' })
             }).catch(() => {
               this.loading = false
             })
@@ -112,6 +118,23 @@ export default {
     handleTemplateChange (data) {
       console.log(data)
       this.formData.templateId = data.id
+    },
+    searchTemplate (query) {
+      if (query !== '') {
+        // this.loading = true;
+        this.templateApi.query(query, 'name').then(response => {
+          this.searchTemplates = response.data.content
+        })
+        // setTimeout(() => {
+        //   this.loading = false;
+        //   this.options4 = this.list.filter(item => {
+        //     return item.label.toLowerCase()
+        //       .indexOf(query.toLowerCase()) > -1;
+        //   });
+        // }, 200);
+      } else {
+        this.searchTemplates = []
+      }
     }
   },
   components: {

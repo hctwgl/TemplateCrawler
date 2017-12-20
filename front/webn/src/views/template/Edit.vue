@@ -99,11 +99,11 @@ export default {
           label: '文本'
         },
         {
-          value: 'TARGET_LINK',
+          value: 'NEXT_LEVEL_LINK',
           label: '跳转链接'
         },
         {
-          value: 'NEXT_LINK',
+          value: 'NEXT_PAGE_LINK',
           label: '下一页链接'
         },
         {

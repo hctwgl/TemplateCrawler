@@ -40,7 +40,7 @@ public class HasContextPageProcessor extends ContextPageProcessor {
         // 解析页面
         PageParseResult pageParseResult = TemplatePageParse.parse(templateStructure.getPageStructure().get(requestContext.getCurTotalLayer()), page);
 
-        boolean isInContentLayer = templateStructure.getContentStartLayer() >= requestContext.getCurTotalLayer();
+        boolean isInContentLayer = templateStructure.getContentStartLayer() <= requestContext.getCurTotalLayer();
         DataContent dataContentContext = requestContext.getDataContent();
         try {
             // 页面内容

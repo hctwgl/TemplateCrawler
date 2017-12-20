@@ -60,7 +60,7 @@ public class BaseApi<T extends BaseAuditableEntity, KEY> {
         if (StringUtils.isNotBlank(q)) {
             return baseService.query(null, field, q, pageable);
         } else {
-            return new PageImpl<T>(Collections.emptyList(), pageable, 0L);
+            return new PageImpl<>(Collections.emptyList(), pageable, 0L);
         }
     }
 }

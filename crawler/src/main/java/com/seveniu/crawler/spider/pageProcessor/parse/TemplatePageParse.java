@@ -26,23 +26,31 @@ import java.util.List;
 public class TemplatePageParse {
     private static Logger logger = LoggerFactory.getLogger(TemplatePageParse.class);
 
+    public static PageParseResult parse(PageTemplate pageTemplate, String html, String url) {
+        return parse(pageTemplate, new Html(html, url), url);
+    }
+
+
     public static PageParseResult parse(PageTemplate pageTemplate, Page page) {
-        Html html = page.getHtml();
-        PageParseResult pageParseResult = new PageParseResult(page.getUrl().get());
+        return parse(pageTemplate, page.getHtml(), page.getUrl().get());
+    }
+
+    public static PageParseResult parse(PageTemplate pageTemplate, Html html, String url) {
+        PageParseResult pageParseResult = new PageParseResult(url);
         List<FieldContent> fieldContents = new LinkedList<>();
         pageParseResult.getPageContent().setFieldContents(fieldContents);
         for (Field field : pageTemplate.getFields()) {
             switch (field.getType()) {
-                case TARGET_LINK:
+                case NEXT_LEVEL_LINK:
                     List<String> urls = parseLinkLabel(html, field);
-                    pageParseResult.setPageUrls(urls);
+                    pageParseResult.setNextLevelUrls(urls);
                     break;
                 case HTML_TEXT:
                     fieldContents.add(parseHtmlContent(html, field));
                     break;
-                case NEXT_LINK:
-                    List<String> nextUrls = parseNextLinkLabel(html, field);
-                    pageParseResult.setNextLevelUrls(nextUrls);
+                case NEXT_PAGE_LINK:
+                    List<String> nextPageUrls = parseNextPageLinkLabel(html, field);
+                    pageParseResult.setPageUrls(nextPageUrls);
                     break;
                 case TEXT_LINK:
                     fieldContents.add(parseTextLinkField(html, field));
@@ -157,7 +165,7 @@ public class TemplatePageParse {
     /**
      * 不接受 regex 处理
      */
-    private static List<String> parseNextLinkLabel(Html html, Field field) {
+    private static List<String> parseNextPageLinkLabel(Html html, Field field) {
         String xpath = field.getXpath();
         List<String> listUrls = html.xpath(xpath + "/@href").all();
         List<String> listTexts = html.xpath(xpath + "/text()").all();

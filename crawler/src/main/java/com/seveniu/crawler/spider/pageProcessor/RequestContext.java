@@ -52,8 +52,6 @@ public class RequestContext {
         if (isInContentLayer) {
             requestContext.curContentLayer = upLayerContext.curContentLayer + 1;
             DataContent nextDataContent = new DataContent(url);
-            upLayerContext.getDataContent().addChild(nextDataContent);
-            requestContext.setDataContent(nextDataContent);
         } else {
             requestContext.curContentLayer = upLayerContext.curContentLayer;
         }

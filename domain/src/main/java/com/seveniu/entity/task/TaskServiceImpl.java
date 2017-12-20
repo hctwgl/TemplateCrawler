@@ -151,6 +151,9 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
                     logger.info("run task : {}", task.getId());
                     crawlerTaskService.add(task, template);
                     task.setRunStatus(TaskRunStatus.TODO);
+                    if (task.getCycle() > 0) {
+                        task.setNextRunTime(new Date(System.currentTimeMillis() + 1000 * task.getCycle()));
+                    }
                     this.save(task);
                 }
             } catch (Exception e) {

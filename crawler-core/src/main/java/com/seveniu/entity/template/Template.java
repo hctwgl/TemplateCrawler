@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.seveniu.common.json.Json;
 import com.seveniu.entity.base.BaseAuditableEntity;
 import com.seveniu.entity.template.structure.PageTemplate;
+import com.seveniu.entity.template.structure.field.Field;
+import com.seveniu.entity.template.structure.field.FieldType;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -27,7 +29,7 @@ public class Template extends BaseAuditableEntity {
     // 0 表示起始 url 开始就是 内容层级
     // 1 表示从起始url 的下层url 开始是内容层级
     // -1 表示模板为非层级模板，都是内容页，需要通过Page url 匹配
-    private int contentStartLayer = 1;
+    private Integer contentStartLayer = 1;
 
     @Transient
     private List<PageTemplate> pageStructure;
@@ -63,11 +65,20 @@ public class Template extends BaseAuditableEntity {
     }
 
     public int getContentStartLayer() {
-        return contentStartLayer;
-    }
-
-    public void setContentStartLayer(int contentStartLayer) {
-        this.contentStartLayer = contentStartLayer;
+        if (contentStartLayer != null) {
+            return contentStartLayer;
+        }
+        int i = 0;
+        for (PageTemplate pageTemplate : pageStructure) {
+            for (Field field : pageTemplate.getFields()) {
+                if (field.getType() == FieldType.HTML_TEXT || field.getType() == FieldType.PURE_TEXT || field.getType() == FieldType.TEXT_LINK) {
+                    this.contentStartLayer = i;
+                    return i;
+                }
+            }
+            i++;
+        }
+        throw new IllegalArgumentException("no content layer");
     }
 
     public List<PageTemplate> getPageStructure() {

@@ -6,9 +6,9 @@ package com.seveniu.entity.template.structure.field;
  */
 public enum FieldType {
     HTML_TEXT,          // HTML_TEXT 文本
-    TARGET_LINK,        // TARGET_LINK 跳转链接
-    NEXT_LINK,          // NEXT_LINK 下一页链接
-    TEXT_LINK,          // TEXT_LINK 抓取的链接文本
-    PURE_TEXT,          // PURE_TEXT 抓取的链接文本
+    NEXT_LEVEL_LINK,        // NEXT_LEVEL_LINK 下一个网页跳转链接
+    NEXT_PAGE_LINK,          // NEXT_PAGE_LINK 下一页链接
+    TEXT_LINK,          // TEXT_LINK 获取链接的文本 及 链接，改链接不作为跳转链接 以及下一页链接
+    PURE_TEXT,          // PURE_TEXT 获取纯文本
     DOWNLOAD_LINK;      // DOWNLOAD_LINK 下载链接
 }

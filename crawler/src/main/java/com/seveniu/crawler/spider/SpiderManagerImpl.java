@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
-import us.codecraft.webmagic.scheduler.QueueScheduler;
 import us.codecraft.webmagic.scheduler.Scheduler;
 
+import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.*;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class SpiderManagerImpl implements SpiderManager {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private ExecutorService executor;
-    private LinkedBlockingQueue<RunningSpider> allRunningSpider = new LinkedBlockingQueue<>();
+    private LinkedBlockingQueue<TemplateSpider> allTemplateSpider = new LinkedBlockingQueue<>();
     private final Semaphore semaphore;
     private final CrawlerTaskService crawlerTaskService;
     private List<Pipeline> pipelines;
@@ -37,37 +37,38 @@ public class SpiderManagerImpl implements SpiderManager {
     public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum, CrawlerTaskService crawlerTaskService, @Autowired(required = false) List<Pipeline> pipelines) {
         this.semaphore = new Semaphore(sameTimeThreadMaxNum);
         this.executor = CrawlerThreadPoolFactory.getTaskThreadPool();
-        this.checkTaskFromTaskQueue();
         this.crawlerTaskService = crawlerTaskService;
         this.pipelines = pipelines;
     }
 
     @Override
-    public RunningSpider runSpider(CrawlerTask task) {
+    public TemplateSpider runSpider(CrawlerTask task) {
         //TODO: 限制一个用户最多使用的线程数, 临时固定为 50 个
 
 
         Scheduler scheduler;
         // 获取 template 构造 pageProcess
         Template template = task.getTemplate();
-        if (template.getContentStartLayer() + 1 == template.getPageStructure().size()) {
-            scheduler = new NormalScheduler();
-        } else {
-            scheduler = new QueueScheduler();
-        }
+//        if (template.getContentStartLayer() + 1 == template.getPageStructure().size()) {
+//            scheduler = new NormalScheduler();
+//        } else {
+//            scheduler = new QueueScheduler();
+//        }
         PageProcessor pageProcessor = new HasContextPageProcessor(task.getTemplate());
 
-        RunningSpider runningSpider = new RunningSpider(pageProcessor, task);
-        runningSpider.setScheduler(scheduler);
+        TemplateSpider templateSpider = new TemplateSpider(pageProcessor, task);
+//        templateSpider.setScheduler(scheduler);
         if (pipelines == null || pipelines.size() == 0) {
-            runningSpider.addPipeline(new ConsolePipeline());
+            templateSpider.addPipeline(new ConsolePipeline());
+        } else {
+            templateSpider.setPipelines(pipelines);
         }
 
         executor.execute(() -> {
             try {
                 logger.info("cur available thread", semaphore.availablePermits());
                 semaphore.acquire();
-                runningSpider.run();
+                templateSpider.run();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
@@ -75,21 +76,22 @@ public class SpiderManagerImpl implements SpiderManager {
             }
         });
 
-        return runningSpider;
+        return templateSpider;
     }
 
     @Override
-    public Collection<RunningSpider> getRunningSpiders() {
-        return allRunningSpider;
+    public Collection<TemplateSpider> getRunningSpiders() {
+        return allTemplateSpider;
     }
 
     @Override
-    public Collection<RunningSpider> getRunningSpidersByUserId(Long userId) {
-        return allRunningSpider.stream().filter(v -> v.getTask().getTask().getCreateUserId().equals(userId)).collect(Collectors.toList());
+    public Collection<TemplateSpider> getRunningSpidersByUserId(Long userId) {
+        return allTemplateSpider.stream().filter(v -> v.getCrawlerTask().getTask().getCreateUserId().equals(userId)).collect(Collectors.toList());
     }
 
     private ScheduledExecutorService monitorScheduled;
 
+    @PostConstruct
     private void checkTaskFromTaskQueue() {
 
         logger.info("exec due task");

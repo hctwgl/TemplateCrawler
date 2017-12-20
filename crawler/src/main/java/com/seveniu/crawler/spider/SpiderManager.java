@@ -11,9 +11,9 @@ import java.util.Collection;
  */
 public interface SpiderManager {
 
-    RunningSpider runSpider(CrawlerTask task);
+    TemplateSpider runSpider(CrawlerTask task);
 
-    Collection<RunningSpider> getRunningSpiders();
+    Collection<TemplateSpider> getRunningSpiders();
 
-    Collection<RunningSpider> getRunningSpidersByUserId(Long userId);
+    Collection<TemplateSpider> getRunningSpidersByUserId(Long userId);
 }

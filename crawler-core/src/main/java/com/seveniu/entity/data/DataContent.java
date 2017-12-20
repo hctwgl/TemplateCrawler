@@ -54,6 +54,9 @@ public class DataContent {
     }
 
     public synchronized void addChild(DataContent child) {
+        if (this.children == null) {
+            this.children = new LinkedList<>();
+        }
         this.children.add(child);
         child.parent = this;
         this.allChildrenCount.getAndIncrement();
@@ -90,6 +93,7 @@ public class DataContent {
             if (this.parent == null) {
                 return this;
             } else {
+                this.parent.doneChildrenCount.getAndIncrement();
                 return this.parent.done();
             }
         }

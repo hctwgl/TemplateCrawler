@@ -108,7 +108,7 @@ public class Task extends BaseAuditableEntity {
 
     public String[] getStartUrlList() {
         if (startUrlList == null && this.startUrls != null) {
-            return this.startUrls.split("\\r?\\n");
+            this.startUrlList = this.startUrls.split("\\r?\\n");
         }
         return this.startUrlList;
     }

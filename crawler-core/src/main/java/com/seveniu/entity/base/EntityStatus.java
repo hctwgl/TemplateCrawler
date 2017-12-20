@@ -5,5 +5,5 @@ package com.seveniu.entity.base;
  * *
  */
 public enum EntityStatus {
-    ACTIVE, DONE, ERROR, DELETED
+    ACTIVE, DONE, ERROR, STOP, DELETED
 }

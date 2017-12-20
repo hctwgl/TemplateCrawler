@@ -17,24 +17,24 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by seveniu on 7/22/17.
  * *
  */
-public class RunningSpider extends Spider {
+public class TemplateSpider extends Spider {
     private static AtomicInteger allCount = new AtomicInteger();
     private Logger log = LoggerFactory.getLogger(this.getClass());
-    private CrawlerTask task;
+    private CrawlerTask crawlerTask;
     private Date timeCreated = new Date();
     private Date timeEnded;
     private SpiderCloseListener closeListener;
     private AtomicInteger errorPageCount;
 
-    public RunningSpider(PageProcessor pageProcessor, CrawlerTask task) {
+    public TemplateSpider(PageProcessor pageProcessor, CrawlerTask crawlerTask) {
         super(pageProcessor);
-        this.task = task;
-        this.setUUID("spider-" + allCount.getAndIncrement() + "-task-" + this.task.getTask().getId() + "-" + this.timeCreated.getTime())
+        this.crawlerTask = crawlerTask;
+        this.setUUID("spider-" + allCount.getAndIncrement() + "-task-" + this.crawlerTask.getTask().getId() + "-" + this.timeCreated.getTime())
                 .thread(
-                        Executors.newFixedThreadPool(task.getTask().getThreadNum(), CrawlerThreadPoolFactory.getSpiderThreadFactory(task.getTask().getId())),
+                        Executors.newFixedThreadPool(crawlerTask.getTask().getThreadNum(), CrawlerThreadPoolFactory.getSpiderThreadFactory(crawlerTask.getTask().getId())),
 
-                        task.getTask().getThreadNum())
-                .addUrl(task.getTask().getStartUrlList())
+                        crawlerTask.getTask().getThreadNum())
+                .addUrl(crawlerTask.getTask().getStartUrlList())
                 .setSpiderListeners(Collections.singletonList(new Listener()))
         ;
     }
@@ -57,7 +57,7 @@ public class RunningSpider extends Spider {
             closeListener.close();
         }
         this.timeEnded = new Date();
-        log.info("task : {} run from {} to {}, get page {}, error page: {}", this.task.getTask().getId(), this.timeCreated, this.timeEnded, this.getPageCount(), this.errorPageCount.get());
+        log.info("task : {} run from {} to {}, get page {}, error page: {}", this.crawlerTask.getTask().getId(), this.timeCreated, this.timeEnded, this.getPageCount(), this.errorPageCount.get());
     }
 
     private class Listener implements SpiderListener {
@@ -75,12 +75,12 @@ public class RunningSpider extends Spider {
 
     // get and set
 
-    public CrawlerTask getTask() {
-        return task;
+    public CrawlerTask getCrawlerTask() {
+        return crawlerTask;
     }
 
-    public void setTask(CrawlerTask task) {
-        this.task = task;
+    public void setCrawlerTask(CrawlerTask crawlerTask) {
+        this.crawlerTask = crawlerTask;
     }
 
     public Date getTimeCreated() {
