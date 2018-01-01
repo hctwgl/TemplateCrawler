@@ -12,7 +12,7 @@ import org.springframework.core.env.Environment;
 import java.util.Arrays;
 
 @SpringBootApplication
-@ComponentScan("com.seveniu")
+@ComponentScan(value = {"com.seveniu"})
 public class AppCrawler {
     private static final Logger logger = LoggerFactory.getLogger(AppCrawler.class);
     private static ApplicationContext ctx;
@@ -34,6 +34,5 @@ public class AppCrawler {
         ctx = SpringApplication.run(AppCrawler.class, args);
         AppCrawler appCrawl = ctx.getBean(AppCrawler.class);
         appCrawl.init();
-
     }
 }

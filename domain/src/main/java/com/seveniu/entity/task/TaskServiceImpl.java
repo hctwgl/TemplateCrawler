@@ -2,14 +2,15 @@ package com.seveniu.entity.task;
 
 import com.seveniu.common.date.DateUtil;
 import com.seveniu.entity.BaseServiceImpl;
+import com.seveniu.entity.CrawlerTask;
 import com.seveniu.entity.base.EntityStatus;
 import com.seveniu.entity.template.Template;
 import com.seveniu.entity.template.TemplateService;
-import com.seveniu.service.CrawlerTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -33,14 +34,17 @@ import java.util.concurrent.TimeUnit;
 public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements TaskService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private final TaskRepository taskRepository;
+    private final TaskStatisticRepository taskStatisticRepository;
 
-//    @Value("${execDueTask:false}")
-//    private boolean execDueTask;
+    @Autowired
+    public TaskServiceImpl(TaskRepository taskRepository, TaskStatisticRepository taskStatisticRepository) {
+        super(taskRepository);
+        this.taskRepository = taskRepository;
+        this.taskStatisticRepository = taskStatisticRepository;
+    }
 
 
     private ScheduledExecutorService monitorScheduled;
-    @Autowired
-    CrawlerTaskService crawlerTaskService;
     @Autowired
     TemplateService templateService;
 
@@ -56,15 +60,10 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
         return super.save(task);
     }
 
-    @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository) {
-        super(taskRepository);
-        this.taskRepository = taskRepository;
-    }
 
     @PostConstruct
     public void init() {
-        this.startMonitorDueTaskAndRun();
+//        this.startMonitorDueTaskAndRun();
     }
 
     @Override
@@ -110,7 +109,36 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
     }
 
 
-    public List<Task> getDueTask() {
+    @Override
+    public synchronized CrawlerTask getOneDueTaskAndRun() {
+        List<Task> tasks = taskRepository.getOneDueTask(EntityStatus.ACTIVE, TaskRunStatus.DONE, new PageRequest(0, 1));
+
+        if (tasks == null || tasks.size() != 1) {
+            return null;
+        }
+        Task task = tasks.get(0);
+        logger.info("run due task : {}", task);
+
+        if (task.getTemplateId() == null) {
+            logger.warn("task : {} template id is null", task.getId());
+            return null;
+        }
+        Template template = templateService.findOne(task.getTemplateId());
+        if (task.getTemplateId() == null) {
+            logger.warn("task : {} template {} not find", task.getId(), task.getTemplateId());
+            return null;
+        }
+        logger.info("run task : {}", task.getId());
+        task.setRunStatus(TaskRunStatus.RUNNING);
+        task.setLastStartTime(new Date());
+        if (task.getCycle() > 0) {
+            task.setNextRunTime(new Date(System.currentTimeMillis() + 1000 * task.getCycle()));
+        }
+        this.save(task);
+        return new CrawlerTask(task, template);
+    }
+
+    private List<Task> getDueTask() {
         return taskRepository.getDueTask(EntityStatus.ACTIVE, TaskRunStatus.DONE);
     }
 
@@ -149,7 +177,6 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
                         return;
                     }
                     logger.info("run task : {}", task.getId());
-                    crawlerTaskService.add(task, template);
                     task.setRunStatus(TaskRunStatus.TODO);
                     if (task.getCycle() > 0) {
                         task.setNextRunTime(new Date(System.currentTimeMillis() + 1000 * task.getCycle()));
@@ -335,5 +362,14 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
         taskRepository.save(task);
     }
 
+    public TaskStatistic createTaskStatistic(Task task) {
+        TaskStatistic taskStatistic = new TaskStatistic(String.valueOf(task.getId()));
+        return taskStatisticRepository.save(taskStatistic);
+    }
+
+    @Override
+    public void saveTaskStatistic(TaskStatistic taskStatistic) {
+        taskStatisticRepository.save(taskStatistic);
+    }
 
 }

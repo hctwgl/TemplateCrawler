@@ -1,6 +1,6 @@
 package com.seveniu.crawler.spider.pageProcessor.parse;
 
-import com.seveniu.entity.data.PageContent;
+import com.seveniu.entity.data.content.PageContent;
 
 import java.util.Collections;
 import java.util.List;

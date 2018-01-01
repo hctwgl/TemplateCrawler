@@ -1,6 +1,7 @@
 package com.seveniu.crawler.spider.pageProcessor;
 
 import com.seveniu.crawler.spider.pageProcessor.parse.PageParseResult;
+import com.seveniu.crawler.utils.UserAgent;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -34,6 +35,11 @@ public abstract class ContextPageProcessor implements PageProcessor {
 
     @Override
     public Site getSite() {
-        return Site.me();
+        return Site.me()
+                .setUserAgent(UserAgent.getUserAgent())
+                .setSleepTime(3000)
+                .setRetryTimes(3)
+                ;
     }
+
 }

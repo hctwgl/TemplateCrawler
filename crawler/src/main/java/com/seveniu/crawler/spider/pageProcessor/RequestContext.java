@@ -1,6 +1,6 @@
 package com.seveniu.crawler.spider.pageProcessor;
 
-import com.seveniu.entity.data.DataContent;
+import com.seveniu.entity.data.content.DataContent;
 
 import javax.persistence.Transient;
 

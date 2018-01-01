@@ -2,8 +2,8 @@ package com.seveniu.crawler.spider.pageProcessor;
 
 import com.seveniu.crawler.spider.pageProcessor.parse.PageParseResult;
 import com.seveniu.crawler.spider.pageProcessor.parse.TemplatePageParse;
-import com.seveniu.entity.data.DataContent;
-import com.seveniu.entity.data.PageContent;
+import com.seveniu.entity.data.content.DataContent;
+import com.seveniu.entity.data.content.PageContent;
 import com.seveniu.entity.template.Template;
 import com.seveniu.entity.template.structure.PageTemplate;
 import us.codecraft.webmagic.Page;

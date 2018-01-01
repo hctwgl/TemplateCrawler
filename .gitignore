@@ -84,6 +84,8 @@ front/researcher/.idea/*
 **/build
 **/.idea
 
-!/front/*/build/*
+!/front/chrome-extention/build/*
+!/front/web/build/*
+!/front/webn/build/*
 /front/node_modules
 **/dist

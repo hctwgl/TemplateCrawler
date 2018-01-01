@@ -1,7 +1,7 @@
 package com.seveniu.entity.task;
 
-import com.seveniu.entity.base.EntityStatus;
 import com.seveniu.entity.BaseRepository;
+import com.seveniu.entity.base.EntityStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,6 +20,9 @@ import java.util.List;
 public interface TaskRepository extends BaseRepository<Task, Long> {
     @Query("SELECT t FROM Task t WHERE t.cycle.id > 0 AND t.nextRunTime < NOW() AND t.status =:status AND t.runStatus =:runStatus")
     List<Task> getDueTask(@Param("status") EntityStatus status, @Param("runStatus") TaskRunStatus runStatus);
+
+    @Query("SELECT t FROM Task t WHERE t.cycle.id > 0 AND t.nextRunTime < NOW() AND t.status =:status AND t.runStatus =:runStatus")
+    List<Task> getOneDueTask(@Param("status") EntityStatus status, @Param("runStatus") TaskRunStatus runStatus, Pageable pageable);
 
     @Modifying
     @Transactional

@@ -1,8 +1,8 @@
 package com.seveniu.crawler.spider.pageProcessor.parse;
 
 import com.seveniu.common.html.HtmlUtil;
-import com.seveniu.entity.data.FieldContent;
-import com.seveniu.entity.data.Link;
+import com.seveniu.entity.data.content.FieldContent;
+import com.seveniu.entity.data.content.Link;
 import com.seveniu.entity.template.structure.PageTemplate;
 import com.seveniu.entity.template.structure.field.Field;
 import org.slf4j.Logger;
@@ -49,8 +49,10 @@ public class TemplatePageParse {
                     fieldContents.add(parseHtmlContent(html, field));
                     break;
                 case NEXT_PAGE_LINK:
-                    List<String> nextPageUrls = parseNextPageLinkLabel(html, field);
-                    pageParseResult.setPageUrls(nextPageUrls);
+                    String nextPageUrl = parseNextPageLinkLabel(html, field);
+                    if (nextPageUrl != null) {
+                        pageParseResult.setPageUrls(Collections.singletonList(nextPageUrl));
+                    }
                     break;
                 case TEXT_LINK:
                     fieldContents.add(parseTextLinkField(html, field));
@@ -165,7 +167,7 @@ public class TemplatePageParse {
     /**
      * 不接受 regex 处理
      */
-    private static List<String> parseNextPageLinkLabel(Html html, Field field) {
+    private static String parseNextPageLinkLabel(Html html, Field field) {
         String xpath = field.getXpath();
         List<String> listUrls = html.xpath(xpath + "/@href").all();
         List<String> listTexts = html.xpath(xpath + "/text()").all();
@@ -173,28 +175,24 @@ public class TemplatePageParse {
         if (listUrls == null || listUrls.size() == 0) {
             if (field.isMust()) {
 //                parseResult.setParseError(new ParseError(field, ParseErrorType.NOT_FOUND_XPATH));
-                return Collections.emptyList();
+                return null;
             }
         } else {
 
             if (listUrls.size() == 1) {
-                String nextUrl = listUrls.get(0);
-                if (nextUrl.length() > 0) {
-                    listUrls.add(nextUrl);
-//                    parseResult.addPageLink(new Link(listTexts.get(0), nextUrl));
-                }
+                return listUrls.get(0);
             } else {
-                int index = findNextLink(listTexts);
-                if (index > -1) {
-                    String nextUrl = listUrls.get(index);
-                    if (nextUrl.length() > 0) {
-//                        parseResult.addPageLink(new Link(listTexts.get(index), nextUrl));
-                        listUrls.add(nextUrl);
+                if (field.getNextPageLinkText() != null) {
+                    for (int i = 0; i < listTexts.size(); i++) {
+                        String s = listTexts.get(i);
+                        if (s.trim().equals(field.getNextPageLinkText().trim())) {
+                            return listUrls.get(i);
+                        }
                     }
                 }
             }
         }
-        return nextUrls;
+        return null;
     }
 
     /**

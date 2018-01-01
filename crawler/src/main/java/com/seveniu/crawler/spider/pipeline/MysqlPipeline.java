@@ -2,7 +2,9 @@ package com.seveniu.crawler.spider.pipeline;
 
 import com.seveniu.crawler.spider.Def;
 import com.seveniu.crawler.spider.TemplateSpider;
-import com.seveniu.entity.data.DataContent;
+import com.seveniu.entity.data.Data;
+import com.seveniu.entity.data.DataRepository;
+import com.seveniu.entity.data.content.DataContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Service;
@@ -29,9 +31,12 @@ public class MysqlPipeline implements Pipeline {
             return;
         }
         TemplateSpider templateSpider = (TemplateSpider) task;
+        DataContent dataContent = (DataContent) obj;
         Data data = new Data();
-        data.setDataContent((DataContent) obj);
+        data.setUrl(dataContent.getUrl());
+        data.setDataContent(dataContent);
         data.setTaskId(templateSpider.getCrawlerTask().getTask().getId());
+        data.setStatisticId(templateSpider.getCrawlerTask().getTaskStatistic().getId());
         dataRepository.save(data);
     }
 

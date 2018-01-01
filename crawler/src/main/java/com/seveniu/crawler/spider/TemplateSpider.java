@@ -1,6 +1,8 @@
 package com.seveniu.crawler.spider;
 
+import com.seveniu.crawler.spider.pageProcessor.RequestContext;
 import com.seveniu.entity.CrawlerTask;
+import com.seveniu.entity.data.content.DataContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Request;
@@ -12,6 +14,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.seveniu.crawler.spider.Def.REQUEST_CONTEXT_KEY;
 
 /**
  * Created by seveniu on 7/22/17.
@@ -69,7 +73,14 @@ public class TemplateSpider extends Spider {
 
         @Override
         public void onError(Request request) {
-
+            Object obj = request.getExtra(REQUEST_CONTEXT_KEY);
+            if (obj != null) {
+                RequestContext requestContext = (RequestContext) obj;
+                DataContent dataContent = requestContext.getDataContent();
+                if (dataContent != null) {
+                    dataContent.error();
+                }
+            }
         }
     }
 
@@ -97,5 +108,13 @@ public class TemplateSpider extends Spider {
 
     public void setTimeEnded(Date timeEnded) {
         this.timeEnded = timeEnded;
+    }
+
+    public SpiderCloseListener getCloseListener() {
+        return closeListener;
+    }
+
+    public void setCloseListener(SpiderCloseListener closeListener) {
+        this.closeListener = closeListener;
     }
 }

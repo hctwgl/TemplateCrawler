@@ -2,7 +2,7 @@ package com.seveniu.service;
 
 import com.seveniu.entity.task.CrawlerUserInfo;
 import com.seveniu.entity.task.Task;
-import com.seveniu.entity.task.TaskStatistic;
+import com.seveniu.entity.task.TaskStatisticOld;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface CrawlerUserApi {
 
-    List<TaskStatistic> getRunningTasks();
+    List<TaskStatisticOld> getRunningTasks();
 
     CrawlerUserInfo getResourceInfo();
 

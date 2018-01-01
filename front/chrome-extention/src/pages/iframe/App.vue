@@ -21,14 +21,14 @@
             <el-button slot="append" icon="el-icon-search" @mouseout.native="cancelLocation" @mouseover.native="locationByXpath(item.xpath)"></el-button>
           </el-input>
         </el-form-item>
-        <!-- <el-form-item label="名称">
-                                                                                                        <el-input v-model="item.label"></el-input>
-                                                                                                      </el-form-item> -->
         <el-form-item label="默认值">
           <el-input v-model="item.defaultValue"></el-input>
         </el-form-item>
         <el-form-item label="多值" prop="delivery">
           <el-switch v-model="item.multiple"></el-switch>
+        </el-form-item>
+        <el-form-item label="过滤内容" prop="delivery" v-if="item.type === 'NEXT_PAGE_LINK'">
+          <el-input v-model="item.nextPageLinkText"></el-input>
         </el-form-item>
         <hr>
       </el-form>
@@ -46,17 +46,17 @@
 import chromeUtil from '@/utils/chromeUtil'
 
 let messageProcess
-function initChromeMessage() {
+function initChromeMessage () {
   // message 处理
   messageProcess = {
     name: 'iframe',
     actions: {
-      setXpath(sender, message, sendResponse) {
+      setXpath (sender, message, sendResponse) {
         console.log('get action choose dom')
         status.startChooseDom()
       }
     },
-    accept(sender, message, sendResponse) {
+    accept (sender, message, sendResponse) {
       if (message.target !== this.name) {
         return
       }
@@ -67,7 +67,7 @@ function initChromeMessage() {
         console.log('not handle action : ' + message.action)
       }
     },
-    sendMessage(tabId, message, options, responseCallback) {
+    sendMessage (tabId, message, options, responseCallback) {
       chrome.tabs.sendMessage(tabId, message, responseCallback)
     }
   }
@@ -81,7 +81,7 @@ function initChromeMessage() {
     messageProcess.accept(sender, requestData, sendResponse)
   })
 }
-function checkXpath(rule, value, callback) {
+function checkXpath (rule, value, callback) {
   console.log(value)
   if (!value) {
     return callback(new Error('年龄不能为空'))
@@ -91,7 +91,7 @@ function checkXpath(rule, value, callback) {
 
 export default {
   name: 'app',
-  data() {
+  data () {
     return {
       page: {
         fields: []
@@ -114,11 +114,11 @@ export default {
           label: '纯文本'
         },
         {
-          value: 'TARGET_LINK',
+          value: 'NEXT_LEVEL_LINK',
           label: '目标链接'
         },
         {
-          value: 'NEXT_LINK',
+          value: 'NEXT_PAGE_LINK',
           label: '下一页链接'
         },
         {
@@ -140,12 +140,12 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     const that = this
     if (process.env.NODE_ENV === 'production') {
       initChromeMessage()
       messageProcess.actions = {
-        setXpath(sender, message, sendResponse) {
+        setXpath (sender, message, sendResponse) {
           console.log('get xpath ' + message.msg)
           that.curXpathField.xpath = message.msg
         }
@@ -162,25 +162,25 @@ export default {
     }
   },
   methods: {
-    chooseXpath(filed) {
+    chooseXpath (filed) {
       console.log('xxxxx')
       this.curXpathField = filed
       chromeUtil.sendMessage({ target: 'router-content', action: 'chooseDom' })
     },
-    locationByXpath(xpath) {
+    locationByXpath (xpath) {
       if (xpath.length > 0) {
         chromeUtil.sendMessage({ target: 'router-content', action: 'locationXpath', msg: xpath })
       }
     },
-    addNewFiled() {
+    addNewFiled () {
       var newFiled = JSON.parse(JSON.stringify(this.newField))
       newFiled.label = '字段' + (this.page.fields.length + 1)
       this.page.fields.push(newFiled)
     },
-    cancelLocation() {
+    cancelLocation () {
       chromeUtil.sendMessage({ target: 'router-content', action: 'cancelLocation' })
     },
-    submit() {
+    submit () {
       if (this.page.fields.length === 0) {
         this.$message.error('没有添加字段')
       } else {
@@ -194,10 +194,12 @@ export default {
             break
           }
         }
-        chromeUtil.sendMessage({ target: 'background', action: 'submitPage', msg: JSON.parse(JSON.stringify(this.page)) })
+        chromeUtil.sendMessage({ target: 'background', action: 'submitPage', msg: JSON.parse(JSON.stringify(this.page)) }, (data) => {
+          console.log(data)
+        })
       }
     },
-    removeField(index) {
+    removeField (index) {
       this.page.fields.splice(index, 1)
     }
   }

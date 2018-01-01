@@ -1,7 +1,6 @@
 package com.seveniu.entity.website;
 
 import com.seveniu.entity.BaseServiceImpl;
-import com.seveniu.entity.Website;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

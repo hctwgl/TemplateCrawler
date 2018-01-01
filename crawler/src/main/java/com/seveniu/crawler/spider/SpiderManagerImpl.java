@@ -3,8 +3,9 @@ package com.seveniu.crawler.spider;
 import com.seveniu.crawler.spider.pageProcessor.HasContextPageProcessor;
 import com.seveniu.crawler.spider.pipeline.ConsolePipeline;
 import com.seveniu.entity.CrawlerTask;
+import com.seveniu.entity.task.TaskService;
+import com.seveniu.entity.task.TaskStatistic;
 import com.seveniu.entity.template.Template;
-import com.seveniu.service.CrawlerTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,14 @@ public class SpiderManagerImpl implements SpiderManager {
     private ExecutorService executor;
     private LinkedBlockingQueue<TemplateSpider> allTemplateSpider = new LinkedBlockingQueue<>();
     private final Semaphore semaphore;
-    private final CrawlerTaskService crawlerTaskService;
+    private final TaskService taskService;
     private List<Pipeline> pipelines;
 
     @Autowired
-    public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum, CrawlerTaskService crawlerTaskService, @Autowired(required = false) List<Pipeline> pipelines) {
+    public SpiderManagerImpl(@Value("${crawler.thread.max:400}") int sameTimeThreadMaxNum, @Autowired TaskService taskService, @Autowired(required = false) List<Pipeline> pipelines) {
         this.semaphore = new Semaphore(sameTimeThreadMaxNum);
         this.executor = CrawlerThreadPoolFactory.getTaskThreadPool();
-        this.crawlerTaskService = crawlerTaskService;
+        this.taskService = taskService;
         this.pipelines = pipelines;
     }
 
@@ -63,6 +64,11 @@ public class SpiderManagerImpl implements SpiderManager {
         } else {
             templateSpider.setPipelines(pipelines);
         }
+        TaskStatistic taskStatistic = taskService.createTaskStatistic(task.getTask());
+        task.setTaskStatistic(taskStatistic);
+        templateSpider.setCloseListener(() -> {
+            taskService.saveTaskStatistic(taskStatistic);
+        });
 
         executor.execute(() -> {
             try {
@@ -104,7 +110,7 @@ public class SpiderManagerImpl implements SpiderManager {
         monitorScheduled.scheduleWithFixedDelay(() -> {
             while (true) {
                 try {
-                    CrawlerTask crawlerTask = crawlerTaskService.take();
+                    CrawlerTask crawlerTask = taskService.getOneDueTaskAndRun();
                     if (crawlerTask == null) {
                         break;
                     }

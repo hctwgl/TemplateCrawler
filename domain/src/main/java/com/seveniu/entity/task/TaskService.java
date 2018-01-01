@@ -2,6 +2,7 @@ package com.seveniu.entity.task;
 
 
 import com.seveniu.entity.BaseService;
+import com.seveniu.entity.CrawlerTask;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -37,6 +38,8 @@ public interface TaskService extends BaseService<Task, Long> {
 
     void del(Integer accessor, Long id);
 
+    CrawlerTask getOneDueTaskAndRun();
+
     int filterCountLike(Integer user, String[] fieldArray, Object[] valueArray, String likeField, String likeValue);
 
     List filterLimitLike(Integer user, int start, int pageSize, String orderField, String orderType, String[] fieldArray, Object[] valueArray, String likeField, String likeValue);
@@ -51,4 +54,7 @@ public interface TaskService extends BaseService<Task, Long> {
 
     Page<Task> findCreateByUser(Long userId, Pageable pageable);
 
+    TaskStatistic createTaskStatistic(Task task);
+
+    void saveTaskStatistic(TaskStatistic taskStatistic);
 }

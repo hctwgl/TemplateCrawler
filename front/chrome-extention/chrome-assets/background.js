@@ -22,9 +22,12 @@ function getCurEditTemplate() {
     return null
   }
 }
-function updateCurEditTemplate(template, updateServer = true) {
+function updateCurEditTemplate(template, updateServer = true, callbackF) {
   if (template === null) {
     curEditTemplate = null
+    if (callbackF) {
+      callbackF(false)
+    }
     return
   }
   curEditTemplate = JSON.parse(JSON.stringify(template))
@@ -33,7 +36,15 @@ function updateCurEditTemplate(template, updateServer = true) {
       baseURL: serverUrl,
       headers: {'Authorization': token}
     }).then(response => {
-      curEditTemplate = response.data
+      if (response.status === 200) {
+        curEditTemplate = response.data
+        callbackF(true)
+      } else {
+        callbackF(false)
+      }
+    }).catch((error) => {
+      callbackF(false)
+      console.log(error)
     })
   }
 }
@@ -84,10 +95,13 @@ const messageProcess = {
     submitPage(sender, message, sendResponse) {
       message.msg.url = sender.tab.url
       curEditTemplate.pageStructure[curInjectPageIndex] = JSON.parse(JSON.stringify(message.msg))
-      updateCurEditTemplate(curEditTemplate)
+      updateCurEditTemplate(curEditTemplate, (result) => {
+        sendResponse(result)
+      })
       console.log('保存成功')
       console.log(message.msg)
       console.log(curEditTemplate)
+      sendResponse()
     }
   },
   accept(sender, message, sendResponse) {

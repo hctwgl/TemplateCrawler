@@ -1,7 +1,6 @@
 package com.seveniu.entity.website;
 
 import com.seveniu.entity.BaseRepository;
-import com.seveniu.entity.Website;
 import org.springframework.stereotype.Repository;
 
 /**

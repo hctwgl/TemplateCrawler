@@ -2,8 +2,8 @@ package com.seveniu.crawler.spider.pageProcessor;
 
 import com.seveniu.crawler.spider.pageProcessor.parse.PageParseResult;
 import com.seveniu.crawler.spider.pageProcessor.parse.TemplatePageParse;
-import com.seveniu.entity.data.DataContent;
-import com.seveniu.entity.data.PageContent;
+import com.seveniu.entity.data.content.DataContent;
+import com.seveniu.entity.data.content.PageContent;
 import com.seveniu.entity.template.Template;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -67,7 +67,7 @@ public class HasContextPageProcessor extends ContextPageProcessor {
             // 多页 url
             processMultiPage(pageParseResult, requestContext, page);
         } catch (Exception e) {
-            e.printStackTrace();
+//            throw new PageParseExcepution(e);
         } finally {
             if (dataContentContext != null) {
                 DataContent doneDataContent = dataContentContext.done();

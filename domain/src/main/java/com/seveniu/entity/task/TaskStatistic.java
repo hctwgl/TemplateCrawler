@@ -1,118 +1,75 @@
 package com.seveniu.entity.task;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
+import com.seveniu.entity.base.BaseAuditableEntity;
+
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.Transient;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by seveniu on 5/15/16.
  * TaskStatistic
  */
-public class TaskStatistic {
+@Entity
+public class TaskStatistic extends BaseAuditableEntity {
     private static final int NETWORK_ERROR_URL_LIST_SIZE_MAX = 50;
     private static final int PARSE_ERROR_URL_LIST_SIZE_MAX = 50;
     private String taskId;
     private Date startTime;
     private Date endTime;
     private int startUrlCount = 0;
-    private AtomicInteger createUrlCount = new AtomicInteger(0);
-    private AtomicInteger createTargetUrlCount = new AtomicInteger(0);
-    private AtomicInteger createNextUrlCount = new AtomicInteger(0);
-    private AtomicInteger successUrlCount = new AtomicInteger(0);
-    private AtomicInteger repeatUrlCount = new AtomicInteger(0);
-    private AtomicInteger netErrorUrlCount = new AtomicInteger(0);
-    private AtomicInteger doneUrlCount = new AtomicInteger(0);
-    private AtomicInteger parseErrorCount = new AtomicInteger(0);
-    private AtomicInteger createNodeCount = new AtomicInteger(0);
-    private AtomicInteger doneNodeCount = new AtomicInteger(0);
-    private AtomicInteger errorNodeCount = new AtomicInteger(0);
-    private List<String> netErrorUrlList = Collections.synchronizedList(new ArrayList<>());
-    private List<String> parseErrorUrlList = Collections.synchronizedList(new ArrayList<>());
+    private int createUrlCount;
+    private int createTargetUrlCount;
+    private int createNextUrlCount;
+    private int successUrlCount;
+    private int repeatUrlCount;
+    private int netErrorUrlCount;
+    private int doneUrlCount;
+    private int parseErrorCount;
+    private int createNodeCount;
+    private int doneNodeCount;
+    private int errorNodeCount;
+    @Transient
+    private List<String> downloadErrorUrlList;
+    @Transient
+    private List<ParseError> parseErrorList;
+    @Lob
+    private String downloadErrorUrls;
+    @Lob
+    private String parseErrors;
 
     // startUrlCount + createUrlCount = repeatUrlCount + successUrlCount + netErrorUrlCount
     // startUrlCount + createUrlCount = repeatUrlCount + createTargetUrlCount + createNextUrlCount
     // successUrlCount = doneUrlCount + parseErrorCount
     // createNodeCount = doneNodeCount + errorNodeCount
 
-
-    public TaskStatistic() {
-    }
-
     public TaskStatistic(String taskId) {
         this.taskId = taskId;
     }
 
-    public void setStartUrlCount(int count) {
-        startUrlCount = count;
-    }
-
-    public int addTargetUrlCount(int num) {
-        return createTargetUrlCount.addAndGet(num);
-    }
-
-    public int addCreateNodeCount(int num) {
-        return createNodeCount.addAndGet(num);
-    }
-
-    public int addDoneNodeCount(int num) {
-        return doneNodeCount.addAndGet(num);
-    }
-
-    public int addErrorNodeCount(int num) {
-        return errorNodeCount.addAndGet(num);
-    }
-
-    public int addCreateUrlCount(int num) {
-        return createUrlCount.addAndGet(num);
-    }
-
-    public int addSuccessUrlCount(int num) {
-        return successUrlCount.addAndGet(num);
-    }
-
-    public int addNextUrlCount(int num) {
-        return createNextUrlCount.addAndGet(num);
-    }
-
-    public int addDoneUrlCount(int num) {
-        return doneUrlCount.addAndGet(num);
-    }
-
-    public int addRepeatUrlCount(int num) {
-        return repeatUrlCount.addAndGet(num);
-    }
-
-    public int addNetErrorUrlCount(String[] urls) {
-        if (netErrorUrlList.size() < NETWORK_ERROR_URL_LIST_SIZE_MAX) {
-            Collections.addAll(netErrorUrlList, urls);
-        }
-        return netErrorUrlCount.addAndGet(urls.length);
-    }
-
-    public int addParseErrorCount(String[] urls) {
-        if (netErrorUrlList.size() < PARSE_ERROR_URL_LIST_SIZE_MAX) {
-            Collections.addAll(parseErrorUrlList, urls);
-        }
-        return parseErrorCount.addAndGet(urls.length);
-    }
 
     public String getTaskId() {
         return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
     public Date getStartTime() {
         return startTime;
     }
 
-    public Date getEndTime() {
-        return endTime;
-    }
-
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
     }
 
     public void setEndTime(Date endTime) {
@@ -123,75 +80,177 @@ public class TaskStatistic {
         return startUrlCount;
     }
 
-    public AtomicInteger getCreateUrlCount() {
+    public void setStartUrlCount(int startUrlCount) {
+        this.startUrlCount = startUrlCount;
+    }
+
+    public int getCreateUrlCount() {
         return createUrlCount;
     }
 
-    public AtomicInteger getCreateTargetUrlCount() {
+    public void setCreateUrlCount(int createUrlCount) {
+        this.createUrlCount = createUrlCount;
+    }
+
+    public int getCreateTargetUrlCount() {
         return createTargetUrlCount;
     }
 
-    public AtomicInteger getCreateNextUrlCount() {
+    public void setCreateTargetUrlCount(int createTargetUrlCount) {
+        this.createTargetUrlCount = createTargetUrlCount;
+    }
+
+    public int getCreateNextUrlCount() {
         return createNextUrlCount;
     }
 
-    public AtomicInteger getSuccessUrlCount() {
+    public void setCreateNextUrlCount(int createNextUrlCount) {
+        this.createNextUrlCount = createNextUrlCount;
+    }
+
+    public int getSuccessUrlCount() {
         return successUrlCount;
     }
 
-    public AtomicInteger getRepeatUrlCount() {
+    public void setSuccessUrlCount(int successUrlCount) {
+        this.successUrlCount = successUrlCount;
+    }
+
+    public int getRepeatUrlCount() {
         return repeatUrlCount;
     }
 
-    public AtomicInteger getNetErrorUrlCount() {
+    public void setRepeatUrlCount(int repeatUrlCount) {
+        this.repeatUrlCount = repeatUrlCount;
+    }
+
+    public int getNetErrorUrlCount() {
         return netErrorUrlCount;
     }
 
-    public AtomicInteger getDoneUrlCount() {
+    public void setNetErrorUrlCount(int netErrorUrlCount) {
+        this.netErrorUrlCount = netErrorUrlCount;
+    }
+
+    public int getDoneUrlCount() {
         return doneUrlCount;
     }
 
-    public AtomicInteger getParseErrorCount() {
+    public void setDoneUrlCount(int doneUrlCount) {
+        this.doneUrlCount = doneUrlCount;
+    }
+
+    public int getParseErrorCount() {
         return parseErrorCount;
     }
 
-    public AtomicInteger getCreateNodeCount() {
+    public void setParseErrorCount(int parseErrorCount) {
+        this.parseErrorCount = parseErrorCount;
+    }
+
+    public int getCreateNodeCount() {
         return createNodeCount;
     }
 
-    public AtomicInteger getDoneNodeCount() {
+    public void setCreateNodeCount(int createNodeCount) {
+        this.createNodeCount = createNodeCount;
+    }
+
+    public int getDoneNodeCount() {
         return doneNodeCount;
     }
 
-    public AtomicInteger getErrorNodeCount() {
+    public void setDoneNodeCount(int doneNodeCount) {
+        this.doneNodeCount = doneNodeCount;
+    }
+
+    public int getErrorNodeCount() {
         return errorNodeCount;
     }
 
-    public List<String> getNetErrorUrlList() {
-        return netErrorUrlList;
+    public void setErrorNodeCount(int errorNodeCount) {
+        this.errorNodeCount = errorNodeCount;
     }
 
-    public List<String> getParseErrorUrlList() {
-        return parseErrorUrlList;
+    public List<String> getDownloadErrorUrlList() {
+        return downloadErrorUrlList;
     }
 
+    public void setDownloadErrorUrlList(List<String> downloadErrorUrlList) {
+        this.downloadErrorUrlList = downloadErrorUrlList;
+    }
 
-    @Override
-    public String toString() {
-        return "TaskStatistic{" +
-                "startUrlCount=" + startUrlCount +
-                ", createUrlCount=" + createUrlCount +
-                ", createTargetUrlCount=" + createTargetUrlCount +
-                ", createNextUrlCount=" + createNextUrlCount +
-                ", successUrlCount=" + successUrlCount +
-                ", repeatUrlCount=" + repeatUrlCount +
-                ", netErrorUrlCount=" + netErrorUrlCount +
-                ", doneUrlCount=" + doneUrlCount +
-                ", parseErrorCount=" + parseErrorCount +
-                ", createNodeCount=" + createNodeCount +
-                ", doneNodeCount=" + doneNodeCount +
-                ", errorNodeCount=" + errorNodeCount +
-                '}';
+    public synchronized void addParseErrorUrlList(ParseError parseError) {
+        if (parseErrorList == null) {
+            parseErrorList = new LinkedList<>();
+        }
+        if (parseErrorList.size() >= 100) {
+            return;
+        }
+        parseErrorList.add(parseError);
+    }
+
+    public List<ParseError> getParseErrorList() {
+        return parseErrorList;
+    }
+
+    public void setParseErrorList(List<ParseError> parseErrorList) {
+        this.parseErrorList = parseErrorList;
+    }
+
+    public String getDownloadErrorUrls() {
+        return downloadErrorUrls;
+    }
+
+    public synchronized void addDownloadErrorUrls(String url) {
+        if (downloadErrorUrlList == null) {
+            downloadErrorUrlList = new LinkedList<>();
+        }
+        if (downloadErrorUrlList.size() >= 100) {
+            return;
+        }
+        downloadErrorUrlList.add(url);
+    }
+
+    public void setDownloadErrorUrls(String downloadErrorUrls) {
+        this.downloadErrorUrls = downloadErrorUrls;
+    }
+
+    public String getParseErrors() {
+        return parseErrors;
+    }
+
+    public void setParseErrors(String parseErrors) {
+        this.parseErrors = parseErrors;
+    }
+
+    public static class ParseError {
+        private String url;
+        private Exception e;
+
+        public ParseError() {
+        }
+
+        public ParseError(String url, Exception e) {
+            this.url = url;
+            this.e = e;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public Exception getE() {
+            return e;
+        }
+
+        public void setE(Exception e) {
+            this.e = e;
+        }
     }
 
 }
