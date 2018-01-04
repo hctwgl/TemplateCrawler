@@ -10,7 +10,7 @@ spring:
     password: xPFY6O#hxWp!
   datasource:
     validationQuery: SELECT 1
-    url: jdbc:mysql://127.0.0.1:3306/crawler?relaxAutoCommit=true&amp;zeroDateTimeBehavior=convertToNull&amp;useUnicode=true&amp;autoReconnect=true
+    url: jdbc:mysql://127.0.0.1:3306/crawler?relaxAutoCommit=true&zeroDateTimeBehavior=convertToNull&useUnicode=true&autoReconnect=true
     username: root
     password: passw0rd
     #driver-class-name: com.mysql.jdbc.Driver
