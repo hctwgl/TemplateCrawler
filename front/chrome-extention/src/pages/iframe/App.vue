@@ -28,7 +28,7 @@
           <el-switch v-model="item.multiple"></el-switch>
         </el-form-item>
         <el-form-item label="过滤内容" prop="delivery" v-if="item.type === 'NEXT_PAGE_LINK'">
-          <el-input v-model="item.nextPageLinkText"></el-input>
+          <el-input v-model="item.filterContainText"></el-input>
         </el-form-item>
         <hr>
       </el-form>
