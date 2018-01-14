@@ -61,7 +61,7 @@ public class TemplateSpider extends Spider {
             closeListener.close();
         }
         this.timeEnded = new Date();
-        log.info("task : {} run from {} to {}, get page {}, error page: {}", this.crawlerTask.getTask().getId(), this.timeCreated, this.timeEnded, this.getPageCount(), this.errorPageCount.get());
+        log.info("task : {} exist from {} to {}, get page {}, error page: {}", this.crawlerTask.getTask().getId(), this.timeCreated, this.timeEnded, this.getPageCount(), this.errorPageCount.get());
     }
 
     private class Listener implements SpiderListener {

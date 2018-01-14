@@ -13,6 +13,7 @@
     <hr>
     <el-button type="primary" @click="createNew" v-show="!showEditTemplate">新建模板</el-button>
     <div id="curEditTemplate" v-show="showEditTemplate">
+      <el-button type="danger" @click="cancleEditTemplate" size="mini">取消编辑</el-button>
       <div v-show="!editTemplateBaseInfo">
         <div>
           <span>名称:{{curEditTemplate.name}}</span>
@@ -154,7 +155,7 @@ export default {
       }
       console.log(this.curEditTemplate)
     },
-    deleteEditTemplate() {
+    cancleEditTemplate() {
       this.curEditTemplate = {}
       this.showEditTemplate = false
       if (process.env.NODE_ENV === 'production') {
@@ -162,6 +163,15 @@ export default {
       } else {
         localStorage.removeItem('curEditTemplate')
       }
+    },
+    deleteEditTemplate() {
+      global.getFetch().delete('/api/template/' + this.curEditTemplate.id, {}).then(response => {
+        const index = this.templateList.findIndex((v) => {
+          return v.id === this.curEditTemplate.id
+        })
+        this.templateList.splice(index, 1)
+        this.cancleEditTemplate()
+      })
     },
     saveTemp(updateServer) {
       if (process.env.NODE_ENV === 'production') {

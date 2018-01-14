@@ -20,6 +20,9 @@ public class DataContent {
         this.url = url;
     }
 
+    public DataContent() {
+    }
+
     private String url;
     private Map<Integer, PageContent> pageContents;
     private List<DataContent> children;

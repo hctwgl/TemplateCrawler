@@ -30,8 +30,8 @@ public class BaseApi<T extends BaseAuditableEntity, KEY> {
         return baseService.save(t);
     }
 
-    @RequestMapping(path = "/delete/{id}", method = RequestMethod.DELETE)
-    protected void delete(@RequestParam("id") KEY id) {
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    protected void delete(@PathVariable("id") KEY id) {
         baseService.delete(id);
     }
 

@@ -13,7 +13,7 @@ public class Field {
     private List<String> regex;
     private boolean must = false;
     private boolean multiple = true; // 有多个值
-    private String nextPageLinkText; // 下一页链接的内容，用来过滤下一页链接
+    private String filterContainText; // 下一页链接的内容，用来过滤下一页链接
 
     public FieldType getType() {
         return type;
@@ -80,12 +80,12 @@ public class Field {
         this.multiple = multiple;
     }
 
-    public String getNextPageLinkText() {
-        return nextPageLinkText;
+    public String getFilterContainText() {
+        return filterContainText;
     }
 
-    public void setNextPageLinkText(String nextPageLinkText) {
-        this.nextPageLinkText = nextPageLinkText;
+    public void setFilterContainText(String filterContainText) {
+        this.filterContainText = filterContainText;
     }
 
     @Override

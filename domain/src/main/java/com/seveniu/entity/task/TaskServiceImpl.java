@@ -6,6 +6,7 @@ import com.seveniu.entity.CrawlerTask;
 import com.seveniu.entity.base.EntityStatus;
 import com.seveniu.entity.template.Template;
 import com.seveniu.entity.template.TemplateService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,12 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
 
     @Override
     public Task save(Task task) {
-        task.setNextRunTime(new Date());
-        task.setRunStatus(TaskRunStatus.DONE);
+        if (task.getNextRunTime() == null) {
+            task.setNextRunTime(new Date());
+        }
+        if (task.getRunStatus() == null) {
+            task.setRunStatus(TaskRunStatus.DONE);
+        }
         return super.save(task);
     }
 
@@ -132,7 +137,7 @@ public class TaskServiceImpl extends BaseServiceImpl<Task, Long> implements Task
         task.setRunStatus(TaskRunStatus.RUNNING);
         task.setLastStartTime(new Date());
         if (task.getCycle() > 0) {
-            task.setNextRunTime(new Date(System.currentTimeMillis() + 1000 * task.getCycle()));
+            task.setNextRunTime(DateUtils.addSeconds(new Date(), task.getCycle()));
         }
         this.save(task);
         return new CrawlerTask(task, template);

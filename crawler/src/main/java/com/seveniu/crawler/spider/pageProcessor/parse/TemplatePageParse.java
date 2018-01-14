@@ -60,6 +60,9 @@ public class TemplatePageParse {
                 case PURE_TEXT:
                     fieldContents.add(parsePureContent(html, field));
                     break;
+                case DOWNLOAD_LINK:
+                    fieldContents.add(parseTextLinkField(html, field));
+                    break;
                 default:
                     logger.error("field html type is not found : {}", field.getType());
                     return null;
@@ -182,10 +185,10 @@ public class TemplatePageParse {
             if (listUrls.size() == 1) {
                 return listUrls.get(0);
             } else {
-                if (field.getNextPageLinkText() != null) {
+                if (field.getFilterContainText() != null) {
                     for (int i = 0; i < listTexts.size(); i++) {
                         String s = listTexts.get(i);
-                        if (s.trim().equals(field.getNextPageLinkText().trim())) {
+                        if (s.trim().contains(field.getFilterContainText().trim())) {
                             return listUrls.get(i);
                         }
                     }

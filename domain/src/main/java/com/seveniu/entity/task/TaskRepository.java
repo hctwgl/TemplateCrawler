@@ -18,10 +18,10 @@ import java.util.List;
  */
 @Repository
 public interface TaskRepository extends BaseRepository<Task, Long> {
-    @Query("SELECT t FROM Task t WHERE t.cycle.id > 0 AND t.nextRunTime < NOW() AND t.status =:status AND t.runStatus =:runStatus")
+    @Query("SELECT t FROM Task t WHERE t.cycle > 0 AND t.nextRunTime < NOW() AND t.status =:status AND t.runStatus =:runStatus")
     List<Task> getDueTask(@Param("status") EntityStatus status, @Param("runStatus") TaskRunStatus runStatus);
 
-    @Query("SELECT t FROM Task t WHERE t.cycle.id > 0 AND t.nextRunTime < NOW() AND t.status =:status AND t.runStatus =:runStatus")
+    @Query("SELECT t FROM Task t WHERE t.cycle > 0 AND t.nextRunTime < NOW() AND t.status =:status AND t.runStatus =:runStatus")
     List<Task> getOneDueTask(@Param("status") EntityStatus status, @Param("runStatus") TaskRunStatus runStatus, Pageable pageable);
 
     @Modifying

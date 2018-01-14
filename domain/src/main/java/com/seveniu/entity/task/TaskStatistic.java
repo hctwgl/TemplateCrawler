@@ -1,6 +1,7 @@
 package com.seveniu.entity.task;
 
 
+import com.seveniu.common.json.Json;
 import com.seveniu.entity.base.BaseAuditableEntity;
 
 import javax.persistence.Entity;
@@ -34,6 +35,8 @@ public class TaskStatistic extends BaseAuditableEntity {
     private int doneNodeCount;
     private int errorNodeCount;
     @Transient
+    private List<String> errorUrlList;
+    @Transient
     private List<String> downloadErrorUrlList;
     @Transient
     private List<ParseError> parseErrorList;
@@ -41,11 +44,17 @@ public class TaskStatistic extends BaseAuditableEntity {
     private String downloadErrorUrls;
     @Lob
     private String parseErrors;
+    @Lob
+    private String errorUrls;
 
     // startUrlCount + createUrlCount = repeatUrlCount + successUrlCount + netErrorUrlCount
     // startUrlCount + createUrlCount = repeatUrlCount + createTargetUrlCount + createNextUrlCount
     // successUrlCount = doneUrlCount + parseErrorCount
     // createNodeCount = doneNodeCount + errorNodeCount
+
+
+    public TaskStatistic() {
+    }
 
     public TaskStatistic(String taskId) {
         this.taskId = taskId;
@@ -214,6 +223,32 @@ public class TaskStatistic extends BaseAuditableEntity {
 
     public void setDownloadErrorUrls(String downloadErrorUrls) {
         this.downloadErrorUrls = downloadErrorUrls;
+    }
+
+    public List<String> getErrorUrlList() {
+        return errorUrlList;
+    }
+
+    public void setErrorUrlList(List<String> errorUrlList) {
+        this.errorUrlList = errorUrlList;
+    }
+
+    public synchronized void addErrorUrls(String url) {
+        if (errorUrlList == null) {
+            errorUrlList = new LinkedList<>();
+        }
+        if (errorUrlList.size() >= 100) {
+            return;
+        }
+        errorUrlList.add(url);
+    }
+
+    public String getErrorUrls() {
+        return Json.toJson(this.errorUrlList);
+    }
+
+    public void setErrorUrls(String errorUrls) {
+        this.errorUrls = errorUrls;
     }
 
     public String getParseErrors() {

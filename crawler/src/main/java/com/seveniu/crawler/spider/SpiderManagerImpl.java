@@ -3,6 +3,7 @@ package com.seveniu.crawler.spider;
 import com.seveniu.crawler.spider.pageProcessor.HasContextPageProcessor;
 import com.seveniu.crawler.spider.pipeline.ConsolePipeline;
 import com.seveniu.entity.CrawlerTask;
+import com.seveniu.entity.task.TaskRunStatus;
 import com.seveniu.entity.task.TaskService;
 import com.seveniu.entity.task.TaskStatistic;
 import com.seveniu.entity.template.Template;
@@ -68,6 +69,8 @@ public class SpiderManagerImpl implements SpiderManager {
         task.setTaskStatistic(taskStatistic);
         templateSpider.setCloseListener(() -> {
             taskService.saveTaskStatistic(taskStatistic);
+            task.getTask().setRunStatus(TaskRunStatus.DONE);
+            taskService.save(task.getTask());
         });
 
         executor.execute(() -> {
