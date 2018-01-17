@@ -24,11 +24,14 @@ public class DataContent {
     }
 
     private String url;
-    private Map<Integer, PageContent> pageContents;
-    private List<DataContent> children;
+    private List<PageContent> pageContents = new LinkedList<>();
+    @Transient
+    @JsonIgnore
+    private Map<Integer, PageContent> pageContentMap;
     @Transient
     @JsonIgnore
     private DataContent parent;
+    private List<DataContent> children = new LinkedList<>();
     private AtomicInteger allChildrenCount = new AtomicInteger(0);
     private AtomicInteger doneChildrenCount = new AtomicInteger(0);
 
@@ -41,7 +44,11 @@ public class DataContent {
     }
 
     public List<PageContent> getPageContents() {
-        return pageContents.entrySet().stream().sorted(Comparator.comparingInt(Map.Entry::getKey)).map(Map.Entry::getValue).collect(Collectors.toList());
+        return pageContents;
+    }
+
+    public void setPageContents(List<PageContent> pageContents) {
+        this.pageContents = pageContents;
     }
 
     public List<DataContent> getChildren() {
@@ -66,10 +73,11 @@ public class DataContent {
     }
 
     public synchronized DataContent addPage(PageContent pageContent, int index) {
-        if (this.pageContents == null) {
-            this.pageContents = new HashMap<>();
+        if (this.pageContentMap == null) {
+            this.pageContentMap = new HashMap<>();
         }
-        this.pageContents.put(index, pageContent);
+        this.pageContentMap.put(index, pageContent);
+        this.pageContents = pageContentMap.entrySet().stream().sorted(Comparator.comparingInt(Map.Entry::getKey)).map(Map.Entry::getValue).collect(Collectors.toList());
         return this;
     }
 

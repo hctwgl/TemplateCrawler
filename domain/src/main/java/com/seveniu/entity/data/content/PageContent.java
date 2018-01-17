@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class PageContent {
     private String url;
-    private List<FieldContent> fieldContents;
+    private List<FieldContent> fieldContents = new LinkedList<>();
 
     public String getUrl() {
         return url;

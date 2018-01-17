@@ -213,6 +213,9 @@ public class TemplatePageParse {
         Selectable selectable = html.xpath(xpath);
         if (selectable != null && selectable.match()) {
             List<String> hrefs = selectable.xpath("//a/@href").all();
+            if (hrefs == null || hrefs.size() == 0) {
+                hrefs = selectable.xpath("//img/@src").all();
+            }
             if (hrefs != null && hrefs.size() > 0) {
                 List<String> titles = selectable.xpath("//a/allText()").all();
                 List<Link> links = new ArrayList<>(titles.size());

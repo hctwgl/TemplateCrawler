@@ -3,6 +3,7 @@ package com.seveniu.entity.data.content;
 import com.seveniu.entity.template.structure.field.Field;
 import com.seveniu.entity.template.structure.field.FieldType;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ public class FieldContent {
     private String name;
     private String label;
     private FieldType fieldType;
-    private List<Link> links;
-    private List<String> contents;
+    private List<Link> links = new LinkedList<>();
+    private List<String> contents = new LinkedList<>();
 
     public FieldContent() {
     }

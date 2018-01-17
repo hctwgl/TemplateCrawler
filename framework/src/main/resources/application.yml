@@ -15,7 +15,7 @@ spring:
     password: passw0rd
     #driver-class-name: com.mysql.jdbc.Driver
   jpa:
-    show_sql: true
+#    show_sql: true
     hibernate:
       ddl-auto: update
     generate-ddl: true

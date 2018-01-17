@@ -17,6 +17,7 @@
         <module>jwtauth</module>
         <!--<module>crawler-core</module>-->
         <module>auth-core</module>
+        <module>dataprocess</module>
     </modules>
 
 

@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DataRepository extends BaseRepository<Data, Long> {
+    Data findFirstByOrderByIdAsc();
 }

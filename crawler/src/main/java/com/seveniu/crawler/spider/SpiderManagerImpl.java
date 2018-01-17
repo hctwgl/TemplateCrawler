@@ -124,6 +124,6 @@ public class SpiderManagerImpl implements SpiderManager {
                 }
             }
             logger.info("no task ... ");
-        }, 0, 30, TimeUnit.SECONDS);
+        }, 0, 10, TimeUnit.SECONDS);
     }
 }
